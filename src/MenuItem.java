@@ -1,8 +1,9 @@
 
 public class MenuItem {
-    private KeyValue<Item, Integer> itemWithAmount;
+    private Item item;
+    private int amount;
     
-    public MenuItem(Item item) {
+    public MenuItem(Item item, int amount) {
         
     }
     
@@ -10,7 +11,11 @@ public class MenuItem {
         
     }
     
-    public void addAmount() {
+    public void addAmount(int amount) {
+        
+    }
+    
+    public void removeAmount(int amount){
         
     }
     
@@ -19,6 +24,10 @@ public class MenuItem {
     }
     
     public int getAmount() {
+        
+    }
+    
+    public boolean equals(MenuItem item){
         
     }
 }
