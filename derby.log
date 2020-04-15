@@ -1,0 +1,65 @@
+Wed Apr 15 13:51:15 ICT 2020 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Wed Apr 15 13:51:15 ICT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0171-7c9b-1525-ffffab2eb242 
+on database directory C:\Users\napat\Desktop\Cafe\Menu with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/napat/Desktop/Cafe/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=12.0.2+10
+user.dir=C:\Users\napat\Desktop\Cafe
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\napat\Desktop\Cafe
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Apr 15 13:51:16 ICT 2020:
+Shutting down instance a816c00e-0171-7c9b-1525-ffffab2eb242 on database directory C:\Users\napat\Desktop\Cafe\Menu with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Wed Apr 15 13:51:16 ICT 2020 Thread[DRDAConnThread_3,5,main] (DATABASE = Menu), (DRDAID = {2}), Database 'Menu' shutdown.
+----------------------------------------------------------------
+Wed Apr 15 13:51:44 ICT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 6ede40af-0171-7c9b-1525-ffffab2eb242 
+on database directory C:\Users\napat\Desktop\Cafe\Menu with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/napat/Desktop/Cafe/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=12.0.2+10
+user.dir=C:\Users\napat\Desktop\Cafe
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\napat\Desktop\Cafe
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Apr 15 13:52:44 ICT 2020:
+Shutting down instance 6ede40af-0171-7c9b-1525-ffffab2eb242 on database directory C:\Users\napat\Desktop\Cafe\Menu with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Wed Apr 15 13:52:44 ICT 2020 Thread[DRDAConnThread_3,5,main] (DATABASE = Menu), (DRDAID = {4}), Database 'Menu' shutdown.
+----------------------------------------------------------------
+Wed Apr 15 13:53:25 ICT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance bc9ec0ce-0171-7c9b-1525-ffffab2eb242 
+on database directory C:\Users\napat\Desktop\Cafe\Cafe with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/napat/Desktop/Cafe/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=12.0.2+10
+user.dir=C:\Users\napat\Desktop\Cafe
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\napat\Desktop\Cafe
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Apr 15 13:53:25 ICT 2020:
+Shutting down instance bc9ec0ce-0171-7c9b-1525-ffffab2eb242 on database directory C:\Users\napat\Desktop\Cafe\Cafe with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Wed Apr 15 13:53:25 ICT 2020 Thread[DRDAConnThread_3,5,main] (DATABASE = Cafe), (DRDAID = {6}), Database 'Cafe' shutdown.
+----------------------------------------------------------------
+Wed Apr 15 13:54:48 ICT 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a196416f-0171-7c9b-1525-ffffab2eb242 
+on database directory C:\Users\napat\Desktop\Cafe\Cafe with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
+Loaded from file:/C:/Users/napat/Desktop/Cafe/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=12.0.2+10
+user.dir=C:\Users\napat\Desktop\Cafe
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\napat\Desktop\Cafe
+Database Class Loader started - derby.database.classpath=''
