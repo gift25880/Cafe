@@ -16,6 +16,10 @@ public class Item {
     public double getPrice() {
         return this.price;
     }
+
+    public String getId() {
+        return id;
+    }
     
     public boolean equals(Item item) {
         
