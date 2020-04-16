@@ -5,20 +5,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Cafe implements MemberService, StaffService, PointPolicy {
 
     private String cafeName;
     private Customer tables[];
     private Item menu[][];
-    private int count;
+    private int count = 0;
     private LinkedList<Customer> queue;
 
     public Cafe(String cafeName, int maxTables) {
-
+        Objects.requireNonNull(cafeName, "The cafe name cannot be blank.");
+        this.cafeName = cafeName;
+        tables = new Customer[maxTables > 0 ? maxTables : 10];
+        fetchMenu();
     }
 
-    private void fetchMenu() throws SQLException {
+    private void fetchMenu() {
         menu = new Item[3][100];
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = null;
@@ -39,6 +43,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                     menu[i][j++] = new Item(rs.getString("id"), rs.getString("name"), rs.getDouble("price"), rs.getInt("stock"));
                 }
             }
+        } catch(SQLException ex){
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
     }
 
