@@ -1,13 +1,19 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 
 public class CafeManager {
     private Cafe cafe;
-    private StaffAccount staff;
+    private StaffAccount[] staff;
+    private Scanner sc = new Scanner(System.in);
     
     public int optionMenu() {
-        Scanner sc = new Scanner(System.in);
+        sc.reset();
         System.out.println("Menu: ");
         System.out.println("----------------------------");
         System.out.println("1. Add Item");
@@ -32,7 +38,43 @@ public class CafeManager {
     }
     
     public boolean login() {
+        String inputId;
+        String inputPass;
         
+        do {
+            System.out.print("Enter Id: ");
+            inputId = sc.nextLine();
+            if (inputId.equals("") && inputId == null) {
+                System.out.println("Id must be filled.");
+            }
+        } while (!(inputId.equals("")) && inputId != null);
+        
+        System.out.println("\n");
+        
+        do {
+            System.out.println("Enter Password");
+            inputPass = sc.nextLine();
+            if (inputPass.equals("") && inputPass == null) {
+                System.out.println("Password must be filled.");
+            }
+        } while (!(inputPass.equals("")) && inputPass != null);
+        
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
+                Statement stmt = conn.createStatement()) {
+                ResultSet rs = stmt.executeQuery("SELECT id, password FROM staff WHERE id='"+inputId+"' AND password='"+inputPass+"';");
+                
+                if (inputId.equals(rs.getString("id")) && inputPass.equals(rs.getString("password"))) {
+                    System.out.println("Login Success!");
+                    return true;
+                } else {
+                    System.out.println("Id or password is not matched");
+                    return false;
+                }
+                
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+        }
+        return false;
     }
     
     public void logout() {
