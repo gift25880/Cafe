@@ -21,6 +21,10 @@ public class MemberAccount extends Account{
         return this.point;
     }
     
+    public void setPoint(int point) {
+        this.point = point;
+    }
+    
     public void setId(int point) {
         this.point = point;
     }

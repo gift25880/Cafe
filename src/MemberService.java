@@ -1,7 +1,7 @@
 
 public interface MemberService {
-    public boolean addItem(Item item, int queueNumber);
-    public boolean removeItem(Item item, int queueNumber);
-    public double checkOut(double amount, MemberAccount member, int tableNumber);
-    public int redeem(MemberAccount member);
+    public Item addItem(String id, int queueNumber);
+    public Item removeItem(String id, int queueNumber);
+    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem);
+    public int redeem(double amount, MemberAccount member);
 }
