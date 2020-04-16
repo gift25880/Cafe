@@ -6,12 +6,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-
 public class CafeManager {
+
     private Cafe cafe;
     private StaffAccount staff;
     private Scanner sc = new Scanner(System.in);
-    
+    private String inputId;
+    private String inputPass;
+
     public int optionMenu() {
         sc.reset();
         System.out.println("Menu: ");
@@ -36,56 +38,87 @@ public class CafeManager {
         int choice = sc.nextInt();
         return choice;
     }
-    
+
     public boolean login() {
-        String inputId;
-        String inputPass;
-        
         do {
             System.out.print("Enter Id: ");
             inputId = sc.nextLine();
-            if (inputId.equals("") && inputId == null) {
+            if (inputId.equals("") || inputId == null) {
                 System.out.println("Id must be filled.");
             }
-        } while (!(inputId.equals("")) && inputId != null);
-        
+        } while (!(inputId.equals("")) || inputId != null);
+
         System.out.println("\n");
-        
+
         do {
-            System.out.println("Enter Password");
+            System.out.println("Enter Password: ");
             inputPass = sc.nextLine();
-            if (inputPass.equals("") && inputPass == null) {
+            if (inputPass.equals("") || inputPass == null) {
                 System.out.println("Password must be filled.");
             }
-        } while (!(inputPass.equals("")) && inputPass != null);
-        
+        } while (!(inputPass.equals("")) || inputPass != null);
+
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
                 Statement stmt = conn.createStatement()) {
-                ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='"+inputId+"' AND password='"+inputPass+"';");
-                Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
-                
-                if (inputId.equals(rs.getString("id")) && inputPass.equals(rs.getString("password"))) {
-                    System.out.println("Login Success!");
-                    staff = new StaffAccount(rs.getString("id"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
-                    
-                    return true;
-                } else {
-                    System.out.println("Id or password is not matched");
-                    return false;
-                }
-                
+            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
+            Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
+
+            if (rs.next()) {
+                System.out.println("Login Success!");
+                staff = new StaffAccount(rs.getString("id"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
+                return true;
+            } else {
+                System.out.println("Id or password is not matched");
+                return false;
+            }
+
         } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
         return false;
     }
-    
+
     public void logout() {
         this.staff = null;
         System.exit(0);
     }
-    
+
     public void resetPass() {
-        
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
+                Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
+
+            if (rs.next()) {
+                sc.reset();
+                String newPass;
+                do {
+                    System.out.print("Enter your new password: ");
+                    newPass = sc.nextLine();
+                    if (newPass.equals("") && newPass == null) {
+                        System.out.println("New password must be filled.");
+                    } else if (newPass.equals(rs.getString("password"))) {
+                        System.out.println("New password must not be the same as current password");
+                    } else {
+                        sc.reset();
+                        String pw;
+                        do {
+                            System.out.print("Enter your previous password to confirm: ");
+                            pw = sc.nextLine();
+                            if (!(pw.equals(rs.getString("password")))) {
+                                System.out.println("Your password is incorrect");
+                            } else if (pw == null || pw.equals("")) {
+                                System.out.println("This field must be filled.");
+                            } else {
+                                rs.updateString("password", newPass);
+                                System.out.println("Your password has been successfully changed!");
+                            }
+                        } while (pw != null && !(pw.equals("")) && !(pw.equals(rs.getString("password"))));
+                    }
+                } while (!(newPass.equals("")) && newPass != null && !(newPass.equals(rs.getString("password"))));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+        }
     }
 }
