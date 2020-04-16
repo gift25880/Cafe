@@ -96,6 +96,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     public boolean addMenu(Item item, Type type) {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type + ");");
+            System.out.println("The menu [" + item.getId() + " (" + item.getName() +")] has been added successfully.");
             return true;
         } catch (SQLIntegrityConstraintViolationException ex) {
             System.out.println("This menu already exists.");
@@ -113,9 +114,13 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
+                String deleteId = rs.getString("id");
+                String deleteName = rs.getString("name");
                 rs.deleteRow();
+                System.out.println("The menu [" + deleteId + " (" + deleteName +")] has been removed successfully.");
                 return true;
             } else {
+                System.out.println("Menu not found.");
                 return false;
             }
         } catch (SQLException ex) {
@@ -130,6 +135,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     public boolean addMember(Account member) {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO member VALUES (" + member.getName() + ", " + member.getPhone() + ", " + member.getId() + ", " + 0 + ");");
+            System.out.println("Member [" + member.getId() + "] has been added successfully.");
             return true;
         } catch (SQLIntegrityConstraintViolationException ex) {
             System.out.println("This account is already a member of this cafe.");
