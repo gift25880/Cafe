@@ -158,12 +158,16 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public Customer[] listQueues() {
-
+        Customer[] cs = new Customer[queue.size()];
+        for(int i = 0; i< cs.length; i++){
+            cs[i] = queue.get(i);
+        }
+        return cs;
     }
 
     @Override
     public Customer[] listTables() {
-
+        return tables;
     }
 
     @Override
