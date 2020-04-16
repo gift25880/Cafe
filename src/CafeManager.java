@@ -81,7 +81,8 @@ public class CafeManager {
     }
     
     public void logout() {
-        
+        this.staff = null;
+        System.exit(0);
     }
     
     public void resetPass() {
