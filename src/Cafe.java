@@ -29,13 +29,13 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
             for (int i = 0; i < 3; i++) {
                 int j = 0;
                 switch (i) {
-                    case 1:
+                    case 0:
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BAKERY';");
                         break;
-                    case 2:
+                    case 1:
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'DESSERT';");
                         break;
-                    case 3:
+                    case 2:
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BEVERAGE';");
                         break;
                 }
@@ -157,8 +157,9 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public Item[] getMenu() {
-
+    public Item[][] getMenu() {
+        fetchMenu();
+        return menu;
     }
 
     @Override
