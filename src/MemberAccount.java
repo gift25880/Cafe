@@ -1,17 +1,20 @@
 
 public class MemberAccount extends Account{
-    private int point = 0;
+    private int point;
 
-    public MemberAccount(String id, Person person) {
+    public MemberAccount(String id, Person person, int point) {
         super(id, person);
+        this.point = point;
     }
     
-    public MemberAccount(Account account) {
+    public MemberAccount(Account account, int point) {
         super(account);
+        this.point = point;
     }
     
-    public MemberAccount(String id, String name, String phone) {
+    public MemberAccount(String id, String name, String phone, int point) {
         super(id, name, phone);
+        this.point = point;
     }
     
     public int getPoint() {
