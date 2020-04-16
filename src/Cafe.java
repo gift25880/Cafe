@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -96,6 +97,9 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type + ");");
             return true;
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            System.out.println("This menu already exists.");
+            return false;
         } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
             return false;
@@ -124,7 +128,16 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public boolean addMember(Account member) {
-
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate("INSERT INTO member VALUES (" + member.getName() + ", " + member.getPhone() + ", " + member.getId() + ", " + 0 + ");");
+            return true;
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            System.out.println("This account is already a member of this cafe.");
+            return false;
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            return false;
+        }
     }
 
     @Override
