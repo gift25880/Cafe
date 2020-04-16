@@ -24,7 +24,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     private void fetchMenu() {
         menu = new Item[3][100];
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
+                Statement stmt = conn.createStatement()) {
             ResultSet rs = null;
             for (int i = 0; i < 3; i++) {
                 int j = 0;
@@ -43,13 +44,13 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                     menu[i][j++] = new Item(rs.getString("id"), rs.getString("name"), rs.getDouble("price"), rs.getInt("stock"));
                 }
             }
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
     }
 
     public boolean isFull() {
-
+        return this.count == this.tables.length;
     }
 
     @Override
