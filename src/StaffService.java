@@ -9,5 +9,5 @@ public interface StaffService {
     public Customer[] listQueues();
     public Customer[] listTables();
     public Item[][] getMenu();
-    public boolean addStock(String menuName, int amount);
+    public boolean restock(String id, int amount);
 }

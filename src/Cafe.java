@@ -167,8 +167,22 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean addStock(String menuName, int amount) {
-
+    public boolean restock(String id, int amount) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
+            if(rs.next()){
+                int sum = rs.getInt("stock") + amount;
+                rs.updateInt("stock", sum);
+                System.out.println("The amount of " + rs.getString("name") + " has been restocked to " + sum + ".");
+                return true;
+            } else{
+                System.out.println("Menu not found.");
+                return false;
+            }
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            return false;
+        }
     }
 
 }
