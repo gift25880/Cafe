@@ -161,11 +161,6 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean clearTables() {
-
-    }
-
-    @Override
     public Item[][] getMenu() {
         fetchMenu();
         return menu;

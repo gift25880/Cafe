@@ -8,7 +8,6 @@ public interface StaffService {
     public MenuItem[] listOrders(int queueNumber);
     public Customer[] listQueues();
     public Customer[] listTables();
-    public boolean clearTables();
     public Item[][] getMenu();
     public boolean addStock(String menuName, int amount);
 }

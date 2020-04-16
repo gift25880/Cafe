@@ -1,4 +1,4 @@
 
 public enum Status {
-    PREPARING, SERVED, FINISHED;
+    PREPARING, SERVED;
 }
