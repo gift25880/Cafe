@@ -62,10 +62,11 @@ public class CafeManager {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
                 Statement stmt = conn.createStatement()) {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='"+inputId+"' AND password='"+inputPass+"';");
+                Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
                 
                 if (inputId.equals(rs.getString("id")) && inputPass.equals(rs.getString("password"))) {
                     System.out.println("Login Success!");
-                    staff = new StaffAccount(rs.getString("id"), new Person(rs.getString("name"), rs.getString("phone")), Position.CASHIER, rs.get);
+                    staff = new StaffAccount(rs.getString("id"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
                     
                     return true;
                 } else {
