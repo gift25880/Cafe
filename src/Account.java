@@ -18,6 +18,18 @@ public class Account {
         this.person = account.person;
     }
     
+    public Person getPerson(){
+        return person;
+    }
+    
+    public String getName(){
+        return person.getName();
+    }
+    
+    public String getPhone(){
+        return person.getPhone();
+    }
+    
     public String getId() {
         return this.id;
     }
