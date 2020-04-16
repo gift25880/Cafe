@@ -78,8 +78,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public int addCustomer(boolean takeHome) {
-        int queueNum = queue.peekLast().getQueueNumber() +1;
-        Customer c = new Customer(Status.PREPARING,queueNum);
+        int queueNum = queue.peekLast().getQueueNumber() + 1;
+        Customer c = new Customer(Status.PREPARING, queueNum);
         queue.add(c);
         if (!takeHome) {
             if (!isFull()) {
@@ -97,10 +97,10 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public boolean addMenu(Item item, Type type) {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()){
-                stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " +  item.getStock() + ", " + type + ");");
-                return true;
-        } catch(SQLException ex){
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type + ");");
+            return true;
+        } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
             return false;
         } finally {
@@ -109,8 +109,21 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean removeMenu(Item item) {
-
+    public boolean removeMenu(String id) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
+            if (rs.next()) {
+                rs.deleteRow();
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            return false;
+        } finally {
+            fetchMenu();
+        }
     }
 
     @Override

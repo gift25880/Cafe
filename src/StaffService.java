@@ -2,7 +2,7 @@
 public interface StaffService {
     public int addCustomer(boolean takeHome);
     public boolean addMenu(Item item, Type type);
-    public boolean removeMenu(Item item);
+    public boolean removeMenu(String id);
     public boolean addMember(Account member);
     public boolean serve();
     public MenuItem[] listOrders(int queueNumber);
