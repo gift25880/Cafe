@@ -35,4 +35,8 @@ public class Customer {
     public boolean isTakeHome() {
         return this.takeHome;
     }
+    
+    public int getQueueNumber() {
+        return queueNumber;
+    }
 }
