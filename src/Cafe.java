@@ -24,8 +24,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     private void fetchMenu() {
         menu = new Item[3][100];
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
-                Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = null;
             for (int i = 0; i < 3; i++) {
                 int j = 0;
@@ -79,7 +78,21 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public int addCustomer(boolean takeHome) {
-
+        int queueNum = queue.peekLast().getQueueNumber() +1;
+        Customer c = new Customer(Status.PREPARING,queueNum);
+        queue.add(c);
+        if (!takeHome) {
+            if (!isFull()) {
+                for (int i = 0; i < tables.length; i++) {
+                    if (tables[i] == null) {
+                        tables[i] = c;
+                    }
+                }
+            } else {
+                return -1;
+            }
+        }
+        return queueNum;
     }
 
     @Override
