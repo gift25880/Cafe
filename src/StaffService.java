@@ -1,7 +1,7 @@
 
 public interface StaffService {
     public int addCustomer(boolean takeHome);
-    public boolean addMenu(Item item);
+    public boolean addMenu(Item item, Type type);
     public boolean removeMenu(Item item);
     public boolean addMember(Account member);
     public boolean serve();

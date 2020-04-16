@@ -30,13 +30,13 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                 int j = 0;
                 switch (i) {
                     case 1:
-                        rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'Bakery';");
+                        rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BAKERY';");
                         break;
                     case 2:
-                        rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'Dessert';");
+                        rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'DESSERT';");
                         break;
                     case 3:
-                        rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'Beverage';");
+                        rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BEVERAGE';");
                         break;
                 }
                 while (rs.next()) {
@@ -96,8 +96,16 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean addMenu(Item item) {
-
+    public boolean addMenu(Item item, Type type) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()){
+                stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " +  item.getStock() + ", " + type + ");");
+                return true;
+        } catch(SQLException ex){
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            return false;
+        } finally {
+            fetchMenu();
+        }
     }
 
     @Override
