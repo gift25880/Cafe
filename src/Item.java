@@ -1,10 +1,11 @@
 
 public class Item {
+    private String id;
     private String name;
     private double price;
     private int stock;
     
-    public Item(String name, double price, int stock) {
+    public Item(String id, String name, double price, int stock) {
         
     }
     
