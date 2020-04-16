@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CafeManager {
@@ -13,6 +14,11 @@ public class CafeManager {
     private Scanner sc = new Scanner(System.in);
     private String inputId;
     private String inputPass;
+    
+    public CafeManager(Cafe cafe) {
+        Objects.requireNonNull(cafe, "Cafe can't be blank.");
+        this.cafe = cafe;
+    }
 
     public int optionMenu() {
         sc.reset();
