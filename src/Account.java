@@ -9,7 +9,13 @@ public class Account {
     }
     
     public Account(String id, String name, String phone) {
-        
+        this.id = id;
+        this.person = new Person(name, phone);
+    }
+    
+    public Account(Account account) {
+        this.id = account.id;
+        this.person = account.person;
     }
     
     public String getId() {
