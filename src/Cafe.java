@@ -67,10 +67,6 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     }
 
-    public double checkOutTakeHome(double amount, MemberAccount member, int queueNumber) {
-
-    }
-
     @Override
     public int redeem(MemberAccount member) {
 
