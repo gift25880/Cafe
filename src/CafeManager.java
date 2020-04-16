@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class CafeManager {
     private Cafe cafe;
-    private StaffAccount[] staff;
+    private StaffAccount staff;
     private Scanner sc = new Scanner(System.in);
     
     public int optionMenu() {
@@ -61,10 +61,12 @@ public class CafeManager {
         
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
                 Statement stmt = conn.createStatement()) {
-                ResultSet rs = stmt.executeQuery("SELECT id, password FROM staff WHERE id='"+inputId+"' AND password='"+inputPass+"';");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='"+inputId+"' AND password='"+inputPass+"';");
                 
                 if (inputId.equals(rs.getString("id")) && inputPass.equals(rs.getString("password"))) {
                     System.out.println("Login Success!");
+                    staff = new StaffAccount(rs.getString("id"), new Person(rs.getString("name"), rs.getString("phone")), Position.CASHIER, rs.get);
+                    
                     return true;
                 } else {
                     System.out.println("Id or password is not matched");
