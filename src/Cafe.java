@@ -50,7 +50,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     public boolean isFull() {
-        return this.count == this.tables.length;
+        return this.count >= this.tables.length;
     }
 
     @Override
