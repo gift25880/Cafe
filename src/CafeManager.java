@@ -21,7 +21,6 @@ public class CafeManager {
     }
 
     public int optionMenu() {
-        sc.reset();
         System.out.println("Menu: ");
         System.out.println("----------------------------");
         System.out.println("1. Add Item");
@@ -94,7 +93,6 @@ public class CafeManager {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
 
             if (rs.next()) {
-                sc.reset();
                 String newPass;
                 do {
                     System.out.print("Enter your new password: ");
@@ -104,7 +102,6 @@ public class CafeManager {
                     } else if (newPass.equals(rs.getString("password"))) {
                         System.out.println("New password must not be the same as current password");
                     } else {
-                        sc.reset();
                         String pw;
                         do {
                             System.out.print("Enter your previous password to confirm: ");

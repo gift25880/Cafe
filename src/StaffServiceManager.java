@@ -11,7 +11,6 @@ public class StaffServiceManager {
     private Scanner sc = new Scanner(System.in);
     
     void addCustomer(Cafe cafe) {
-        sc.reset();
         int choice = 0;
         int queue;
         do {
@@ -40,7 +39,6 @@ public class StaffServiceManager {
     }
     
     void subscribe(Cafe cafe) {
-        sc.reset();
         String memberName;
         String phone;
         String username;
