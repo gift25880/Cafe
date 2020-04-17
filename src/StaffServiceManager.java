@@ -83,6 +83,7 @@ public class StaffServiceManager {
             
             Account newAcc = new Account(username, new Person(memberName, phone));
             cafe.addMember(newAcc);
+            System.out.println("Welcome "+username+"! You are now a member of this cafe!");
         } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
