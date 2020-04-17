@@ -63,7 +63,7 @@ public class CafeManager {
             }
         } while (!(inputPass.equals("")) || inputPass != null);
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
                 Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
             Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
@@ -89,7 +89,7 @@ public class CafeManager {
     }
 
     public void resetPass() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
                 Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
 

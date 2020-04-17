@@ -27,7 +27,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     private void fetchMenu() {
         menu = new Item[3][100];
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = null;
             for (int i = 0; i < 3; i++) {
                 int j = 0;
@@ -197,7 +197,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public boolean addMenu(Item item, Type type) {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type + ");");
             System.out.println("The menu [" + item.getId() + " (" + item.getName() + ")] has been added successfully.");
             return true;
@@ -214,7 +214,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public boolean removeMenu(String id) {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
                 String deleteId = rs.getString("id");
@@ -236,7 +236,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public boolean addMember(Account member) {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO member VALUES (" + member.getName() + ", " + member.getPhone() + ", " + member.getId() + ", " + 0 + ");");
             System.out.println("Member [" + member.getId() + "] has been added successfully.");
             return true;
@@ -294,7 +294,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
 
     @Override
     public boolean restock(String id, int amount) {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.240.242.174:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
                 int sum = rs.getInt("stock") + amount;
