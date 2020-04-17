@@ -13,6 +13,7 @@ public class StaffServiceManager {
     void addCustomer(Cafe cafe) {
         sc.reset();
         int choice = 0;
+        int queue;
         do {
             System.out.println("Do you want to eat here or take home?");
             System.out.println("1. Eat Here");
@@ -21,10 +22,16 @@ public class StaffServiceManager {
             choice = sc.nextInt();
             switch (choice) {
                 case 1: 
-                    cafe.addCustomer(false);
+                    queue = cafe.addCustomer(false);
+                    if (queue == -1) {
+                        System.out.println("Sorry, there is no table available at the moment.");
+                    } else {
+                        System.out.println("Your queue number is "+queue);
+                    }
                     break;
                 case 2:
-                    cafe.addCustomer(true);
+                    queue = cafe.addCustomer(true);
+                    System.out.println("Your queue number is "+queue);
                     break;
                 default:
                     System.out.println("Invalid choice, please enter 1 or 2 only.");
