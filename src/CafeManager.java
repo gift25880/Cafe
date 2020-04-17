@@ -51,7 +51,7 @@ public class CafeManager {
             if (inputId.equals("") || inputId == null) {
                 System.out.println("Id must be filled.");
             }
-        } while (!(inputId.equals("")) || inputId != null);
+        } while (inputId.equals("") || inputId == null);
 
         System.out.println("\n");
 
@@ -61,7 +61,7 @@ public class CafeManager {
             if (inputPass.equals("") || inputPass == null) {
                 System.out.println("Password must be filled.");
             }
-        } while (!(inputPass.equals("")) || inputPass != null);
+        } while (inputPass.equals("") || inputPass == null);
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
                 Statement stmt = conn.createStatement()) {
@@ -117,9 +117,9 @@ public class CafeManager {
                                 rs.updateString("password", newPass);
                                 System.out.println("Your password has been successfully changed!");
                             }
-                        } while (pw != null && !(pw.equals("")) && !(pw.equals(rs.getString("password"))));
+                        } while (pw == null && pw.equals("") && pw.equals(rs.getString("password")));
                     }
-                } while (!(newPass.equals("")) && newPass != null && !(newPass.equals(rs.getString("password"))));
+                } while (newPass.equals("") && newPass == null && newPass.equals(rs.getString("password")));
             }
 
         } catch (SQLException ex) {
