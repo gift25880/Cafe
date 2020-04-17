@@ -1,4 +1,9 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 
@@ -6,6 +11,7 @@ public class StaffServiceManager {
     private Scanner sc = new Scanner(System.in);
     
     void addCustomer(Cafe cafe) {
+        sc.reset();
         int choice = 0;
         do {
             System.out.println("Do you want to eat here or take home?");
@@ -27,7 +33,54 @@ public class StaffServiceManager {
     }
     
     void subscribe(Cafe cafe) {
+        sc.reset();
+        String memberName;
+        String phone;
+        String username;
+        do {
+            System.out.print("Enter your name: ");
+            memberName = sc.nextLine();
+            if (memberName.equals("") || memberName == null) {
+                System.out.println("Your name can't be blank.");
+            }
+        } while (memberName.equals("") || memberName == null);
         
+        System.out.print("Enter your phone number (optional): ");
+        phone = sc.nextLine();
+        if (phone.equals("")) {
+            phone = null;
+        }
+        
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
+                Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT id FROM member");
+            String[] memberIdInDb = new String[1000000000];
+            int i = 0;
+            int count = 0;
+            boolean available = true;
+            while(rs.next()) {
+                memberIdInDb[i++] = rs.getString("id");
+                count++;
+            }
+            do {
+                System.out.print("Enter your username: ");
+                username = sc.nextLine();
+                if (username.equals("") || username == null) {
+                    System.out.println("Your username can't be blank.");
+                }
+                for (int j = 0; j < count; j++) {
+                    if (username.equals(memberIdInDb[j])) {
+                        System.out.println("Username Unavilable.");
+                        available = false;
+                    }
+                }
+            } while (username.equals("") || username == null || available == false);
+            
+            Account newAcc = new Account(username, new Person(memberName, phone));
+            cafe.addMember(newAcc);
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+        }
     }
     
     void listOrders(Cafe cafe) {
