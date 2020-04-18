@@ -40,16 +40,16 @@ public class StaffServiceManager {
     }
 
     void subscribe(Cafe cafe) {
-        String memberName;
-        String phone;
-        String username;
+        String memberName, phone, username;
         do {
             System.out.print("Enter your name: ");
             memberName = sc.nextLine();
             if (memberName.equals("") || memberName == null) {
                 System.out.println("Your name can't be blank.");
+                continue;
             }
-        } while (memberName.equals("") || memberName == null);
+            break;
+        } while (true);
 
         System.out.print("Enter your phone number (optional): ");
         phone = sc.nextLine();
@@ -58,33 +58,22 @@ public class StaffServiceManager {
         }
 
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM member;");
-            rs.next();
-            String[] memberIdInDb = new String[rs.getInt("rowcount")];
-            rs = stmt.executeQuery("SELECT id FROM member;");
+            ResultSet rs = stmt.executeQuery("SELECT id FROM member;");
             int i = 0;
-            boolean available = true;
-            while (rs.next()) {
-                memberIdInDb[i++] = rs.getString("id");
-            }
             do {
                 System.out.print("Enter your username: ");
                 username = sc.nextLine();
                 if (username.equals("") || username == null) {
                     System.out.println("Your username can't be blank.");
+                    continue;
                 }
-                for (int j = 0; j < memberIdInDb.length; j++) {
-                    if (username.equals(memberIdInDb[j])) {
-                        System.out.println("Username Unavilable.");
-                        available = false;
-                    }
-                }
-            } while (username.equals("") || username == null || available == false);
+                break;
+            } while (true);
             Account newAcc = new Account(username, new Person(memberName, phone));
             if(cafe.addMember(newAcc))
             System.out.println("Welcome " + username + "! You are now a member of this cafe!");
         } catch (SQLIntegrityConstraintViolationException ex) {
-            System.out.println("This account is already a member of this cafe.");
+            System.out.println("Username is already taken.");
         } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
