@@ -57,21 +57,21 @@ public class StaffServiceManager {
             phone = null;
         }
 
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT id FROM member;");
-            int i = 0;
-            do {
-                System.out.print("Enter your username: ");
-                username = sc.nextLine();
-                if (username.equals("") || username == null) {
-                    System.out.println("Your username can't be blank.");
-                    continue;
-                }
-                break;
-            } while (true);
+        do {
+            System.out.print("Enter your username: ");
+            username = sc.nextLine();
+            if (username.equals("") || username == null) {
+                System.out.println("Your username can't be blank.");
+                continue;
+            }
+            break;
+        } while (true);
+
+        try {
             Account newAcc = new Account(username, new Person(memberName, phone));
-            if(cafe.addMember(newAcc))
-            System.out.println("Welcome " + username + "! You are now a member of this cafe!");
+            if (cafe.addMember(newAcc)) {
+                System.out.println("Welcome " + username + "! You are now a member of this cafe!");
+            }
         } catch (SQLIntegrityConstraintViolationException ex) {
             System.out.println("Username is already taken.");
         } catch (SQLException ex) {
