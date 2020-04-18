@@ -24,7 +24,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         fetchMenu();
     }
 
-    private void fetchMenu() throws SQLException{
+    private void fetchMenu() {
         menu = new Item[3][100];
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = null;
@@ -45,6 +45,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                     menu[i][j++] = new Item(rs.getString("id"), rs.getString("name"), rs.getDouble("price"), rs.getInt("stock"));
                 }
             }
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
     }
 
@@ -193,7 +195,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean addMenu(Item item, Type type) throws SQLException{
+    public boolean addMenu(Item item, Type type) throws SQLException {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type + ");");
             System.out.println("The menu [" + item.getId() + " (" + item.getName() + ")] has been added successfully.");
@@ -204,7 +206,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean removeMenu(String id) throws SQLException{
+    public boolean removeMenu(String id) throws SQLException {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
@@ -274,7 +276,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean restock(String id, int amount) throws SQLException{
+    public boolean restock(String id, int amount) throws SQLException {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
