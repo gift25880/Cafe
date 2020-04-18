@@ -114,8 +114,6 @@ public class CafeManager {
                             } else if (pw == null || pw.equals("")) {
                                 System.out.println("This field must be filled.");
                                 continue;
-                            } else if (pw.equals("quit")) {
-                                break;
                             } else {
                                 rs.updateString("password", newPass);
                                 System.out.println("Your password has been successfully changed!");
@@ -123,7 +121,7 @@ public class CafeManager {
                             }
                         } while (true);
                     }
-                } while (!pw.equals("quit"));
+                } while (true);
             }
 
         } catch (SQLException ex) {
