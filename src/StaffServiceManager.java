@@ -94,7 +94,7 @@ public class StaffServiceManager {
     }
 
     void listQueues(Cafe cafe) {
-        System.out.println("This are all of the queue list:");
+        System.out.println("Queue List:");
         cafe.listQueues();
     }
 
