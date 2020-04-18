@@ -95,7 +95,10 @@ public class StaffServiceManager {
 
     void listQueues(Cafe cafe) {
         System.out.println("Queue List:");
-        cafe.listQueues();
+        Customer[] queueList = cafe.listQueues();
+        for (int i = 0; i < queueList.length; i++) {
+            System.out.println(queueList[i]);
+        }
     }
 
     void listTables(Cafe cafe) {
