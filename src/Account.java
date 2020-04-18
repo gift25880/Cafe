@@ -1,20 +1,20 @@
 
 public class Account {
-    private String id;
+    private String user;
     private Person person;
 
-    public Account(String id, Person person) {
-        this.id = id;
+    public Account(String user, Person person) {
+        this.user = user;
         this.person = person;
     }
     
-    public Account(String id, String name, String phone) {
-        this.id = id;
+    public Account(String user, String name, String phone) {
+        this.user = user;
         this.person = new Person(name, phone);
     }
     
     public Account(Account account) {
-        this.id = account.id;
+        this.user = account.user;
         this.person = account.person;
     }
     
@@ -30,8 +30,8 @@ public class Account {
         return person.getPhone();
     }
     
-    public String getId() {
-        return this.id;
+    public String getUser() {
+        return this.user;
     }
     
     public boolean equals(Object obj) {

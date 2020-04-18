@@ -225,7 +225,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     @Override
     public boolean addMember(Account member) throws SQLException {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate("INSERT INTO member VALUES (" + member.getName() + ", " + member.getPhone() + ", " + member.getId() + ", " + 0 + ");");
+            stmt.executeUpdate("INSERT INTO member VALUES (" + member.getUser() + ", " + member.getName() + ", " + member.getPhone() + ", " + 0 + ");");
             return true;
         }
     }

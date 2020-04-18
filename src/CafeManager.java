@@ -42,12 +42,12 @@ public class CafeManager {
     }
 
     public boolean login() {
-        String inputId = null, inputPass = null;
+        String inputUser = null, inputPass = null;
         do {
-            System.out.print("Enter Id: ");
-            inputId = sc.nextLine();
-            if (inputId.equals("") || inputId == null) {
-                System.out.println("Id must be filled.");
+            System.out.print("Enter Username: ");
+            inputUser = sc.nextLine();
+            if (inputUser.equals("") || inputUser == null) {
+                System.out.println("Username must be filled.");
                 continue;
             }
             break;
@@ -66,12 +66,12 @@ public class CafeManager {
         } while (true);
 
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
 
             if (rs.next()) {
                 System.out.println("Login Success!");
-                staff = new StaffAccount(rs.getString("id"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
+                staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
                 return true;
             } else {
                 System.out.println("Id or password is not matched");
@@ -91,7 +91,7 @@ public class CafeManager {
 
     public void resetPass() {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + staff.getId() + "' AND password='" + staff.getPassword() + "';");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + staff.getUser() + "' AND password='" + staff.getPassword() + "';");
 
             if (rs.next()) {
                 String newPass = null, pw = null;
