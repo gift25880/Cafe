@@ -21,21 +21,25 @@ public class CafeManager {
     public int optionMenu() {
         System.out.println("Menu: ");
         System.out.println("----------------------------");
-        System.out.println("1. Add Item");
-        System.out.println("2. Remove Item");
-        System.out.println("3. Checkout");
-        System.out.println("4. Add Customer");
-        System.out.println("5. Subscribe");
-        System.out.println("6. List Orders");
-        System.out.println("7. List Queues");
-        System.out.println("8. List Tables");
-        System.out.println("9. Serve");
-        System.out.println("10. Add Menu");
-        System.out.println("11. Remove Menu");
-        System.out.println("12. Check Stock");
-        System.out.println("13. Restock");
-        System.out.println("14. Reset Password");
-        System.out.println("15. Logout");
+        System.out.println("1. Show Menu");
+        System.out.println("2. Add Item");
+        System.out.println("3. Remove Item");
+        System.out.println("4. Checkout");
+        System.out.println("5. Add Customer");
+        System.out.println("6. Subscribe");
+        System.out.println("7. List Orders");
+        System.out.println("8. List Queues");
+        System.out.println("9. List Tables");
+        System.out.println("10. Serve");
+        int i = 11;
+        if (staff.getPosition().equals(Position.MANAGER)) {
+            System.out.println(i++ + ". Add Menu");
+            System.out.println(i++ + ". Remove Menu");
+        }
+        System.out.println(i++ + ". Check Stock");
+        System.out.println(i++ + ". Restock");
+        System.out.println(i++ + ". Reset Password");
+        System.out.println(i + ". Logout");
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
         return choice;
