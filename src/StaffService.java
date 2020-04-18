@@ -1,13 +1,16 @@
 
+import java.sql.SQLException;
+
+
 public interface StaffService {
     public int addCustomer(boolean takeHome);
-    public boolean addMenu(Item item, Type type);
-    public boolean removeMenu(String id);
-    public boolean addMember(Account member);
+    public boolean addMenu(Item item, Type type) throws SQLException;
+    public boolean removeMenu(String id) throws SQLException;
+    public boolean addMember(Account member) throws SQLException;
     public boolean serve();
     public MenuItem[] listOrders(int queueNumber);
     public Customer[] listQueues();
     public Customer[] listTables();
     public Item[][] getMenu();
-    public boolean restock(String id, int amount);
+    public boolean restock(String id, int amount) throws SQLException;
 }

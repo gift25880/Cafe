@@ -3,7 +3,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -25,7 +24,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         fetchMenu();
     }
 
-    private void fetchMenu() {
+    private void fetchMenu() throws SQLException{
         menu = new Item[3][100];
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = null;
@@ -46,8 +45,6 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                     menu[i][j++] = new Item(rs.getString("id"), rs.getString("name"), rs.getDouble("price"), rs.getInt("stock"));
                 }
             }
-        } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
     }
 
@@ -196,24 +193,18 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean addMenu(Item item, Type type) {
+    public boolean addMenu(Item item, Type type) throws SQLException{
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type + ");");
             System.out.println("The menu [" + item.getId() + " (" + item.getName() + ")] has been added successfully.");
             return true;
-        } catch (SQLIntegrityConstraintViolationException ex) {
-            System.out.println("This menu already exists.");
-            return false;
-        } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
-            return false;
         } finally {
             fetchMenu();
         }
     }
 
     @Override
-    public boolean removeMenu(String id) {
+    public boolean removeMenu(String id) throws SQLException{
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
@@ -226,26 +217,16 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                 System.out.println("Menu not found.");
                 return false;
             }
-        } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
-            return false;
         } finally {
             fetchMenu();
         }
     }
 
     @Override
-    public boolean addMember(Account member) {
+    public boolean addMember(Account member) throws SQLException {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             stmt.executeUpdate("INSERT INTO member VALUES (" + member.getName() + ", " + member.getPhone() + ", " + member.getId() + ", " + 0 + ");");
-            System.out.println("Member [" + member.getId() + "] has been added successfully.");
             return true;
-        } catch (SQLIntegrityConstraintViolationException ex) {
-            System.out.println("This account is already a member of this cafe.");
-            return false;
-        } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
-            return false;
         }
     }
 
@@ -293,21 +274,16 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean restock(String id, int amount) {
+    public boolean restock(String id, int amount) throws SQLException{
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
                 int sum = rs.getInt("stock") + amount;
                 rs.updateInt("stock", sum);
-                System.out.println("The amount of " + rs.getString("name") + " has been restocked to " + sum + ".");
                 return true;
             } else {
-                System.out.println("Menu not found.");
                 return false;
             }
-        } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
-            return false;
         } finally {
             fetchMenu();
         }
