@@ -118,11 +118,7 @@ public class StaffServiceManager {
             System.out.println("The order is not yet ready to be served.");
         }
     }
-
-    void clearTables(Cafe Cafe) {
-
-    }
-
+    
     void addMenu(Cafe cafe) {
 
     }
