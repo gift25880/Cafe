@@ -80,11 +80,22 @@ public class StaffServiceManager {
     }
 
     void listOrders(Cafe cafe) {
-
+        System.out.print("Enter your queue number: ");
+        int queueNo = sc.nextInt();
+        MenuItem[] orderInQueue = cafe.listOrders(queueNo);
+        if (orderInQueue == null) { 
+            System.out.println("You didn't order anything yet.");
+        } else {
+            System.out.println("Your Order:");
+            for (int i = 0; i < orderInQueue.length; i++) {
+                System.out.println(orderInQueue[i]);
+            }
+        }
     }
 
     void listQueues(Cafe cafe) {
-
+        System.out.println("This are all of the queue list:");
+        cafe.listQueues();
     }
 
     void listTables(Cafe cafe) {
