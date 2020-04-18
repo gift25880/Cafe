@@ -83,7 +83,7 @@ public class StaffServiceManager {
         System.out.print("Enter your queue number: ");
         int queueNo = sc.nextInt();
         MenuItem[] orderInQueue = cafe.listOrders(queueNo);
-        if (orderInQueue == null) { 
+        if (orderInQueue == null) {
             System.out.println("You didn't order anything yet.");
         } else {
             System.out.println("Your Order:");
@@ -106,47 +106,30 @@ public class StaffServiceManager {
         Customer[] tableList = cafe.listTables();
         for (int i = 0; i <= tableList.length; i++) {
             if (tableList[i] == null) {
-                System.out.println("Table "+(i+1)+": Available");
+                System.out.println("Table " + (i + 1) + ": Available");
             } else {
-                System.out.println("Table "+(i+1)+": "+tableList[i]);
+                System.out.println("Table " + (i + 1) + ": " + tableList[i]);
             }
         }
     }
-    
+
     void listMenu(Cafe cafe) {
         Item[][] menuList = cafe.getMenu();
-        Item[] bakery = new Item[100];
-        Item[] dessert = new Item[100];
-        Item[] beverage = new Item[100];
-        for (int i = 0; i < menuList.length; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (menuList[i][j].getId().startsWith("BK")) {
-                    bakery[j] = menuList[i][j];
-                }
-                if (menuList[i][j].getId().startsWith("DS")) {
-                    dessert[j] = menuList[i][j];
-                }
-                if (menuList[i][j].getId().startsWith("BV")) {
-                    beverage[j] = menuList[i][j];
-                }
-            }
-            
-        }
         System.out.println("Menu: ");
         System.out.println("----------------------------");
         System.out.println("Bakery:");
-        for (int i = 0; i < bakery.length; i++) {
-            System.out.println(bakery[i]);
+        for (Item item : menuList[0]) {
+                System.out.println(item);
         }
         System.out.println("----------------------------");
         System.out.println("Dessert:");
-        for (int i = 0; i < dessert.length; i++) {
-            System.out.println(dessert[i]);
+        for (Item item : menuList[1]) {
+                System.out.println(item);
         }
         System.out.println("----------------------------");
         System.out.println("Beverage:");
-        for (int i = 0; i < beverage.length; i++) {
-            System.out.println(beverage[i]);
+        for (Item item : menuList[2]) {
+                System.out.println(item);
         }
         System.out.println("----------------------------");
     }
@@ -158,9 +141,9 @@ public class StaffServiceManager {
             System.out.println("The order is not yet ready to be served.");
         }
     }
-    
+
     void addMenu(Cafe cafe) {
-        
+
     }
 
     void removeMenu(Cafe cafe) {
@@ -174,5 +157,5 @@ public class StaffServiceManager {
     void addStock() {
 
     }
-    
+
 }

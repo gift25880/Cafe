@@ -25,19 +25,28 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     private void fetchMenu() {
-        menu = new Item[3][100];
+        menu = new Item[3][];
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = null;
             for (int i = 0; i < 3; i++) {
                 int j = 0;
                 switch (i) {
                     case 0:
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = ''BAKERY';");
+                        rs.next();
+                        menu[0] = new Item[rs.getInt("rowcount")];
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BAKERY';");
                         break;
                     case 1:
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = ''DESSERT';");
+                        rs.next();
+                        menu[1] = new Item[rs.getInt("rowcount")];
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'DESSERT';");
                         break;
                     case 2:
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = ''BEVERAGE';");
+                        rs.next();
+                        menu[2] = new Item[rs.getInt("rowcount")];
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BEVERAGE';");
                         break;
                 }
