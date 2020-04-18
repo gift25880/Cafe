@@ -99,7 +99,8 @@ public class StaffServiceManager {
     }
 
     void listTables(Cafe cafe) {
-
+        System.out.println("Table List: ");
+        cafe.listTables();
     }
 
     void serve(Cafe cafe) {
