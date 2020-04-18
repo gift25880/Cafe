@@ -112,6 +112,44 @@ public class StaffServiceManager {
             }
         }
     }
+    
+    void listMenu(Cafe cafe) {
+        Item[][] menuList = cafe.getMenu();
+        Item[] bakery = new Item[100];
+        Item[] dessert = new Item[100];
+        Item[] beverage = new Item[100];
+        for (int i = 0; i < menuList.length; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (menuList[i][j].getId().startsWith("BK")) {
+                    bakery[j] = menuList[i][j];
+                }
+                if (menuList[i][j].getId().startsWith("DS")) {
+                    dessert[j] = menuList[i][j];
+                }
+                if (menuList[i][j].getId().startsWith("BV")) {
+                    beverage[j] = menuList[i][j];
+                }
+            }
+            
+        }
+        System.out.println("Menu: ");
+        System.out.println("----------------------------");
+        System.out.println("Bakery:");
+        for (int i = 0; i < bakery.length; i++) {
+            System.out.println(bakery[i]);
+        }
+        System.out.println("----------------------------");
+        System.out.println("Dessert:");
+        for (int i = 0; i < dessert.length; i++) {
+            System.out.println(dessert[i]);
+        }
+        System.out.println("----------------------------");
+        System.out.println("Beverage:");
+        for (int i = 0; i < beverage.length; i++) {
+            System.out.println(beverage[i]);
+        }
+        System.out.println("----------------------------");
+    }
 
     void serve(Cafe cafe) {
         if (cafe.serve()) {
@@ -122,7 +160,7 @@ public class StaffServiceManager {
     }
     
     void addMenu(Cafe cafe) {
-
+        
     }
 
     void removeMenu(Cafe cafe) {
@@ -136,4 +174,5 @@ public class StaffServiceManager {
     void addStock() {
 
     }
+    
 }
