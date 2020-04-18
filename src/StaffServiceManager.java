@@ -111,7 +111,12 @@ public class StaffServiceManager {
     }
 
     void serve(Cafe cafe) {
-
+        boolean serve = cafe.serve();
+        if (serve) {
+            System.out.println("The order is successfully served.");
+        } else {
+            System.out.println("The order is not yet ready to be served.");
+        }
     }
 
     void clearTables(Cafe Cafe) {
