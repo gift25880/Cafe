@@ -205,7 +205,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     @Override
     public boolean addMenu(Item item, Type type) throws SQLException {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type + ");");
+            stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type.name() + ");");
             System.out.println("The menu [" + item.getId() + " (" + item.getName() + ")] has been added successfully.");
             return true;
         } finally {
