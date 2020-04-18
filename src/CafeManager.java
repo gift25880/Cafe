@@ -12,9 +12,7 @@ public class CafeManager {
     private Cafe cafe;
     private StaffAccount staff;
     private Scanner sc = new Scanner(System.in);
-    private String inputId;
-    private String inputPass;
-    
+
     public CafeManager(Cafe cafe) {
         Objects.requireNonNull(cafe, "Cafe can't be blank.");
         this.cafe = cafe;
@@ -44,13 +42,16 @@ public class CafeManager {
     }
 
     public boolean login() {
+        String inputId = null, inputPass = null;
         do {
             System.out.print("Enter Id: ");
             inputId = sc.nextLine();
             if (inputId.equals("") || inputId == null) {
                 System.out.println("Id must be filled.");
+                continue;
             }
-        } while (inputId.equals("") || inputId == null);
+            break;
+        } while (true);
 
         System.out.println("\n");
 
@@ -59,11 +60,12 @@ public class CafeManager {
             inputPass = sc.nextLine();
             if (inputPass.equals("") || inputPass == null) {
                 System.out.println("Password must be filled.");
+                continue;
             }
-        } while (inputPass.equals("") || inputPass == null);
+            break;
+        } while (true);
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
-                Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
             Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
 
@@ -88,35 +90,40 @@ public class CafeManager {
     }
 
     public void resetPass() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");
-                Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + inputId + "' AND password='" + inputPass + "';");
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE id='" + staff.getId() + "' AND password='" + staff.getPassword() + "';");
 
             if (rs.next()) {
-                String newPass;
+                String newPass = null, pw = null;
                 do {
                     System.out.print("Enter your new password: ");
                     newPass = sc.nextLine();
                     if (newPass.equals("") && newPass == null) {
                         System.out.println("New password must be filled.");
+                        continue;
                     } else if (newPass.equals(rs.getString("password"))) {
-                        System.out.println("New password must not be the same as current password");
+                        System.out.println("New password must not be the same as current password.");
+                        continue;
                     } else {
-                        String pw;
                         do {
-                            System.out.print("Enter your previous password to confirm: ");
+                            System.out.print("Enter your previous password to confirm (or 'quit' to exit): ");
                             pw = sc.nextLine();
                             if (!(pw.equals(rs.getString("password")))) {
                                 System.out.println("Your password is incorrect");
+                                continue;
                             } else if (pw == null || pw.equals("")) {
                                 System.out.println("This field must be filled.");
+                                continue;
+                            } else if (pw.equals("quit")) {
+                                break;
                             } else {
                                 rs.updateString("password", newPass);
                                 System.out.println("Your password has been successfully changed!");
+                                break;
                             }
-                        } while (pw == null && pw.equals("") && pw.equals(rs.getString("password")));
+                        } while (true);
                     }
-                } while (newPass.equals("") && newPass == null && newPass.equals(rs.getString("password")));
+                } while (!pw.equals("quit"));
             }
 
         } catch (SQLException ex) {
