@@ -100,7 +100,14 @@ public class StaffServiceManager {
 
     void listTables(Cafe cafe) {
         System.out.println("Table List: ");
-        cafe.listTables();
+        Customer[] tableList = cafe.listTables();
+        for (int i = 0; i <= tableList.length; i++) {
+            if (tableList[i] == null) {
+                System.out.println("Table "+(i+1)+": Available");
+            } else {
+                System.out.println("Table "+(i+1)+": "+tableList[i]);
+            }
+        }
     }
 
     void serve(Cafe cafe) {
