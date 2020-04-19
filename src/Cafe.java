@@ -223,8 +223,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
             bw.write("----------------------------------------\n");
             MenuItem[] mi = c.getOrders();
             int i = 1;
-            for (MenuItem menu : mi) {
-                bw.write(String.format("%2d", i++) + ". " + menu.getItem().getName() + " [x" + menu.getAmount() + "] Price: " + (menu.getAmount() * menu.getItem().getPrice()) + "\n");
+            for (MenuItem menuOrder : mi) {
+                bw.write(String.format("%2d", i++) + ". " + menuOrder.getItem().getName() + " [x" + menuOrder.getAmount() + "] Price: " + (menuOrder.getAmount() * menuOrder.getItem().getPrice()) + "\n");
             }
             bw.write("\n----------------------------------------\n");
             bw.write(String.format("%26s%8.2f", "Total Price: ", total) + "\n");
