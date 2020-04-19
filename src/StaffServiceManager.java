@@ -222,10 +222,8 @@ public class StaffServiceManager {
                 numberListInString[i] = bakeryCode[i].replace("BK", "").trim();
                 numberListInInt[i] = Integer.parseInt(numberListInString[i]);
             }
-            for (int i = 1; i <= numberListInInt.length; i++) {
-                if (i == numberListInInt[i-1]) {
-                    continue;
-                } else {
+            for (int i = 1; i <= 100; i++) {
+                if (i != numberListInInt[i-1]) {
                     numberFound = i;
                     break;
                 }
@@ -244,10 +242,8 @@ public class StaffServiceManager {
                 numberListInString[i] = dessertCode[i].replace("DS", "").trim();
                 numberListInInt[i] = Integer.parseInt(numberListInString[i]);
             }
-            for (int i = 1; i <= numberListInInt.length; i++) {
-                if (i == numberListInInt[i-1]) {
-                    continue;
-                } else {
+            for (int i = 1; i <= 100; i++) {
+                if (i != numberListInInt[i-1]) {
                     numberFound = i;
                     break;
                 }
@@ -266,10 +262,8 @@ public class StaffServiceManager {
                 numberListInString[i] = beverageCode[i].replace("BV", "").trim();
                 numberListInInt[i] = Integer.parseInt(numberListInString[i]);
             }
-            for (int i = 1; i <= numberListInInt.length; i++) {
-                if (i == numberListInInt[i-1]) {
-                    continue;
-                } else {
+            for (int i = 1; i <= 100; i++) {
+                if (i != numberListInInt[i-1]) {
                     numberFound = i;
                     break;
                 }
