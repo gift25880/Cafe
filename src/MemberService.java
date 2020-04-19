@@ -1,7 +1,10 @@
 
+import java.io.IOException;
+
+
 public interface MemberService {
     public Item addItem(String id, int queueNumber);
     public Item removeItem(String id, int queueNumber);
-    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem);
+    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem) throws IOException;
     public int redeem(double amount, MemberAccount member);
 }

@@ -1,9 +1,14 @@
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -151,12 +156,12 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem) {
+    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem) throws IOException{
         int i = findCheckOutQueue(queueNumber);
         if (i >= 0) {
-            if(!checkOutQueue.get(i).isTakeHome()){
-                for(int j = 0; j < tables.length; j++){
-                    if(tables[j].getQueueNumber() == i){
+            if (!checkOutQueue.get(i).isTakeHome()) {
+                for (int j = 0; j < tables.length; j++) {
+                    if (tables[j].getQueueNumber() == i) {
                         tables[j] = null;
                         break;
                     }
@@ -164,6 +169,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
             }
             double total = getTotalPrice(queueNumber);
             if (redeem) {
+                checkOutQueue.remove(i);
+                printReceipt(checkOutQueue.remove(i), total, 0, member.getUser());
                 return total - redeem(total, member);
             } else {
                 int points = 0;
@@ -173,6 +180,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                     tmp -= PointPolicy.BATH_TO_ONE_POINT;
                 }
                 member.setPoint(member.getPoint() + points);
+                Customer c = checkOutQueue.remove(i);
+                printReceipt(checkOutQueue.remove(i), total, 0, member.getUser());
                 return total - amount;
             }
         } else {
@@ -190,6 +199,26 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         }
         member.setPoint(points);
         return discount;
+    }
+    
+    public void printReceipt(Customer c, double total, double discount, String user) throws IOException{
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt"))){
+            bw.write("Thank you for dining with us - " + this.cafeName + "\n");
+            bw.write("Check Out Time: " + LocalDateTime.now());
+            bw.write("Queue Number: " + c.getQueueNumber() + "\n");
+            bw.write("Member: " + (user == null ? "-" : user) + "\n");
+            bw.write("Dining Status: " + (c.isTakeHome() ? "Takehome" : "Eat In") + "\n");
+            bw.write("Orders: \n");
+            MenuItem[] mi = c.getOrders();
+            int i = 1;
+            for(MenuItem menu : mi){
+            bw.write(i++ + ". " + menu.getItem().getName() + " [Amount: " + menu.getAmount() + "] Price: " + (menu.getAmount() * menu.getItem().getPrice()) + "\n");
+            }
+            bw.write("Total Price: " + total + "\n");
+            bw.write("Discount: " + discount + "\n");
+            bw.write("Net Price: " + (total - discount) + "\n");
+            bw.write("*****************************************************************\n");
+        }
     }
 
     @Override
