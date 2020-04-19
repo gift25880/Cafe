@@ -210,8 +210,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); 
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
             bw.write("Thank you for dining with us - " + this.cafeName + "\n");
-            bw.write("Check Out Time: " + LocalDateTime.now().format(format));
-            bw.write("\nQueue Number: " + c.getQueueNumber() + "\n");
+            bw.write("Check Out Time: " + LocalDateTime.now().format(format) + "\n");
+            bw.write("Queue Number: " + c.getQueueNumber() + "\n");
             bw.write("Member: " + (user == null ? "-" : user) + "\n");
             bw.write("Dining Status: " + (c.isTakeHome() ? "Takehome" : "Eat In") + "\n");
             bw.write("Orders: \n");
