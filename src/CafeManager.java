@@ -103,26 +103,22 @@ public class CafeManager {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + staff.getUser() + "' AND password='" + staff.getPassword() + "';");
 
             if (rs.next()) {
-                String newPass = null, pw = null;
+                String newPass, pw;
                 do {
                     System.out.print("Enter your new password: ");
                     newPass = sc.nextLine();
                     if (newPass.equals("") && newPass == null) {
                         System.out.println("New password must be filled.");
-                        continue;
                     } else if (newPass.equals(rs.getString("password"))) {
                         System.out.println("New password must not be the same as current password.");
-                        continue;
                     } else {
                         do {
                             System.out.print("Enter your previous password to confirm (or 'quit' to exit): ");
                             pw = sc.nextLine();
                             if (!(pw.equals(rs.getString("password")))) {
                                 System.out.println("Your password is incorrect");
-                                continue;
                             } else if (pw == null || pw.equals("")) {
                                 System.out.println("This field must be filled.");
-                                continue;
                             } else if (pw.equals("quit")) {
                                 break;
                             } else {
