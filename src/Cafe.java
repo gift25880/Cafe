@@ -170,8 +170,9 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
             double total = getTotalPrice(queueNumber);
             if (redeem) {
                 checkOutQueue.remove(i);
-                printReceipt(checkOutQueue.remove(i), total, 0, member.getUser());
-                return total - redeem(total, member);
+                int discount = redeem(total, member);
+                printReceipt(checkOutQueue.remove(i), total, discount, member.getUser());
+                return total - discount;
             } else {
                 int points = 0;
                 double tmp = total;
