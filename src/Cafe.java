@@ -17,6 +17,7 @@ import java.util.Objects;
 public class Cafe implements MemberService, StaffService, PointPolicy {
 
     private String cafeName;
+    private CafeManager manager;
     private Customer tables[];
     private Item menu[][];
     private int count = 0;
@@ -29,6 +30,10 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         this.cafeName = cafeName;
         tables = new Customer[maxTables > 0 ? maxTables : 10];
         fetchMenu();
+    }
+    
+    public void setManager(CafeManager manager){
+        this.manager = manager;
     }
 
     private void fetchMenu() {
@@ -158,7 +163,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem) throws IOException{
+    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem) throws IOException {
         int i = findCheckOutQueue(queueNumber);
         if (i >= 0) {
             if (!checkOutQueue.get(i).isTakeHome()) {
@@ -183,7 +188,6 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                     tmp -= PointPolicy.BATH_TO_ONE_POINT;
                 }
                 member.setPoint(member.getPoint() + points);
-                Customer c = checkOutQueue.remove(i);
                 printReceipt(checkOutQueue.remove(i), total, 0, member.getUser());
                 return total - amount;
             }
@@ -203,27 +207,30 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         member.setPoint(points);
         return discount;
     }
-    
-    public void printReceipt(Customer c, double total, double discount, String user) throws IOException{
+
+    public void printReceipt(Customer c, double total, double discount, String user) throws IOException {
         File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt");
         file.getParentFile().mkdirs();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
-            bw.write("Thank you for dining with us - " + this.cafeName + "\n");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        try ( BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            bw.write("**THANK YOU FOR DINING WITH US AT " + this.cafeName.toUpperCase() + "**\n");
             bw.write("Check Out Time: " + LocalDateTime.now().format(format) + "\n");
+            bw.write("Cashier: " + manager.getStaff().getName() + "\n");
+            bw.write("----------------------------------------\n");
             bw.write("Queue Number: " + c.getQueueNumber() + "\n");
             bw.write("Member: " + (user == null ? "-" : user) + "\n");
             bw.write("Dining Status: " + (c.isTakeHome() ? "Takehome" : "Eat In") + "\n");
-            bw.write("Orders: \n");
+            bw.write("----------------------------------------\n");
             MenuItem[] mi = c.getOrders();
             int i = 1;
-            for(MenuItem menu : mi){
-            bw.write(i++ + ". " + menu.getItem().getName() + " [Amount: " + menu.getAmount() + "] Price: " + (menu.getAmount() * menu.getItem().getPrice()) + "\n");
+            for (MenuItem menu : mi) {
+                bw.write(String.format("%2d", i++) + ". " + menu.getItem().getName() + " [x" + menu.getAmount() + "] Price: " + (menu.getAmount() * menu.getItem().getPrice()) + "\n");
             }
-            bw.write("Total Price: " + total + "\n");
-            bw.write("Discount: " + discount + "\n");
-            bw.write("Net Price: " + (total - discount) + "\n");
-            bw.write("*****************************************************************\n");
+            bw.write("\n----------------------------------------\n");
+            bw.write(String.format("%26s%8.2f", "Total Price: ", total) + "\n");
+            bw.write(String.format("%26s%8.2f", "Discount: ", discount) + "\n");
+            bw.write(String.format("%26s%8.2f", "Net Price: ", (total - discount)) + "\n");
+            bw.write("----------------------------------------\n");
         }
     }
 

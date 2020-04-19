@@ -16,6 +16,11 @@ public class CafeManager {
     public CafeManager(Cafe cafe) {
         Objects.requireNonNull(cafe, "Cafe can't be blank.");
         this.cafe = cafe;
+        this.cafe.setManager(this);
+    }
+    
+    public StaffAccount getStaff(){
+        return staff;
     }
 
     public int optionMenu() {
