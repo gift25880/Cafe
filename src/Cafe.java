@@ -213,7 +213,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         file.getParentFile().mkdirs();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         try ( BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-            bw.write("**THANK YOU FOR DINING WITH US AT " + this.cafeName.toUpperCase() + "**\n");
+            bw.write("**THANK YOU FOR DINING AT " + this.cafeName.toUpperCase() + "**\n");
             bw.write("Check Out Time: " + LocalDateTime.now().format(format) + "\n");
             bw.write("Cashier: " + manager.getStaff().getName() + "\n");
             bw.write("----------------------------------------\n");
