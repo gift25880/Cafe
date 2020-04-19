@@ -277,14 +277,16 @@ public class StaffServiceManager {
         }
         
         try {
-            cafe.addMenu(new Item(menuCode, menuName, menuPrice, amountInStock), menuType);
+            if (cafe.addMenu(new Item(menuCode, menuName, menuPrice, amountInStock), menuType)) {
+                System.out.println("The menu ["+menuCode+": "+menuName+"] has been added successfully.");
+            }
         } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
     }
 
     void removeMenu(Cafe cafe) {
-
+        
     }
 
     void checkStock(Cafe cafe) {
