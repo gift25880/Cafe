@@ -16,7 +16,6 @@ public class CafeManager {
     public CafeManager(Cafe cafe) {
         Objects.requireNonNull(cafe, "Cafe can't be blank.");
         this.cafe = cafe;
-        this.cafe.setManager(this);
     }
     
     public StaffAccount getStaff(){
@@ -81,6 +80,7 @@ public class CafeManager {
             if (rs.next()) {
                 System.out.println("Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
+                this.cafe.setManager(this);
                 return true;
             } else {
                 System.out.println("Id or password is not matched");
