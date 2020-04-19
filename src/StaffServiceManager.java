@@ -1,10 +1,6 @@
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class StaffServiceManager {
@@ -143,7 +139,154 @@ public class StaffServiceManager {
     }
 
     void addMenu(Cafe cafe) {
-
+        Item[][] menuList = cafe.getMenu();
+        String[] bakeryCode = new String[menuList[0].length];
+        String[] dessertCode = new String[menuList[1].length];
+        String[] beverageCode = new String[menuList[2].length];
+        Type menuType = null;
+        String menuName;
+        double menuPrice;
+        int amountInStock;
+        int choice;
+        
+        for (int i = 0; i < menuList[0].length; i++) {
+            bakeryCode[i] = menuList[0][i].getId();
+        }
+        for (int i = 0; i < menuList[1].length; i++) {
+            dessertCode[i] = menuList[1][i].getId();
+        }
+        for (int i = 0; i < menuList[2].length; i++) {
+            beverageCode[i] = menuList[2][i].getId();
+        }
+        
+        do {
+            System.out.println("What is the menu type?");
+            System.out.println("1. Bakery");
+            System.out.println("2. Dessert");
+            System.out.println("3. Beverage");
+            System.out.print("Enter choice number: ");
+            choice = sc.nextInt();
+            switch(choice) {
+                case 1:
+                    menuType = Type.BAKERY;
+                    break;
+                case 2:
+                    menuType = Type.DESSERT;
+                    break;
+                case 3:
+                    menuType = Type.BEVERAGE;
+                    break;
+                default:
+                    System.out.println("Invalid choice, please enter 1-3 only");
+            }
+        } while (choice != 1 || choice != 2 || choice != 3);
+        
+        do {
+            System.out.print("Enter menu's name");
+            menuName = sc.nextLine();
+            if (menuName == null || menuName.equals("")) {
+                System.out.println("Menu's name can't be blank.");
+            }
+            break;
+        } while(true);
+        
+        do {
+            System.out.print("Enter menu's price: ");
+            menuPrice = sc.nextDouble();
+            if (menuPrice < 0) {
+                System.out.println("The price must not less than 0.");
+            }
+            break;
+        } while (true);
+        
+        do {
+            System.out.print("Enter amount in stock: ");
+            amountInStock = sc.nextInt();
+            if (amountInStock < 0) {
+                System.out.println("Amount of the menu can't be less than 0.");
+            }
+            break;
+        } while (true);
+        
+        //Generating menuCode
+        String[] numberListInString;
+        int[] numberListInInt;
+        int numberFound = 0;
+        String codeNo;
+        String menuCode = null;
+        
+        if (menuType == Type.BAKERY) {
+            numberListInString = new String[bakeryCode.length];
+            numberListInInt = new int[numberListInString.length];
+            for (int i = 0; i < bakeryCode.length; i++) {
+                numberListInString[i] = bakeryCode[i].replace("BK", "").trim();
+                numberListInInt[i] = Integer.parseInt(numberListInString[i]);
+            }
+            for (int i = 1; i <= numberListInInt.length; i++) {
+                if (i == numberListInInt[i-1]) {
+                    continue;
+                } else {
+                    numberFound = i;
+                    break;
+                }
+            }
+            codeNo = Integer.toString(numberFound);
+            if (numberFound < 10) {
+                menuCode = "BK0"+codeNo;
+            } else {
+                menuCode = "BK"+codeNo;
+            }
+        }
+        if (menuType == Type.DESSERT) {
+            numberListInString = new String[dessertCode.length];
+            numberListInInt = new int[numberListInString.length];
+            for (int i = 0; i < dessertCode.length; i++) {
+                numberListInString[i] = dessertCode[i].replace("DS", "").trim();
+                numberListInInt[i] = Integer.parseInt(numberListInString[i]);
+            }
+            for (int i = 1; i <= numberListInInt.length; i++) {
+                if (i == numberListInInt[i-1]) {
+                    continue;
+                } else {
+                    numberFound = i;
+                    break;
+                }
+            }
+            codeNo = Integer.toString(numberFound);
+            if (numberFound < 10) {
+                menuCode = "DS0"+codeNo;
+            } else {
+                menuCode = "DS"+codeNo;
+            }
+        }
+        if (menuType == Type.BEVERAGE) {
+            numberListInString = new String[beverageCode.length];
+            numberListInInt = new int[numberListInString.length];
+            for (int i = 0; i < beverageCode.length; i++) {
+                numberListInString[i] = beverageCode[i].replace("BV", "").trim();
+                numberListInInt[i] = Integer.parseInt(numberListInString[i]);
+            }
+            for (int i = 1; i <= numberListInInt.length; i++) {
+                if (i == numberListInInt[i-1]) {
+                    continue;
+                } else {
+                    numberFound = i;
+                    break;
+                }
+            }
+            codeNo = Integer.toString(numberFound);
+            if (numberFound < 10) {
+                menuCode = "BV0"+codeNo;
+            } else {
+                menuCode = "BV"+codeNo;
+            }
+        }
+        
+        try {
+            cafe.addMenu(new Item(menuCode, menuName, menuPrice, amountInStock), menuType);
+        } catch (SQLException ex) {
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+        }
     }
 
     void removeMenu(Cafe cafe) {
