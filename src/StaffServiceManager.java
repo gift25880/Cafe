@@ -149,16 +149,6 @@ public class StaffServiceManager {
         int amountInStock;
         int choice;
         
-        for (int i = 0; i < menuList[0].length; i++) {
-            bakeryCode[i] = menuList[0][i].getId();
-        }
-        for (int i = 0; i < menuList[1].length; i++) {
-            dessertCode[i] = menuList[1][i].getId();
-        }
-        for (int i = 0; i < menuList[2].length; i++) {
-            beverageCode[i] = menuList[2][i].getId();
-        }
-        
         do {
             System.out.println("What is the menu type?");
             System.out.println("1. Bakery");
@@ -169,12 +159,21 @@ public class StaffServiceManager {
             switch(choice) {
                 case 1:
                     menuType = Type.BAKERY;
+                    for (int i = 0; i < menuList[0].length; i++) {
+                        bakeryCode[i] = menuList[0][i].getId();
+                    }
                     break;
                 case 2:
                     menuType = Type.DESSERT;
+                    for (int i = 0; i < menuList[1].length; i++) {
+                        dessertCode[i] = menuList[1][i].getId();
+                    }
                     break;
                 case 3:
                     menuType = Type.BEVERAGE;
+                    for (int i = 0; i < menuList[2].length; i++) {
+                        beverageCode[i] = menuList[2][i].getId();
+                    }
                     break;
                 default:
                     System.out.println("Invalid choice, please enter 1-3 only");
@@ -182,7 +181,7 @@ public class StaffServiceManager {
         } while (choice != 1 || choice != 2 || choice != 3);
         
         do {
-            System.out.print("Enter menu's name");
+            System.out.print("Enter menu's name: ");
             menuName = sc.nextLine();
             if (menuName == null || menuName.equals("")) {
                 System.out.println("Menu's name can't be blank.");
@@ -229,11 +228,7 @@ public class StaffServiceManager {
                 }
             }
             codeNo = Integer.toString(numberFound);
-            if (numberFound < 10) {
-                menuCode = "BK0"+codeNo;
-            } else {
-                menuCode = "BK"+codeNo;
-            }
+            menuCode = (numberFound <10) ? "BK0"+codeNo : "BK"+codeNo;
         }
         if (menuType == Type.DESSERT) {
             numberListInString = new String[dessertCode.length];
@@ -249,11 +244,7 @@ public class StaffServiceManager {
                 }
             }
             codeNo = Integer.toString(numberFound);
-            if (numberFound < 10) {
-                menuCode = "DS0"+codeNo;
-            } else {
-                menuCode = "DS"+codeNo;
-            }
+            menuCode = (numberFound <10) ? "BK0"+codeNo : "BK"+codeNo;
         }
         if (menuType == Type.BEVERAGE) {
             numberListInString = new String[beverageCode.length];
@@ -269,11 +260,7 @@ public class StaffServiceManager {
                 }
             }
             codeNo = Integer.toString(numberFound);
-            if (numberFound < 10) {
-                menuCode = "BV0"+codeNo;
-            } else {
-                menuCode = "BV"+codeNo;
-            }
+            menuCode = (numberFound <10) ? "BK0"+codeNo : "BK"+codeNo;
         }
         
         try {
