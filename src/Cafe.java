@@ -1,5 +1,6 @@
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -203,10 +205,13 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
     
     public void printReceipt(Customer c, double total, double discount, String user) throws IOException{
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt"))){
+        File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt");
+        file.getParentFile().mkdirs();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); 
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
             bw.write("Thank you for dining with us - " + this.cafeName + "\n");
-            bw.write("Check Out Time: " + LocalDateTime.now());
-            bw.write("Queue Number: " + c.getQueueNumber() + "\n");
+            bw.write("Check Out Time: " + LocalDateTime.now().format(format));
+            bw.write("\nQueue Number: " + c.getQueueNumber() + "\n");
             bw.write("Member: " + (user == null ? "-" : user) + "\n");
             bw.write("Dining Status: " + (c.isTakeHome() ? "Takehome" : "Eat In") + "\n");
             bw.write("Orders: \n");
