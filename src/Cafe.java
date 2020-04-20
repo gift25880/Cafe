@@ -88,7 +88,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         return -1;
     }
 
-    private int findCheckOutQueue(int queueNumber) {
+    public int findCheckOutQueue(int queueNumber) {
         for (int i = 0; i < checkOutQueue.size(); i++) {
             if (checkOutQueue.get(i).getQueueNumber() == queueNumber) {
                 return i;
@@ -145,19 +145,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         return null;
     }
 
-    public double getTotalPrice(int queueNumber) {
-        int i = findQueue(queueNumber);
-        Customer c;
-        if (i >= 0) {
-            c = queue.get(i);
-        } else {
-            i = findCheckOutQueue(queueNumber);
-            if (i >= 0) {
-                c = checkOutQueue.get(i);
-            } else {
-                return -1;
-            }
-        }
+    public double getTotalPrice(int queueOrder) {
+        Customer c = checkOutQueue.get(queueOrder);
         MenuItem[] mi = c.getOrders();
         double totalprice = 0;
         for (int j = 0; j <= mi.length; j++) {
@@ -167,23 +156,19 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
     }
 
     @Override
-    public double checkOut(double amount, MemberAccount member, int queueNumber, boolean redeem) throws IOException {
+    public double checkOut(double total, int discount, double amount, MemberAccount member, int queueNumber, boolean redeem, int setPoints) throws IOException {
         int i = findCheckOutQueue(queueNumber);
         if (i >= 0) {
             if (!checkOutQueue.get(i).isTakeHome()) {
                 for (int j = 0; j < tables.length; j++) {
-                    if (tables[j].getQueueNumber() == i) {
+                    if (tables[j].getQueueNumber() == queueNumber) {
                         tables[j] = null;
                         break;
                     }
                 }
             }
-            double total = getTotalPrice(queueNumber);
             if (redeem) {
-                checkOutQueue.remove(i);
-                int discount = redeem(total, member);
-                printReceipt(checkOutQueue.remove(i), total, discount, member.getUser());
-                return total - discount;
+                member.setPoint(setPoints);
             } else {
                 int points = 0;
                 double tmp = total;
@@ -192,24 +177,23 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
                     tmp -= PointPolicy.BATH_TO_ONE_POINT;
                 }
                 member.setPoint(member.getPoint() + points);
-                printReceipt(checkOutQueue.remove(i), total, 0, member.getUser());
-                return total - amount;
             }
+            printReceipt(checkOutQueue.remove(i), total, discount, member.getUser());
+                return (total - discount) - amount;
         } else {
             return i;
         }
     }
 
     @Override
-    public int redeem(double total, MemberAccount member) {
+    public int[] redeem(double total, MemberAccount member) {
         int points = member.getPoint();
         int discount = 0;
         while (points >= PointPolicy.POINT_TO_ONE_BATH && discount < (int) total) {
             discount++;
             points -= PointPolicy.POINT_TO_ONE_BATH;
         }
-        member.setPoint(points);
-        return discount;
+        return new int[]{points, discount};
     }
 
     public void printReceipt(Customer c, double total, double discount, String user) throws IOException {
