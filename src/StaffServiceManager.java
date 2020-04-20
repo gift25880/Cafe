@@ -154,6 +154,7 @@ public class StaffServiceManager {
             System.out.println("1. Bakery");
             System.out.println("2. Dessert");
             System.out.println("3. Beverage");
+            System.out.println("0. Exit");
             System.out.print("Enter choice number: ");
             choice = sc.nextInt();
             switch(choice) {
@@ -175,10 +176,12 @@ public class StaffServiceManager {
                         beverageCode[i] = menuList[2][i].getId();
                     }
                     break;
+                case 0:
+                    return;
                 default:
-                    System.out.println("Invalid choice, please enter 1-3 only");
+                    System.out.println("Invalid choice, please enter 0-3 only");
             }
-        } while (choice != 1 || choice != 2 || choice != 3);
+        } while (choice != 1 || choice != 2 || choice != 3 || choice != 0);
         
         do {
             System.out.print("Enter menu's name: ");
@@ -273,7 +276,65 @@ public class StaffServiceManager {
     }
 
     void removeMenu(Cafe cafe) {
-        
+        Item[][] menuList = cafe.getMenu();
+        int choice;
+        String menuCode;
+        do {
+            System.out.println("What is the type of the menu you want to remove?");
+            System.out.println("1. Bakery");
+            System.out.println("2. Dessert");
+            System.out.println("3. Beverage");
+            System.out.println("0. Exit");
+            System.out.print("Enter choice number: ");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1: 
+                    Item[] bakery = new Item[menuList[0].length];
+                    System.out.println("Bakery:");
+                    for (int i = 0; i < menuList[0].length; i++) {
+                        bakery[i] = menuList[0][i];
+                        System.out.println(bakery[i]);
+                    }
+                    break;
+                case 2: 
+                    Item[] dessert = new Item[menuList[1].length];
+                    System.out.println("Dessert:");
+                    for (int i = 0; i < menuList[1].length; i++) {
+                        dessert[i] = menuList[1][i];
+                        System.out.println(dessert[i]);
+                    }
+                    break;
+                case 3: 
+                    Item[] beverage = new Item[menuList[2].length];
+                    System.out.println("Beverage:");
+                    for (int i = 0; i < menuList[1].length; i++) {
+                        beverage[i] = menuList[2][i];
+                        System.out.println(beverage[i]);
+                    }
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid choice, please enter 0-3 only");
+            }
+        } while (choice != 1 || choice != 2 || choice != 3 || choice != 0);
+        do {
+            System.out.print("Enter the menu code: ");
+            menuCode = sc.nextLine();
+            if (menuCode == null || menuCode.equals("")) {
+                System.out.println("This field can't be blank.");
+            } else {
+                try {
+                    if(cafe.removeMenu(menuCode)) {
+                        System.out.println("The menu "+menuCode+" has been removed successfully!");
+                    } else {
+                        System.out.println("Menu not found.");
+                    }
+                } catch (SQLException ex) {
+                    System.out.println("An SQL Exception has occured: " + ex.getMessage());
+                }
+            }
+        } while (true);
     }
 
     void checkStock(Cafe cafe) {
