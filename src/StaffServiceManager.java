@@ -110,7 +110,6 @@ public class StaffServiceManager {
     }
 
     void listMenu(Cafe cafe) {
-        Item[][] menuList = cafe.getMenu();
         int choice;
         do {
             System.out.println("What is the type of the menu you want to look at?");
@@ -122,28 +121,13 @@ public class StaffServiceManager {
             choice = sc.nextInt();
             switch (choice) {
                 case 1: 
-                    Item[] bakery = new Item[menuList[0].length];
-                    System.out.println("Bakery:");
-                    for (int i = 0; i < menuList[0].length; i++) {
-                        bakery[i] = menuList[0][i];
-                        System.out.println(bakery[i]);
-                    }
+                    printMenuWithoutStock(cafe, choice, "Bakery");
                     break;
                 case 2: 
-                    Item[] dessert = new Item[menuList[1].length];
-                    System.out.println("Dessert:");
-                    for (int i = 0; i < menuList[1].length; i++) {
-                        dessert[i] = menuList[1][i];
-                        System.out.println(dessert[i]);
-                    }
+                    printMenuWithoutStock(cafe, choice, "Dessert");
                     break;
                 case 3: 
-                    Item[] beverage = new Item[menuList[2].length];
-                    System.out.println("Beverage:");
-                    for (int i = 0; i < menuList[1].length; i++) {
-                        beverage[i] = menuList[2][i];
-                        System.out.println(beverage[i]);
-                    }
+                    printMenuWithoutStock(cafe, choice, "Beverage");
                     break;
                 case 0:
                     break;
@@ -153,7 +137,7 @@ public class StaffServiceManager {
         } while (choice != 0);
     }
     
-    private void listMenu(String optionToDo, Cafe cafe) {
+    private void listMenuWithStock(String optionToDo, Cafe cafe) {
         Item[][] menuList = cafe.getMenu();
         int choice;
         do {
@@ -192,6 +176,21 @@ public class StaffServiceManager {
                     System.out.println("Invalid choice, please enter 0-3 only");
             }
         } while (choice != 1 && choice != 2 && choice != 3);
+    }
+    
+    private void printMenuWithoutStock(Cafe cafe,int choiceNo, String menuType) {
+        Item[][] menuList = cafe.getMenu();
+        String[] menuCode = new String[menuList[choiceNo-1].length];
+        String[] menuName = new String[menuList[choiceNo-1].length];
+        double[] menuPrice = new double[menuList[choiceNo-1].length];
+        System.out.println(menuType+":");
+        System.out.println("-----------------------------------------------");
+        for (int i = 0; i < menuList[choiceNo-1].length; i++) {
+            menuCode[i] = menuList[choiceNo-1][i].getId();
+            menuName[i] = menuList[choiceNo-1][i].getName();
+            menuPrice[i] = menuList[choiceNo-1][i].getPrice();
+            System.out.println(menuCode[i]+": "+menuName[i]+", "+menuPrice[i]+" baht");
+        }
     }
 
     void serve(Cafe cafe) {
@@ -342,7 +341,7 @@ public class StaffServiceManager {
     void removeMenu(Cafe cafe) {
         String menuCode;
         String optionTodo = "remove";
-        listMenu(optionTodo, cafe);
+        listMenuWithStock(optionTodo, cafe);
         do {
             System.out.print("Enter the menu code (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
@@ -366,14 +365,14 @@ public class StaffServiceManager {
     }
 
     void checkStock(Cafe cafe) {
-        listMenu(cafe);
+        listMenuWithStock("check the stock", cafe);
     }
 
     void restock(Cafe cafe) {
         String menuCode;
         int amount;
         String optionTodo = "restock";
-        listMenu(optionTodo, cafe);
+        listMenuWithStock(optionTodo, cafe);
         do {
             System.out.print("Enter the menuCode you want to restock (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
