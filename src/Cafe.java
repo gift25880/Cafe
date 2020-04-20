@@ -32,6 +32,10 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         fetchMenu();
     }
     
+    public String getCafeName() {
+        return this.cafeName;
+    }
+    
     public void setManager(CafeManager manager){
         this.manager = manager;
     }
