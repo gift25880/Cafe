@@ -351,7 +351,7 @@ public class StaffServiceManager {
                 break;
             } else {
                 try {
-                    if(cafe.removeMenu(menuCode)) {
+                    if(cafe.removeMenu(menuCode.toUpperCase())) {
                         System.out.println("The menu "+menuCode+" has been removed successfully!");
                         break;
                     } else {
@@ -369,7 +369,7 @@ public class StaffServiceManager {
     }
 
     void restock(Cafe cafe) {
-        String menuCode;
+        String menuCode = null;
         int amount;
         String optionTodo = "restock";
         listMenuWithStock(optionTodo, cafe);
@@ -393,7 +393,7 @@ public class StaffServiceManager {
             break;
         } while (true);
         try {
-            if (cafe.restock(menuCode, amount)) {
+            if (cafe.restock(menuCode.toUpperCase(), amount)) {
                 System.out.println("The menu "+menuCode+" has been add with the zmount of "+amount+".");
             } 
         } catch (SQLException ex) {
