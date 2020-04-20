@@ -150,7 +150,7 @@ public class MemberServiceManager {
                     change = cafe.checkOut(amountOfMoney, member, queueNumber, redeem);
                 }
             } else {
-                change = cafe.checkOut(amountOfMoney, null, queueNumber, redeem);
+                change = cafe.checkOut(amountOfMoney, null, queueNumber, false);
             }
             System.out.println("Your change is "+change+" baht");
             System.out.println("Thank you for dining at "+cafe.getCafeName()+".");
