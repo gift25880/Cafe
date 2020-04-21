@@ -272,8 +272,9 @@ public class StaffServiceManager {
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter menu's price: ");
             menuPrice = sc.nextDouble();
-            if (menuPrice < 0) {
+            if (menuPrice <= 0) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "The price must be not less than or equal to 0.");
+                continue;
             }
             break;
         } while (true);
@@ -281,8 +282,9 @@ public class StaffServiceManager {
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter amount in stock: ");
             amountInStock = sc.nextInt();
-            if (amountInStock < 0) {
+            if (amountInStock <= 0) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Amount of the menu can't be less than or equal to 0.");
+                continue;
             }
             break;
         } while (true);
