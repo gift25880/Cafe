@@ -122,31 +122,45 @@ public class StaffServiceManager {
             switch (choice) {
                 case 1:
                     System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Bakery :");
-                    System.out.println("-----------------------------------------------");
-                    for (Item item : menuList[0]) {
-                        System.out.printf("%4s: %-35s%10.2f Baht", item.getId(), item.getName(), item.getPrice());
-                    }
                     break;
                 case 2:
                     System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Dessert :");
-                    System.out.println("-----------------------------------------------");
-                    for (Item item : menuList[1]) {
-                        System.out.printf("%4s: %-35s%10.2f Baht", item.getId(), item.getName(), item.getPrice());
-                    }
                     break;
-
                 case 3:
                     System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Beverage :");
-                    System.out.println("-----------------------------------------------");
-                    for (Item item : menuList[2]) {
-                        System.out.printf("%4s: %-35s%10.2f Baht", item.getId(), item.getName(), item.getPrice());
-                    }
                     break;
                 case 0:
                     return;
                 default:
                     System.out.println("Invalid choice, please enter 0-3 only");
+                    continue;
             }
+            int index = choice - 1;
+            int page = 1;
+            System.out.println(ColorCoder.getAnsiEscapeCode("cyan") + "Page #" + page);
+            System.out.println("-------------------------------------------------------------");
+            for (int i = 0; i <= menuList[index].length; i++) {
+                if (menuList[index][i] != null) {
+                    System.out.printf("%4s: %-35s%10.2f Baht", menuList[index][i].getId(), menuList[index][i].getName(), menuList[index][i].getPrice());
+                }
+                if ((i + 1) % 10 == 0) {
+                    page++;
+                    System.out.println("-------------------------------------------------------------");
+                    System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
+                    String pressKey = sc.nextLine();
+                    if ("stop".equalsIgnoreCase(pressKey)) {
+                        return;
+                    }
+                    if (menuList[index].length - (i + 1) >= 10) {
+                        System.out.println("\n");
+                        System.out.println(ColorCoder.getAnsiEscapeCode("cyan") + "Page #" + page);
+                        System.out.println("-------------------------------------------------------------");
+                    } else {
+                        System.out.println("\n");
+                    }
+                }
+            }
+            break;
         } while (true);
     }
 
@@ -164,20 +178,19 @@ public class StaffServiceManager {
                 case 2:
                     System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Beverage: ");
             }
-            for (Item item : menuList[i]) {
-                sc.reset();
-                if (item != null) {
-                    System.out.println((item.getStock() == 0 ? ColorCoder.getAnsiEscapeCode("red") : null) + item);
+            for (int j = 0; j <= menuList[i].length; j++) {
+                if (menuList[i][j] != null) {
+                    System.out.println((menuList[i][j].getStock() == 0 ? ColorCoder.getAnsiEscapeCode("red") : null) + menuList[i][j]);
                 }
-                if ((i + 1) % 10 == 0) {
+                if ((j + 1) % 10 == 0) {
                     page++;
-                    System.out.println("------------------------------------------------");
-                    System.out.print("Press enter see next page, type 'stop' and press enter  to cancel... ");
+                    System.out.println("-------------------------------------------------------------");
+                    System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
                     String pressKey = sc.nextLine();
                     if ("stop".equalsIgnoreCase(pressKey)) {
                         return;
                     }
-                    if (menuList[i].length - (i + 1) >= 10) {
+                    if (menuList[i].length - (j + 1) >= 10) {
                         System.out.println("\n");
                         System.out.println(ColorCoder.getAnsiEscapeCode("cyan") + "Page #" + page);
                         System.out.println("-------------------------------------------------------------");
