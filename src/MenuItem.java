@@ -34,12 +34,6 @@ public class MenuItem {
     }
 
     public boolean equals(MenuItem item) {
-        if (this == item) {
-            return true;
-        }
-        if (item == null) {
-            return false;
-        }
-        return true;
+        return this.item.getId().equals(item.item.getId());
     }
 }

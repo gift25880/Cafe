@@ -26,14 +26,7 @@ public class Item {
     }
 
     public boolean equals(Item item) {
-        if (this == item) {
-            return true;
-        }
-        if (item == null) {
-            return false;
-        }
-        return true;
-        
+        return this.id.equals(item.id);
     }
 
     public int getStock() {
