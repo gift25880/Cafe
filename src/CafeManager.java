@@ -17,36 +17,114 @@ public class CafeManager {
         Objects.requireNonNull(cafe, "Cafe can't be blank.");
         this.cafe = cafe;
     }
-    
-    public StaffAccount getStaff(){
+
+    public StaffAccount getStaff() {
         return staff;
     }
 
-    public int optionMenu() {
-        System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Menu: ");
-        System.out.println("----------------------------");
-        System.out.println("1. Show Menu");
-        System.out.println("2. Add Item");
-        System.out.println("3. Remove Item");
-        System.out.println("4. Checkout");
-        System.out.println("5. Add Customer");
-        System.out.println("6. Subscribe");
-        System.out.println("7. List Orders");
-        System.out.println("8. List Queues");
-        System.out.println("9. List Tables");
-        System.out.println("10. Serve");
-        int i = 11;
-        if (staff.getPosition().equals(Position.MANAGER)) {
-            System.out.println(i++ + ". Add Menu");
-            System.out.println(i++ + ". Remove Menu");
+    public void cashier() {
+        int choice;
+        if (login()) {
+            do {
+                System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Menu: ");
+                System.out.println("----------------------------");
+                System.out.println("1. Show Menu");
+                System.out.println("2. Add Item");
+                System.out.println("3. Remove Item");
+                System.out.println("4. Checkout");
+                System.out.println("5. Add Customer");
+                System.out.println("6. Subscribe");
+                System.out.println("7. List Orders");
+                System.out.println("8. List Queues");
+                System.out.println("9. List Tables");
+                System.out.println("10. Serve");
+                int i = 11;
+                if (staff.getPosition().equals(Position.MANAGER)) {
+                    System.out.println(i++ + ". Add Menu");
+                    System.out.println(i++ + ". Remove Menu");
+                }
+                System.out.println(i++ + ". Check Stock");
+                System.out.println(i++ + ". Restock");
+                System.out.println(i++ + ". Reset Password");
+                System.out.println(i + ". Logout");
+                System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your choice: ");
+                choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        StaffServiceManager.listMenu(cafe);
+                        break;
+                    case 2:
+                        MemberServiceManager.addItem(cafe);
+                        break;
+                    case 3:
+                        MemberServiceManager.removeItem(cafe);
+                        break;
+                    case 4:
+                        MemberServiceManager.checkOutCafe(cafe);
+                        break;
+                    case 5:
+                        StaffServiceManager.addCustomer(cafe);
+                        break;
+                    case 6:
+                        StaffServiceManager.subscribe(cafe);
+                        break;
+                    case 7:
+                        StaffServiceManager.listOrders(cafe);
+                        break;
+                    case 8:
+                        StaffServiceManager.listQueues(cafe);
+                        break;
+                    case 9:
+                        StaffServiceManager.listTables(cafe);
+                        break;
+                    case 10:
+                        StaffServiceManager.serve(cafe);
+                        break;
+                    case 11:
+                        if (staff.getPosition() == Position.MANAGER) {
+                            StaffServiceManager.addMenu(cafe);
+                            break;
+                        } else {
+                            StaffServiceManager.checkStock(cafe);
+                            break;
+                        }
+                    case 12:
+                        if (staff.getPosition() == Position.MANAGER) {
+                            StaffServiceManager.removeMenu(cafe);
+                            break;
+                        } else {
+                            StaffServiceManager.restock(cafe);
+                            break;
+                        }
+                    case 13:
+                        if (staff.getPosition() == Position.MANAGER) {
+                            StaffServiceManager.checkStock(cafe);
+                            break;
+                        } else {
+                            resetPass();
+                            break;
+                        }
+                    case 14:
+                        if (staff.getPosition() == Position.MANAGER) {
+                            StaffServiceManager.restock(cafe);
+                            break;
+                        } else {
+                            logout();
+                            break;
+                        }
+                    case 15:
+                        resetPass();
+                        break;
+                    case 16:
+                        logout();
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again.");
+                }
+            } while (choice != 0);
+        } else {
+            System.out.println("Cannot login, please try again.");
         }
-        System.out.println(i++ + ". Check Stock");
-        System.out.println(i++ + ". Restock");
-        System.out.println(i++ + ". Reset Password");
-        System.out.println(i + ". Logout");
-        System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your choice: ");
-        int choice = sc.nextInt();
-        return choice;
     }
 
     public boolean login() {
@@ -73,7 +151,7 @@ public class CafeManager {
             break;
         } while (true);
 
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103"); Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
 
@@ -99,7 +177,7 @@ public class CafeManager {
     }
 
     public void resetPass() {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103"); Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + staff.getUser() + "' AND password='" + staff.getPassword() + "';");
 
             if (rs.next()) {
