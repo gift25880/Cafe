@@ -7,13 +7,13 @@ import java.sql.Statement;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class CafeManager {
+public class Cashier {
 
     private Cafe cafe;
     private StaffAccount staff;
     private Scanner sc = new Scanner(System.in);
 
-    public CafeManager(Cafe cafe) {
+    public Cashier(Cafe cafe) {
         Objects.requireNonNull(cafe, "Cafe can't be blank.");
         this.cafe = cafe;
     }
@@ -22,7 +22,7 @@ public class CafeManager {
         return staff;
     }
 
-    public void cashier() {
+    public void optionMenu() {
         int choice;
         if (login()) {
             do {
@@ -113,11 +113,19 @@ public class CafeManager {
                             break;
                         }
                     case 15:
-                        resetPass();
-                        break;
+                        if (staff.getPosition() == Position.MANAGER) {
+                            resetPass();
+                            break;
+                        } else {
+                            break;
+                        }
                     case 16:
-                        logout();
-                        break;
+                        if (staff.getPosition() == Position.MANAGER) {
+                            logout();
+                            break;
+                        } else {
+                            break;
+                        }
                     default:
                         System.out.println("Invalid choice, please try again.");
                 }
@@ -151,7 +159,7 @@ public class CafeManager {
             break;
         } while (true);
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103"); Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
 
@@ -177,7 +185,7 @@ public class CafeManager {
     }
 
     public void resetPass() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103"); Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + staff.getUser() + "' AND password='" + staff.getPassword() + "';");
 
             if (rs.next()) {

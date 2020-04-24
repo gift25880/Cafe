@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Cafe implements MemberService, StaffService, PointPolicy {
 
     private String cafeName;
-    private CafeManager manager;
+    private Cashier cashier;
     private Customer tables[];
     private Item menu[][];
     private int count = 0;
@@ -36,8 +36,8 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         return this.cafeName;
     }
     
-    public void setManager(CafeManager manager){
-        this.manager = manager;
+    public void setManager(Cashier manager){
+        this.cashier = manager;
     }
 
     private void fetchMenu() {
@@ -203,7 +203,7 @@ public class Cafe implements MemberService, StaffService, PointPolicy {
         try ( BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             bw.write("**THANK YOU FOR DINING AT " + this.cafeName.toUpperCase() + "**\n");
             bw.write("Check Out Time: " + LocalDateTime.now().format(format) + "\n");
-            bw.write("Cashier: " + manager.getStaff().getName() + "\n");
+            bw.write("Cashier: " + cashier.getStaff().getName() + "\n");
             bw.write("----------------------------------------\n");
             bw.write("Queue Number: " + c.getQueueNumber() + "\n");
             bw.write("Member: " + (user == null ? "-" : user) + "\n");
