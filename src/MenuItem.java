@@ -16,11 +16,11 @@ public class MenuItem {
     }
 
     public void addAmount(int amount) {
-        this.amount = amount;
+        this.amount += amount;
     }
 
     public void removeAmount(int amount) {
-        this.amount = amount;
+        this.amount -= amount;
     }
 
     public Item getItem() {
