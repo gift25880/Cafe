@@ -117,6 +117,7 @@ public class Cashier {
                             resetPass();
                             break;
                         } else {
+                            System.out.println("Invalid choice, please try again.");
                             break;
                         }
                     case 16:
@@ -124,6 +125,7 @@ public class Cashier {
                             logout();
                             break;
                         } else {
+                            System.out.println("Invalid choice, please try again.");
                             break;
                         }
                     default:
