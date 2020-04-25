@@ -1,8 +1,8 @@
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Customer {
-    private ArrayList<MenuItem> orders;
+    private LinkedList<MenuItem> orders;
     private Status status;
     private int queueNumber;
     private boolean takeHome;
