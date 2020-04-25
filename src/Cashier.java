@@ -54,13 +54,13 @@ public class Cashier {
                         StaffServiceManager.listMenu(cafe);
                         break;
                     case 2:
-                        MemberServiceManager.addItem(cafe);
+                        CustomerServiceManager.addItem(cafe);
                         break;
                     case 3:
-                        MemberServiceManager.removeItem(cafe);
+                        CustomerServiceManager.removeItem(cafe);
                         break;
                     case 4:
-                        MemberServiceManager.checkOutCafe(cafe);
+                        CustomerServiceManager.checkOutCafe(cafe);
                         break;
                     case 5:
                         StaffServiceManager.addCustomer(cafe);

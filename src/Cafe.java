@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class Cafe implements MemberService, StaffService, PointPolicy {
+public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     private String cafeName;
     private Cashier cashier;
