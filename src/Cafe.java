@@ -31,12 +31,12 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         tables = new Customer[maxTables > 0 ? maxTables : 10];
         fetchMenu();
     }
-    
+
     public String getCafeName() {
         return this.cafeName;
     }
-    
-    public void setManager(Cashier manager){
+
+    public void setManager(Cashier manager) {
         this.cashier = manager;
     }
 
@@ -137,10 +137,9 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public Item removeItem(String id, int queueNumber) {
-        for (int i = 0; i < queue.size(); i++) {
-            if (queue.get(i).getQueueNumber() == queueNumber) {
-                return queue.get(i).remove(findMenu(id));
-            }
+        int i = findQueue(queueNumber);
+        if (i >= 0) {
+            return queue.get(i).remove(findMenu(id));
         }
         return null;
     }
@@ -179,7 +178,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                 member.setPoint(member.getPoint() + points);
             }
             printReceipt(checkOutQueue.remove(i), total, discount, member.getUser());
-                return (total - discount) - amount;
+            return (total - discount) - amount;
         } else {
             return i;
         }
