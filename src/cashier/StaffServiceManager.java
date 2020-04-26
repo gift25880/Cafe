@@ -186,10 +186,10 @@ public class StaffServiceManager {
 
     static void checkStock(Cafe cafe) {
         Item[][] menuList = cafe.getMenu();
-        int page = 1;
-        System.out.println("\n" + ColorCoder.getAnsiEscapeCode("cyan") + "Page #" + page);
-        System.out.println("-------------------------------------------------------------");
         for (int i = 0; i < 3; i++) {
+            int page = 1;
+            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("cyan") + "Page #" + page);
+            System.out.println("-------------------------------------------------------------");
             switch (i) {
                 case 0:
                     System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Bakery: ");
@@ -370,6 +370,7 @@ public class StaffServiceManager {
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
             }
@@ -386,7 +387,7 @@ public class StaffServiceManager {
         } while (true);
         try {
             if (cafe.restock(menuCode.toUpperCase(), amount)) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("cyan") + "The menu " + menuCode + " has been added by " + amount + ".");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu " + menuCode + " has been added by " + amount + ".");
             }
         } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());

@@ -318,7 +318,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                     if (rs.next()) {
                         int stock = rs.getInt("stock");
                         if (stock >= item.getAmount()) {
-                            rs.updateInt("stock", stock - item.getAmount());
+                            stmt.execute("UPDATE menu SET stock = " + (stock - item.getAmount()) + " WHERE id = '" + item.getItem().getId() + "';");
                         } else {
                             return false;
                         }
@@ -370,7 +370,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
                 int sum = rs.getInt("stock") + amount;
-                rs.updateInt("stock", sum);
+                stmt.execute("UPDATE menu SET stock = " + sum + " WHERE id = '" + id + "';");
                 return true;
             } else {
                 return false;
