@@ -28,6 +28,7 @@ public class CustomerServiceManager {
             }
             break;
         } while (true);
+        sc.nextLine();
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter code of the menu you want to add (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
@@ -67,6 +68,7 @@ public class CustomerServiceManager {
             }
             break;
         } while (true);
+        sc.nextLine();
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter code if the menu you want to remove (or type 'quit' to exit): ");
             menuCode = sc.nextLine();

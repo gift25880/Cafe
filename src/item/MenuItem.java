@@ -45,4 +45,8 @@ public class MenuItem {
     public boolean equals(MenuItem item) {
         return this.item.getId().equals(item.item.getId());
     }
+    
+    public String toString(){
+        return String.format("%4s: %-25s%10.2f Baht %4s\n", item.getId(), item.getName(), item.getPrice(), "[x" + amount + "]");
+    }
 }

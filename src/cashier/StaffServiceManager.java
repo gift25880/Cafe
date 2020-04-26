@@ -93,6 +93,14 @@ public class StaffServiceManager {
         } else {
             System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Your Order:");
             for (int i = 0; i < 2; i++) {
+                switch (i) {
+                    case 0:
+                        System.out.println("Preparing Orders:");
+                        break;
+                    case 1:
+                        System.out.println("Served Orders: ");
+                        break;
+                }
                 for (MenuItem order : orderInQueue[i]) {
                     System.out.println(order);
                 }
@@ -111,7 +119,7 @@ public class StaffServiceManager {
     static void listTables(Cafe cafe) {
         System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Table List: ");
         Customer[] tableList = cafe.listTables();
-        for (int i = 0; i <= tableList.length; i++) {
+        for (int i = 0; i < tableList.length; i++) {
             if (tableList[i] == null) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("green") + "Table " + (i + 1) + ": Available");
             } else {

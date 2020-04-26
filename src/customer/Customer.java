@@ -11,13 +11,19 @@ public class Customer {
     private int queueNumber;
     private boolean takeHome;
 
-    public Customer(int no) {
+    public Customer(int no, boolean takeHome) {
         this.queueNumber = no;
+        this.takeHome = takeHome;
     }
 
     public boolean add(Item item, int amount) {
-        int i = orders.indexOf(item);
-        if (i < 0) {
+        int i;
+        for (i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getItem().getId().equalsIgnoreCase(item.getId())) {
+                break;
+            }
+        }
+        if (i >= orders.size()) {
             return orders.add(new MenuItem(item, amount));
         } else {
             orders.get(i).addAmount(amount);
@@ -26,8 +32,13 @@ public class Customer {
     }
 
     public boolean remove(Item item, int amount) {
-        int i = orders.indexOf(item);
-        if (i < 0) {
+        int i;
+        for (i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getItem().getId().equalsIgnoreCase(item.getId())) {
+                break;
+            }
+        }
+        if (i >= orders.size()) {
             return false;
         } else {
             int remaining = orders.get(i).removeAmount(amount);
@@ -43,9 +54,19 @@ public class Customer {
 
     public LinkedList<MenuItem> serve() {
         LinkedList<MenuItem> serve = new LinkedList();
-        for (int i = 0; i < orders.size(); i++) {
+        while (orders.size() > 0) {
             MenuItem tmp = orders.poll();
-            servedOrders.add(tmp);
+            int j;
+            for (j = 0; j < servedOrders.size(); j++) {
+                if (servedOrders.get(j).getItem().getId().equalsIgnoreCase(tmp.getItem().getId())) {
+                    break;
+                }
+            }
+            if (j >= servedOrders.size()) {
+                servedOrders.add(tmp);
+            } else {
+                servedOrders.get(j).addAmount(tmp.getAmount());
+            }
             serve.add(tmp);
         }
         return serve;

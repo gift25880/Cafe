@@ -134,7 +134,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         Item item = findMenu(id);
         if (i >= 0) {
             if (item.getStock() >= amount) {
-                return preparingQueue.get(i).add(findMenu(id), amount);
+                return preparingQueue.get(i).add(item, amount);
             } else {
                 return false;
             }
@@ -143,7 +143,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
             if (i >= 0) {
                 if (item.getStock() >= amount) {
                     preparingQueue.add(servedQueue.remove(i));
-                    return preparingQueue.peekLast().add(findMenu(id), amount);
+                    return preparingQueue.peekLast().add(item, amount);
                 } else {
                     return false;
                 }
@@ -167,7 +167,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         MenuItem[][] mi = c.getOrders();
         double totalprice = 0;
         for (MenuItem[] orders : mi) {
-            for (int j = 0; j <= orders.length; j++) {
+            for (int j = 0; j < orders.length; j++) {
                 totalprice += orders[j].getAmount() * orders[j].getItem().getPrice();
             }
         }
@@ -254,7 +254,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public int addCustomer(boolean takeHome) {
-        Customer c = new Customer(lastQueueNumber++);
+        Customer c = new Customer(lastQueueNumber++, takeHome);
         preparingQueue.add(c);
         if (!takeHome) {
             if (!isFull()) {
@@ -262,6 +262,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                     if (tables[i] == null) {
                         tables[i] = c;
                         count++;
+                        break;
                     }
                 }
             } else {
