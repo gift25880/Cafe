@@ -146,6 +146,7 @@ public class Cashier {
 
     public boolean login() {
         String inputUser = null, inputPass = null;
+        System.out.println(ColorCoder.getAnsiEscapeCode("cyan") + "<<--LOG IN-->>");
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter Username: ");
             inputUser = sc.nextLine();
@@ -172,6 +173,7 @@ public class Cashier {
                 Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
                 System.out.println(ColorCoder.getAnsiEscapeCode("green") + "Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
+                System.out.println(ColorCoder.getAnsiEscapeCode("reset") + "Welcome, " + ColorCoder.getAnsiEscapeCode("green") +rs.getString("name") + ColorCoder.getAnsiEscapeCode("reset") + "!");
                 this.cafe.setManager(this);
                 return true;
             } else {
