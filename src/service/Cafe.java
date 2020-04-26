@@ -31,8 +31,8 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     private Item menu[][];
     private int count = 0;
     private int lastQueueNumber = 1;
-    private LinkedList<Customer> preparingQueue;
-    private LinkedList<Customer> servedQueue;
+    private LinkedList<Customer> preparingQueue = new LinkedList();
+    private LinkedList<Customer> servedQueue = new LinkedList();
 
     public Cafe(String cafeName, int maxTables) {
         Objects.requireNonNull(cafeName, "The cafe name cannot be blank.");
@@ -163,7 +163,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     }
 
     @Override
-    public double checkOut(double total, int discount, double amount, MemberAccount member, int queueNumber, boolean redeem, int setPoints) throws IOException {
+    public double checkOut(double total, int discount, double amount, MemberAccount member, int queueNumber, boolean redeem, int setPoints) throws IOException, SQLException {
         int i = findServedQueue(queueNumber);
         if (i >= 0) {
             if (!servedQueue.get(i).isTakeHome()) {
@@ -173,6 +173,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                         break;
                     }
                 }
+                return -1;
             }
             if (redeem) {
                 member.setPoint(setPoints);
@@ -184,6 +185,16 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                     tmp -= PointPolicy.BATH_TO_ONE_POINT;
                 }
                 member.setPoint(member.getPoint() + points);
+            }
+            if (member != null) {
+                try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM member WHERE username ='" + member.getUser() + "';");
+                    if (rs.next()) {
+                        rs.updateInt("username", member.getPoint());
+                    } else {
+                        return -1;
+                    }
+                }
             }
             printReceipt(servedQueue.remove(i), total, discount, member.getUser());
             return (total - discount) - amount;
@@ -251,7 +262,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     @Override
     public boolean addMenu(Item item, Type type) throws SQLException {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate("INSERT INTO menu VALUES (" + item.getId() + ", " + item.getName() + ", " + item.getPrice() + ", " + item.getStock() + ", " + type.name() + ");");
+            stmt.executeUpdate("INSERT INTO menu VALUES ('" + item.getId() + "', '" + item.getName() + "', '" + item.getPrice() + "', '" + item.getStock() + "', '" + type.name() + "');");
             return true;
         } finally {
             fetchMenu();

@@ -173,10 +173,15 @@ public class CustomerServiceManager {
         } while (true);
         try {
             double change = cafe.checkOut(total, redeemValue[1], intake, member, queueNumber, redeem, redeemValue[0]);
+            if(change<0){
+                System.out.println("");
+            }
             System.out.println("Your change is " + ColorCoder.getAnsiEscapeCode("magenta") + change + ColorCoder.getAnsiEscapeCode("reset") + " baht");
             System.out.println("Thank you for dining at " + ColorCoder.getAnsiEscapeCode("green") + cafe.getCafeName() + ColorCoder.getAnsiEscapeCode("reset") + ".");
         } catch (IOException ex) {
             System.out.println("An IO Exception has occured: " + ex.getMessage());
+        } catch(SQLException ex){
+            System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
     }
 

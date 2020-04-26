@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class Customer {
 
-    private LinkedList<MenuItem> orders;
+    private LinkedList<MenuItem> orders = new LinkedList();
     private int queueNumber;
     private boolean takeHome;
 

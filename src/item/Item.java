@@ -38,4 +38,8 @@ public class Item {
     public void setStock(int amount) {
         this.stock = amount;
     }
+    
+    public String toString(){
+        return String.format("%4s: %-25s%10.2f Baht %4s\n", id, name, price, "[x" + stock + "]");
+    }
 }
