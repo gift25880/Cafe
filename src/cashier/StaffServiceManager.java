@@ -75,7 +75,7 @@ public class StaffServiceManager {
         try {
             Account newAcc = new Account(username, new Person(memberName, phone));
             if (cafe.addMember(newAcc)) {
-                System.out.println("Welcome " + ColorCoder.getAnsiEscapeCode("green") + username + ColorCoder.getAnsiEscapeCode("reset") + "! You are now a member of this cafe!");
+                System.out.println(ColorCoder.getAnsiEscapeCode("reset") + "Welcome " + ColorCoder.getAnsiEscapeCode("green") + memberName + ColorCoder.getAnsiEscapeCode("reset") + "! You are now a member of this cafe!");
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
             System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Username is already taken.");

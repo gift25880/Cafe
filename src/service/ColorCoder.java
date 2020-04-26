@@ -25,7 +25,7 @@ public class ColorCoder {
                 escapeCode = "\u001b[32m";
                 break;
             case "reset":
-                escapeCode = "\u001b[0  m";
+                escapeCode = "\u001b[0m";
                 break;
         }
         return escapeCode;
