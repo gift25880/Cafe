@@ -13,7 +13,7 @@ public class ColorCoder {
                 escapeCode = "\u001b[34m";
                 break;
             case "magenta":
-                escapeCode = "\u001b[34m";
+                escapeCode = "\u001b[35m";
                 break;
             case "cyan":
                 escapeCode = "\u001b[36m";

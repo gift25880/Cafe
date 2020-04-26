@@ -31,12 +31,12 @@ public class StaffServiceManager {
                     if (queue == -1) {
                         System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Sorry, there is no table available at the moment.");
                     } else {
-                        System.out.println("\nYour queue number is " + ColorCoder.getAnsiEscapeCode("green") + queue + ColorCoder.getAnsiEscapeCode("reset") + ".");
+                        System.out.println("\n" + ColorCoder.getAnsiEscapeCode("reset") + "Your queue number is " + ColorCoder.getAnsiEscapeCode("green") + queue + ColorCoder.getAnsiEscapeCode("reset") + ".");
                     }
                     break;
                 case 2:
                     queue = cafe.addCustomer(true);
-                    System.out.println("\nYour queue number is " + ColorCoder.getAnsiEscapeCode("green") + queue + ColorCoder.getAnsiEscapeCode("reset") + ".");
+                    System.out.println("\n" + ColorCoder.getAnsiEscapeCode("reset") + "Your queue number is " + ColorCoder.getAnsiEscapeCode("green") + queue + ColorCoder.getAnsiEscapeCode("reset") + ".");
                     break;
                 default:
                     System.out.println(ColorCoder.getAnsiEscapeCode("red") + "\nInvalid choice, please enter 1 or 2 only.\n");
