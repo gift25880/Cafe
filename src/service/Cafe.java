@@ -57,19 +57,19 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                 int j = 0;
                 switch (i) {
                     case 0:
-                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = ''BAKERY';");
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = 'BAKERY';");
                         rs.next();
                         menu[0] = new Item[rs.getInt("rowcount")];
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BAKERY';");
                         break;
                     case 1:
-                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = ''DESSERT';");
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = 'DESSERT';");
                         rs.next();
                         menu[1] = new Item[rs.getInt("rowcount")];
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'DESSERT';");
                         break;
                     case 2:
-                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = ''BEVERAGE';");
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM menu WHERE type = 'BEVERAGE';");
                         rs.next();
                         menu[2] = new Item[rs.getInt("rowcount")];
                         rs = stmt.executeQuery("SELECT * FROM menu WHERE type = 'BEVERAGE';");

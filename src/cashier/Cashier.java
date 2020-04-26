@@ -156,10 +156,8 @@ public class Cashier {
             break;
         } while (true);
 
-        System.out.println("\n");
-
         do {
-            System.out.println(ColorCoder.getAnsiEscapeCode("cyan") + "Enter Password: ");
+            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter Password: ");
             inputPass = sc.nextLine();
             if (inputPass.equals("") || inputPass == null) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Password must be filled.");
@@ -170,9 +168,8 @@ public class Cashier {
 
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
-            Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
-
             if (rs.next()) {
+                Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
                 System.out.println(ColorCoder.getAnsiEscapeCode("green") + "Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
                 this.cafe.setManager(this);
