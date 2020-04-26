@@ -31,17 +31,21 @@ public class StaffServiceManager {
                     if (queue == -1) {
                         System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Sorry, there is no table available at the moment.");
                     } else {
-                        System.out.println("Your queue number is " + queue);
+                        System.out.println("\nYour queue number is " + ColorCoder.getAnsiEscapeCode("green") + queue + ColorCoder.getAnsiEscapeCode("reset") + ".");
                     }
                     break;
                 case 2:
                     queue = cafe.addCustomer(true);
-                    System.out.println("Your queue number is " + queue);
+                    System.out.println("\nYour queue number is " + ColorCoder.getAnsiEscapeCode("green") + queue + ColorCoder.getAnsiEscapeCode("reset") + ".");
                     break;
                 default:
-                    System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid choice, please enter 1 or 2 only.");
+                    System.out.println(ColorCoder.getAnsiEscapeCode("red") + "\nInvalid choice, please enter 1 or 2 only.\n");
             }
         } while (choice != 1 && choice != 2);
+        sc.nextLine();
+        System.out.println("\n----------------------------");
+        System.out.print("Press enter to proceed... ");
+        String pressKey = sc.nextLine();
     }
 
     static void subscribe(Cafe cafe) {
@@ -50,7 +54,7 @@ public class StaffServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your name: ");
             memberName = sc.nextLine();
             if (memberName.equals("") || memberName == null) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Your name can't be blank.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Your name can't be blank.");
                 continue;
             }
             break;
@@ -66,7 +70,7 @@ public class StaffServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your username: ");
             username = sc.nextLine();
             if (username.equals("") || username == null) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Your username can't be blank.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Your username can't be blank.");
                 continue;
             }
             break;
@@ -75,12 +79,16 @@ public class StaffServiceManager {
         try {
             Account newAcc = new Account(username, new Person(memberName, phone));
             if (cafe.addMember(newAcc)) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("reset") + "Welcome " + ColorCoder.getAnsiEscapeCode("green") + memberName + ColorCoder.getAnsiEscapeCode("reset") + "! You are now a member of this cafe!");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("reset") + "Welcome " + ColorCoder.getAnsiEscapeCode("green") + memberName + ColorCoder.getAnsiEscapeCode("reset") + "! You are now a member of this cafe!");
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
-            System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Username is already taken.");
+            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Username is already taken.");
         } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
+        } finally {
+            System.out.println("\n-------------------------------------------------------------");
+            System.out.print("Press enter to proceed... ");
+            String pressKey = sc.nextLine();
         }
     }
 
@@ -89,7 +97,7 @@ public class StaffServiceManager {
         int queueNo = sc.nextInt();
         MenuItem[][] orderInQueue = cafe.listOrders(queueNo);
         if (orderInQueue == null) {
-            System.out.println(ColorCoder.getAnsiEscapeCode("red") + "You didn't order anything yet.");
+            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "You didn't order anything yet.");
         } else {
             System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Your Order:");
             for (int i = 0; i < 2; i++) {
@@ -106,14 +114,22 @@ public class StaffServiceManager {
                 }
             }
         }
+        System.out.println("\n-------------------------------------------------------------");
+        System.out.print("Press enter to proceed... ");
+        String pressKey = sc.nextLine();
     }
 
     static void listQueues(Cafe cafe) {
         System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Queue List:");
         Customer[] queueList = cafe.listQueues();
-        for (int i = 0; i < queueList.length; i++) {
-            System.out.println((i + 1) + ". " + queueList[i]);
+        if (queueList != null && queueList.length > 0) {
+            for (int i = 0; i < queueList.length; i++) {
+                System.out.println((i + 1) + ". " + queueList[i]);
+            }
         }
+        System.out.println("\n-------------------------------------------------------------");
+        System.out.print("Press enter to proceed... ");
+        String pressKey = sc.nextLine();
     }
 
     static void listTables(Cafe cafe) {
@@ -126,6 +142,9 @@ public class StaffServiceManager {
                 System.out.println("Table " + (i + 1) + ": " + tableList[i]);
             }
         }
+        System.out.println("\n-------------------------------------------------------------");
+        System.out.print("Press enter to proceed... ");
+        String pressKey = sc.nextLine();
     }
 
     static void listMenu(Cafe cafe) {
@@ -231,6 +250,9 @@ public class StaffServiceManager {
         } else {
             System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Their is currently no queue at the moment.");
         }
+        System.out.println("\n-------------------------------------------------------------");
+        System.out.print("Press enter to proceed... ");
+        String pressKey = sc.nextLine();
     }
 
     static void addMenu(Cafe cafe) {
@@ -279,7 +301,7 @@ public class StaffServiceManager {
                 case 0:
                     return;
                 default:
-                    System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid choice, please enter 0-3 only");
+                    System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid choice, please enter 0-3 only");
             }
         } while (choice != 1 && choice != 2 && choice != 3 && choice != 0);
         sc.nextLine();
@@ -287,7 +309,7 @@ public class StaffServiceManager {
             System.out.print("\n" + ColorCoder.getAnsiEscapeCode("cyan") + "Enter menu's name: ");
             menuName = sc.nextLine();
             if (menuName == null || menuName.equals("")) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Menu's name can't be blank.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Menu's name can't be blank.");
                 continue;
             }
             break;
@@ -297,7 +319,7 @@ public class StaffServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter menu's price: ");
             menuPrice = sc.nextDouble();
             if (menuPrice <= 0) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "The price must be not less than or equal to 0.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "The price must be not less than or equal to 0.");
                 continue;
             }
             break;
@@ -307,7 +329,7 @@ public class StaffServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter amount in stock: ");
             amountInStock = sc.nextInt();
             if (amountInStock <= 0) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Amount of the menu can't be less than or equal to 0.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Amount of the menu can't be less than or equal to 0.");
                 continue;
             }
             break;
@@ -331,10 +353,14 @@ public class StaffServiceManager {
 
         try {
             if (cafe.addMenu(new Item(menuCode, menuName, menuPrice, amountInStock), menuType)) {
-                System.out.println("The menu [" + menuCode + ": " + menuName + "] has been added successfully.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu [" + menuCode + ": " + menuName + "] has been added successfully.");
             }
         } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
+        } finally {
+            System.out.println("\n-------------------------------------------------------------");
+            System.out.print("Press enter to proceed... ");
+            String pressKey = sc.nextLine();
         }
     }
 
@@ -344,22 +370,28 @@ public class StaffServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter the menu code (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
             } else if (menuCode.equals("quit")) {
                 break;
             } else {
                 try {
                     if (cafe.removeMenu(menuCode.toUpperCase())) {
-                        System.out.println(ColorCoder.getAnsiEscapeCode("green") + "The menu " + menuCode + " has been removed successfully!");
+                        System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu " + menuCode + " has been removed successfully!");
                         break;
                     } else {
-                        System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Menu not found.");
+                        System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Menu not found.");
                     }
                 } catch (SQLException ex) {
-                    System.out.println("An SQL Exception has occured: " + ex.getMessage());
+                    System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
+                    System.out.println("-------------------------------------------------------------");
+                    System.out.print("Press enter proceed... ");
+                    String pressKey = sc.nextLine();
                 }
             }
         } while (true);
+        System.out.println("\n-------------------------------------------------------------");
+        System.out.print("Press enter to proceed... ");
+        String pressKey = sc.nextLine();
     }
 
     static void restock(Cafe cafe) {
@@ -369,7 +401,7 @@ public class StaffServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter the menuCode you want to restock (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
                 continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
@@ -380,7 +412,7 @@ public class StaffServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter the amount you want to restock: ");
             amount = sc.nextInt();
             if (amount < 0) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Amount can't be less than 0");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Amount can't be less than 0");
                 continue;
             }
             break;
@@ -389,10 +421,14 @@ public class StaffServiceManager {
             if (cafe.restock(menuCode.toUpperCase(), amount)) {
                 System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu " + menuCode.toUpperCase() + " has been added by " + amount + ".");
             } else {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Menu not found.");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Menu not found.");
             }
         } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
+        } finally {
+            System.out.println("\n-------------------------------------------------------------");
+            System.out.print("Press enter to proceed... ");
+            String pressKey = sc.nextLine();
         }
     }
 
