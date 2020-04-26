@@ -31,7 +31,7 @@ public class MemberAccount extends Account{
         this.point = point;
     }
     
-    public void setId(int point) {
-        this.point = point;
+    public void setId(String id) {
+        super.setUser(id);
     }
 }

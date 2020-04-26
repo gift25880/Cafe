@@ -38,6 +38,10 @@ public class Account {
         return this.user;
     }
     
+    public void setUser(String user) {
+        this.user = user;
+    }
+    
     public boolean equals(Account acc) {
         return acc.getUser().equals(this.getUser());
         
