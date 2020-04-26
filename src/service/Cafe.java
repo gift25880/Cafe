@@ -129,14 +129,24 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public boolean addItem(String id, int queueNumber, int amount) {
+        fetchMenu();
         int i = findPreperingQueue(queueNumber);
+        Item item = findMenu(id);
         if (i >= 0) {
-            return preparingQueue.get(i).add(findMenu(id), amount);
+            if (item.getStock() >= amount) {
+                return preparingQueue.get(i).add(findMenu(id), amount);
+            } else {
+                return false;
+            }
         } else {
             i = findServedQueue(queueNumber);
             if (i >= 0) {
-                preparingQueue.add(servedQueue.remove(i));
-                return preparingQueue.peekLast().add(findMenu(id), amount);
+                if (item.getStock() >= amount) {
+                    preparingQueue.add(servedQueue.remove(i));
+                    return preparingQueue.peekLast().add(findMenu(id), amount);
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
@@ -300,7 +310,23 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         if (add == null) {
             return false;
         } else {
-            add.serve();
+            LinkedList<MenuItem> serve = add.serve();
+            try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+                for (MenuItem item : serve) {
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id ='" + item.getItem().getId() + "';");
+                    if (rs.next()) {
+                        int stock = rs.getInt("stock");
+                        if (stock >= item.getAmount()) {
+                            rs.updateInt("stock", stock - item.getAmount());
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            } catch (SQLException ex) {
+                System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            }
+            fetchMenu();
             servedQueue.add(add);
             return true;
         }

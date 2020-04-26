@@ -41,10 +41,14 @@ public class Customer {
         }
     }
 
-    public void serve() {
+    public LinkedList<MenuItem> serve() {
+        LinkedList<MenuItem> serve = new LinkedList();
         for (int i = 0; i < orders.size(); i++) {
-            servedOrders.add(orders.poll());
+            MenuItem tmp = orders.poll();
+            servedOrders.add(tmp);
+            serve.add(tmp);
         }
+        return serve;
     }
 
     public MenuItem[][] getOrders() {
