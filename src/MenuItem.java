@@ -19,8 +19,12 @@ public class MenuItem {
         this.amount += amount;
     }
 
-    public void removeAmount(int amount) {
+    public int removeAmount(int amount) {
+        if(this.amount < amount){
+            return -1;
+        }
         this.amount -= amount;
+        return this.amount;
     }
 
     public Item getItem() {

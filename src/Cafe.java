@@ -119,29 +119,29 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     }
 
     @Override
-    public Item addItem(String id, int queueNumber) {
+    public boolean addItem(String id, int queueNumber, int amount) {
         int i = findQueue(queueNumber);
         if (i >= 0) {
-            return queue.get(i).add(findMenu(id));
+            return queue.get(i).add(findMenu(id), amount);
         } else {
             i = findCheckOutQueue(queueNumber);
             if (i >= 0) {
                 queue.add(checkOutQueue.remove(i));
                 queue.peekLast().setStatus(Status.PREPARING);
-                return queue.peekLast().add(findMenu(id));
+                return queue.peekLast().add(findMenu(id), amount);
             } else {
-                return null;
+                return false;
             }
         }
     }
 
     @Override
-    public Item removeItem(String id, int queueNumber) {
+    public boolean removeItem(String id, int queueNumber, int amount) {
         int i = findQueue(queueNumber);
         if (i >= 0) {
-            return queue.get(i).remove(findMenu(id));
+            return queue.get(i).remove(findMenu(id), amount);
         }
-        return null;
+        return false;
     }
 
     public double getTotalPrice(int queueOrder) {

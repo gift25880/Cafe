@@ -15,12 +15,13 @@ public class CustomerServiceManager {
 
     static void addItem(Cafe cafe) {
         String menuCode;
-        int queueNumber;
+        int queueNumber, amount;
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
             queueNumber = sc.nextInt();
             if (queueNumber <= 0) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                continue;
             }
             break;
         } while (true);
@@ -29,26 +30,37 @@ public class CustomerServiceManager {
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
             }
             break;
         } while (true);
-        if (cafe.addItem(menuCode.toUpperCase(), queueNumber) == null) {
-            System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Something went wrong when adding item to your order list or the menu does not exist, please try again.");
-        } else {
+        do {
+            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "How much do you want to add: ");
+            amount = sc.nextInt();
+            if (amount <= 0) {
+                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                continue;
+            }
+            break;
+        } while (true);
+        if (cafe.addItem(menuCode.toUpperCase(), queueNumber, amount)) {
             System.out.println(ColorCoder.getAnsiEscapeCode("green") + "The menu item has been added to your order list successfully!");
+        } else {
+            System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Something went wrong when adding item to your order list or the menu does not exist, please try again.");
         }
     }
 
     static void removeItem(Cafe cafe) {
         String menuCode;
-        int queueNumber;
+        int queueNumber, amount;
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
             queueNumber = sc.nextInt();
             if (queueNumber <= 0) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                continue;
             }
             break;
         } while (true);
@@ -57,15 +69,25 @@ public class CustomerServiceManager {
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
             }
             break;
         } while (true);
-        if (cafe.removeItem(menuCode.toUpperCase(), queueNumber) == null) {
-            System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Something went wrong when removing the item from your order list or you didn't order this item, please try again.");
-        } else {
+        do {
+            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "How much do you want to add: ");
+            amount = sc.nextInt();
+            if (amount <= 0) {
+                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                continue;
+            }
+            break;
+        } while (true);
+        if (cafe.removeItem(menuCode.toUpperCase(), queueNumber, amount)) {
             System.out.println(ColorCoder.getAnsiEscapeCode("green") + "The menu item has been removed from your order list successfully!");
+        } else {
+            System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Something went wrong when removing the item from your order list or you didn't order this item, please try again.");
         }
     }
 

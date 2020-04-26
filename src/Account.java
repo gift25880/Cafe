@@ -34,14 +34,8 @@ public class Account {
         return this.user;
     }
     
-    public boolean equals(Object obj) {
-        if (this == obj) {
-        return true;
-        }
-        if (obj == null) {
-        return false;
-        }
-        return true;
+    public boolean equals(Account acc) {
+        return acc.getUser().equals(this.getUser());
         
     }
 }

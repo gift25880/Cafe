@@ -13,22 +13,30 @@ public class Customer {
         this.queueNumber = no;
     }
 
-    public Item add(Item item) {
-        status = Status.PREPARING;
-        for (int i = 0; i < orders.size(); i++) {
-            if (i == i) {
-                orders.get(i).addAmount(1);
-            }
+    public boolean add(Item item, int amount) {
+        int i = orders.indexOf(item);
+        if (i < 0) {
+            return orders.add(new MenuItem(item, amount));
+        } else {
+            orders.get(i).addAmount(amount);
+            return true;
         }
-        return item;
     }
 
-    public Item remove(Item item) {
-        status = Status.SERVED;
-        for (int i = 0; i < orders.size(); i--) {
-            orders.get(i).removeAmount(1);
+    public boolean remove(Item item, int amount) {
+        int i = orders.indexOf(item);
+        if (i < 0) {
+            return false;
+        } else {
+            int remaining = orders.get(i).removeAmount(amount);
+            if (remaining < 0) {
+                return false;
+            } else if (remaining == 0) {
+                orders.remove(i);
+                return true;
+            }
+            return true;
         }
-        return item;
     }
 
     public void setStatus(Status status) {
