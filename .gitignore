@@ -1,2 +1,3 @@
-*.build
-*.properties
+build/classes/*/*.build
+nbproject/project.properties
+nbproject/private/private.*
