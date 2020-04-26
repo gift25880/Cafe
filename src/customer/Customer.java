@@ -1,6 +1,5 @@
 package customer;
 
-
 import item.MenuItem;
 import item.Item;
 import java.util.LinkedList;
@@ -8,6 +7,7 @@ import java.util.LinkedList;
 public class Customer {
 
     private LinkedList<MenuItem> orders = new LinkedList();
+    private LinkedList<MenuItem> servedOrders = new LinkedList();
     private int queueNumber;
     private boolean takeHome;
 
@@ -41,18 +41,21 @@ public class Customer {
         }
     }
 
-    public MenuItem[] getOrders() {
-        return orders.toArray(new MenuItem[orders.size()]);
+    public void serve() {
+        for (int i = 0; i < orders.size(); i++) {
+            servedOrders.add(orders.poll());
+        }
+    }
+
+    public MenuItem[][] getOrders() {
+        MenuItem[][] allOrders = new MenuItem[2][];
+        allOrders[0] = orders.toArray(new MenuItem[orders.size()]);
+        allOrders[1] = servedOrders.toArray(new MenuItem[servedOrders.size()]);
+        return allOrders;
     }
 
     public boolean equals(Customer c) {
-        if (this == c) {
-            return true;
-        }
-        if (c == null) {
-            return false;
-        }
-        return true;
+        return this.queueNumber == c.queueNumber;
     }
 
     public boolean isTakeHome() {
@@ -62,8 +65,8 @@ public class Customer {
     public int getQueueNumber() {
         return queueNumber;
     }
-    
-    public String toString(){
+
+    public String toString() {
         return "Customer:\nQueue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Orders: " + orders.size();
     }
 }

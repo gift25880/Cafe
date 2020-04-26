@@ -154,10 +154,12 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     public double getTotalPrice(int queueOrder) {
         Customer c = servedQueue.get(queueOrder);
-        MenuItem[] mi = c.getOrders();
+        MenuItem[][] mi = c.getOrders();
         double totalprice = 0;
-        for (int j = 0; j <= mi.length; j++) {
-            totalprice += mi[j].getAmount() * mi[j].getItem().getPrice();
+        for (MenuItem[] orders : mi) {
+            for (int j = 0; j <= orders.length; j++) {
+                totalprice += orders[j].getAmount() * orders[j].getItem().getPrice();
+            }
         }
         return totalprice;
     }
@@ -227,9 +229,9 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
             bw.write("Member: " + (user == null ? "-" : user) + "\n");
             bw.write("Dining Status: " + (c.isTakeHome() ? "Takehome" : "Eat In") + "\n");
             bw.write("----------------------------------------\n");
-            MenuItem[] mi = c.getOrders();
+            MenuItem[][] mi = c.getOrders();
             int i = 1;
-            for (MenuItem menuOrder : mi) {
+            for (MenuItem menuOrder : mi[1]) {
                 bw.write(String.format("%2d", i++) + ". " + menuOrder.getItem().getName() + " [x" + menuOrder.getAmount() + "] Price: " + (menuOrder.getAmount() * menuOrder.getItem().getPrice()) + "\n");
             }
             bw.write("\n----------------------------------------\n");
@@ -298,13 +300,14 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         if (add == null) {
             return false;
         } else {
+            add.serve();
             servedQueue.add(add);
             return true;
         }
     }
 
     @Override
-    public MenuItem[] listOrders(int queueNumber) {
+    public MenuItem[][] listOrders(int queueNumber) {
         int i = findPreperingQueue(queueNumber);
         if (i >= 0) {
             return preparingQueue.get(i).getOrders();

@@ -33,7 +33,7 @@ public class Cashier {
         int choice;
         if (login()) {
             do {
-                System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Menu: ");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("yellow") + "Menu: ");
                 System.out.println("----------------------------");
                 System.out.println("1. Show Menu");
                 System.out.println("2. Add Item");

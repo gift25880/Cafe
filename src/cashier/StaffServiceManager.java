@@ -87,13 +87,15 @@ public class StaffServiceManager {
     static void listOrders(Cafe cafe) {
         System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
         int queueNo = sc.nextInt();
-        MenuItem[] orderInQueue = cafe.listOrders(queueNo);
+        MenuItem[][] orderInQueue = cafe.listOrders(queueNo);
         if (orderInQueue == null) {
             System.out.println(ColorCoder.getAnsiEscapeCode("red") + "You didn't order anything yet.");
         } else {
             System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Your Order:");
-            for (int i = 0; i < orderInQueue.length; i++) {
-                System.out.println(orderInQueue[i]);
+            for (int i = 0; i < 2; i++) {
+                for (MenuItem order : orderInQueue[i]) {
+                    System.out.println(order);
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ public interface StaffService {
     public boolean removeMenu(String id) throws SQLException;
     public boolean addMember(Account member) throws SQLException;
     public boolean serve();
-    public MenuItem[] listOrders(int queueNumber);
+    public MenuItem[][] listOrders(int queueNumber);
     public Customer[] listQueues();
     public Customer[] listTables();
     public Item[][] getMenu();
