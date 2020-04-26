@@ -1,3 +1,7 @@
+package account;
+
+import person.Person;
+
 
 public class Account {
     private String user;

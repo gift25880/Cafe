@@ -1,4 +1,9 @@
+package cashier;
 
+
+import service.ColorCoder;
+import service.Cafe;
+import account.MemberAccount;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class CustomerServiceManager {
 
@@ -40,7 +43,7 @@ public class CustomerServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "How much do you want to add: ");
             amount = sc.nextInt();
             if (amount <= 0) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
                 continue;
             }
             break;
@@ -79,7 +82,7 @@ public class CustomerServiceManager {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "How much do you want to add: ");
             amount = sc.nextInt();
             if (amount <= 0) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
                 continue;
             }
             break;

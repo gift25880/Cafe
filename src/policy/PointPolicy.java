@@ -1,3 +1,5 @@
+package policy;
+
 
 public interface PointPolicy {
     public static final int BATH_TO_ONE_POINT = 25;

@@ -1,4 +1,11 @@
+package cashier;
 
+
+import account.Position;
+import service.ColorCoder;
+import service.Cafe;
+import account.StaffAccount;
+import person.Person;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

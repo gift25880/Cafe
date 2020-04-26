@@ -1,4 +1,8 @@
+package customer;
 
+
+import item.MenuItem;
+import item.Item;
 import java.util.LinkedList;
 
 public class Customer {

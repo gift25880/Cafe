@@ -1,3 +1,9 @@
+package account;
+
+
+import person.Person;
+import account.Account;
+
 
 public class MemberAccount extends Account{
     private int point;

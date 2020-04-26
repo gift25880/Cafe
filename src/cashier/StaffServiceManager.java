@@ -1,4 +1,14 @@
+package cashier;
 
+
+import item.MenuItem;
+import service.ColorCoder;
+import service.Cafe;
+import customer.Customer;
+import item.Item;
+import person.Person;
+import account.Account;
+import item.Type;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Scanner;
