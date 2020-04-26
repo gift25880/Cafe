@@ -2,7 +2,7 @@ package cashier;
 
 
 import account.Position;
-import service.ColorCoder;
+import service.TextFormatter;
 import service.Cafe;
 import account.StaffAccount;
 import person.Person;
@@ -33,7 +33,7 @@ public class Cashier {
         int choice;
         if (login()) {
             do {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("yellow") + "Menu: ");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "Menu: ");
                 System.out.println("----------------------------");
                 System.out.println("1. Show Menu");
                 System.out.println("2. Add Item");
@@ -54,7 +54,7 @@ public class Cashier {
                 System.out.println(i++ + ". Restock");
                 System.out.println(i++ + ". Reset Password");
                 System.out.println(i + ". Logout");
-                System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your choice: ");
+                System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your choice: ");
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -146,22 +146,22 @@ public class Cashier {
 
     public boolean login() {
         String inputUser = null, inputPass = null;
-        System.out.println(ColorCoder.getAnsiEscapeCode("cyan") + "<<--LOG IN-->>");
+        System.out.println(TextFormatter.getAnsiEscapeCode("cyan") + "<<--LOG IN-->>");
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter Username: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter Username: ");
             inputUser = sc.nextLine();
             if (inputUser.equals("") || inputUser == null) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Username must be filled.");
+                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Username must be filled.");
                 continue;
             }
             break;
         } while (true);
 
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter Password: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter Password: ");
             inputPass = sc.nextLine();
             if (inputPass.equals("") || inputPass == null) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Password must be filled.");
+                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Password must be filled.");
                 continue;
             }
             break;
@@ -171,13 +171,13 @@ public class Cashier {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             if (rs.next()) {
                 Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
-                System.out.println(ColorCoder.getAnsiEscapeCode("green") + "Login Success!");
+                System.out.println(TextFormatter.getAnsiEscapeCode("green") + "Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
-                System.out.println(ColorCoder.getAnsiEscapeCode("reset") + "Welcome, " + ColorCoder.getAnsiEscapeCode("green") +rs.getString("name") + ColorCoder.getAnsiEscapeCode("reset") + "!");
+                System.out.println(TextFormatter.getAnsiEscapeCode("reset") + "Welcome, " + TextFormatter.getAnsiEscapeCode("green") +rs.getString("name") + TextFormatter.getAnsiEscapeCode("reset") + "!");
                 this.cafe.setManager(this);
                 return true;
             } else {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Id or password is not matched");
+                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Id or password is not matched");
                 return false;
             }
 
@@ -199,25 +199,25 @@ public class Cashier {
             if (rs.next()) {
                 String newPass, pw;
                 do {
-                    System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your new password: ");
+                    System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your new password: ");
                     newPass = sc.nextLine();
                     if (newPass.equals("") && newPass == null) {
-                        System.out.println(ColorCoder.getAnsiEscapeCode("red") + "New password must be filled.");
+                        System.out.println(TextFormatter.getAnsiEscapeCode("red") + "New password must be filled.");
                     } else if (newPass.equals(rs.getString("password"))) {
-                        System.out.println(ColorCoder.getAnsiEscapeCode("red") + "New password must not be the same as current password.");
+                        System.out.println(TextFormatter.getAnsiEscapeCode("red") + "New password must not be the same as current password.");
                     } else {
                         do {
-                            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your previous password to confirm (or 'quit' to exit): ");
+                            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your previous password to confirm (or 'quit' to exit): ");
                             pw = sc.nextLine();
                             if (!(pw.equals(rs.getString("password")))) {
-                                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Your password is incorrect");
+                                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Your password is incorrect");
                             } else if (pw == null || pw.equals("")) {
-                                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "This field must be filled.");
+                                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "This field must be filled.");
                             } else if (pw.equalsIgnoreCase("quit")) {
                                 break;
                             } else {
                                 rs.updateString("password", newPass);
-                                System.out.println(ColorCoder.getAnsiEscapeCode("green") + "Your password has been successfully changed!");
+                                System.out.println(TextFormatter.getAnsiEscapeCode("green") + "Your password has been successfully changed!");
                                 break;
                             }
                         } while (true);

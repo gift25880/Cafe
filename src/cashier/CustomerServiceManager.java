@@ -1,6 +1,6 @@
 package cashier;
 
-import service.ColorCoder;
+import service.TextFormatter;
 import service.Cafe;
 import account.MemberAccount;
 import java.io.IOException;
@@ -20,20 +20,20 @@ public class CustomerServiceManager {
         String menuCode;
         int queueNumber, amount;
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
             queueNumber = sc.nextInt();
             if (queueNumber <= 0) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid number, please try again.");
                 continue;
             }
             break;
         } while (true);
         sc.nextLine();
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter code of the menu you want to add (or type 'quit' to exit): ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter code of the menu you want to add (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "This field can't be blank.");
                 continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
@@ -41,18 +41,18 @@ public class CustomerServiceManager {
             break;
         } while (true);
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "How much do you want to add: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "How much do you want to add: ");
             amount = sc.nextInt();
             if (amount <= 0) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
                 continue;
             }
             break;
         } while (true);
         if (cafe.addItem(menuCode.toUpperCase(), queueNumber, amount)) {
-            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu item has been added to your order list successfully!");
+            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("green") + "The menu item has been added to your order list successfully!");
         } else {
-            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Something went wrong when adding item to your order list or the menu does not exist, please try again.");
+            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Something went wrong when adding item to your order list or the menu does not exist, please try again.");
         }
         sc.nextLine();
         System.out.println("\n-------------------------------------------------------------");
@@ -64,20 +64,20 @@ public class CustomerServiceManager {
         String menuCode;
         int queueNumber, amount;
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
             queueNumber = sc.nextInt();
             if (queueNumber <= 0) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid number, please try again.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid number, please try again.");
                 continue;
             }
             break;
         } while (true);
         sc.nextLine();
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter code if the menu you want to remove (or type 'quit' to exit): ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter code if the menu you want to remove (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "This field can't be blank.");
                 continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
@@ -85,18 +85,18 @@ public class CustomerServiceManager {
             break;
         } while (true);
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "How much do you want to remove: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "How much do you want to remove: ");
             amount = sc.nextInt();
             if (amount <= 0) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
                 continue;
             }
             break;
         } while (true);
         if (cafe.removeItem(menuCode.toUpperCase(), queueNumber, amount)) {
-            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu item has been removed from your order list successfully!");
+            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("green") + "The menu item has been removed from your order list successfully!");
         } else {
-            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Something went wrong when removing the item from your order list or you didn't order this item, please try again.");
+            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Something went wrong when removing the item from your order list or you didn't order this item, please try again.");
         }
         sc.nextLine();
         System.out.println("\n-------------------------------------------------------------");
@@ -110,45 +110,45 @@ public class CustomerServiceManager {
         boolean redeem = false;
         MemberAccount member = null;
         do {
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter queue number: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter queue number: ");
             queueNumber = sc.nextInt();
             queueOrder = cafe.findServedQueue(queueNumber);
             if (queueOrder < 0) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid queue number, please try again.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid queue number, please try again.");
             } else {
                 break;
             }
         } while (true);
         do {
-            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("yellow") + "Are you a member of this cafe?");
+            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "Are you a member of this cafe?");
             System.out.println("1. Yes");
             System.out.println("2. No");
-            System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter the choice number: ");
+            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter the choice number: ");
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
                     do {
                         sc.nextLine();
-                        System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your username: ");
+                        System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your username: ");
                         String username = sc.nextLine();
                         if (username == null || username.equals("")) {
-                            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
+                            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "This field can't be blank.");
                             continue;
                         }
                         member = searchingForMember(username);
                         if (member == null) {
-                            System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Member not found, please try again.");
+                            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Member not found, please try again.");
                             continue;
                         }
                         break;
                     } while (true);
                     do {
-                        System.out.println("\n" + ColorCoder.getAnsiEscapeCode("reset") + "You currrently have " + ColorCoder.getAnsiEscapeCode("green") + member.getPoint() + ColorCoder.getAnsiEscapeCode("reset") + " points.");
+                        System.out.println("\n" + TextFormatter.getAnsiEscapeCode("reset") + "You currrently have " + TextFormatter.getAnsiEscapeCode("green") + member.getPoint() + TextFormatter.getAnsiEscapeCode("reset") + " points.");
                         System.out.println("This is worth " + (int) (member.getPoint() / PointPolicy.POINT_TO_ONE_BATH) + " baht.");
-                        System.out.println("\n" + ColorCoder.getAnsiEscapeCode("yellow") + "Do you want to redeem your point?");
+                        System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "Do you want to redeem your point?");
                         System.out.println("1. Yes");
                         System.out.println("2. No");
-                        System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter the choice number: ");
+                        System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter the choice number: ");
                         choice = sc.nextInt();
                         switch (choice) {
                             case 1:
@@ -157,7 +157,7 @@ public class CustomerServiceManager {
                             case 2:
                                 break;
                             default:
-                                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid choice number, please enter 1 or 2 only.");
+                                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid choice number, please enter 1 or 2 only.");
                         }
                         break;
                     } while (choice != 1 && choice != 2);
@@ -165,7 +165,7 @@ public class CustomerServiceManager {
                 case 2:
                     break;
                 default:
-                    System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid choice number, please try again.");
+                    System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid choice number, please try again.");
             }
             break;
         } while (true);
@@ -176,12 +176,12 @@ public class CustomerServiceManager {
             redeemValue = cafe.redeem(total, member);
             net = total - redeemValue[1];
         }
-        System.out.println("\nThe total price is: " + ColorCoder.getAnsiEscapeCode("magenta") + net + ColorCoder.getAnsiEscapeCode("reset") + " Baht.");
+        System.out.println("\nThe total price is: " + TextFormatter.getAnsiEscapeCode("magenta") + net + TextFormatter.getAnsiEscapeCode("reset") + " Baht.");
         do {
-            System.out.print("\n" + ColorCoder.getAnsiEscapeCode("cyan") + "Enter amount of money: ");
+            System.out.print("\n" + TextFormatter.getAnsiEscapeCode("cyan") + "Enter amount of money: ");
             intake = sc.nextDouble();
             if (intake < net) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
+                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
                 continue;
             }
             break;
@@ -189,10 +189,10 @@ public class CustomerServiceManager {
         try {
             double change = cafe.checkOut(total, redeemValue[1], intake, member, queueNumber, redeem, redeemValue[0]);
             if (change < 0) {
-                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "\nAn error has occured while checking out");
+                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "\nAn error has occured while checking out");
             } else {
-                System.out.println("\nYour change is " + ColorCoder.getAnsiEscapeCode("magenta") + change + ColorCoder.getAnsiEscapeCode("reset") + " baht");
-                System.out.println("\nThank you for dining at " + ColorCoder.getAnsiEscapeCode("green") + cafe.getCafeName().toUpperCase() + ColorCoder.getAnsiEscapeCode("reset") + ".");
+                System.out.println("\nYour change is " + TextFormatter.getAnsiEscapeCode("magenta") + change + TextFormatter.getAnsiEscapeCode("reset") + " baht");
+                System.out.println("\nThank you for dining at " + TextFormatter.getAnsiEscapeCode("green") + cafe.getCafeName().toUpperCase() + TextFormatter.getAnsiEscapeCode("reset") + ".");
             }
         } catch (IOException ex) {
             System.out.println("\nAn IO Exception has occured: " + ex.getMessage());

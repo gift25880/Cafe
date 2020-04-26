@@ -3,7 +3,7 @@ package customer;
 import item.MenuItem;
 import item.Item;
 import java.util.LinkedList;
-import service.ColorCoder;
+import service.TextFormatter;
 
 public class Customer {
 
@@ -93,6 +93,6 @@ public class Customer {
     }
 
     public String toString() {
-        return ColorCoder.getAnsiEscapeCode("cyan") + "Queue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Preparing Orders: " + orders.size() + "\nNumber of Served Orders: " + servedOrders.size();
+        return TextFormatter.getAnsiEscapeCode("cyan") + "Queue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Preparing Orders: " + orders.size() + "\nNumber of Served Orders: " + servedOrders.size();
     }
 }
