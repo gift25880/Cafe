@@ -8,12 +8,10 @@ import java.util.LinkedList;
 public class Customer {
 
     private LinkedList<MenuItem> orders;
-    private Status status;
     private int queueNumber;
     private boolean takeHome;
 
-    public Customer(Status status, int no) {
-        this.status = status;
+    public Customer(int no) {
         this.queueNumber = no;
     }
 
@@ -43,10 +41,6 @@ public class Customer {
         }
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public MenuItem[] getOrders() {
         return orders.toArray(new MenuItem[orders.size()]);
     }
@@ -67,5 +61,9 @@ public class Customer {
 
     public int getQueueNumber() {
         return queueNumber;
+    }
+    
+    public String toString(){
+        return "Customer:\nQueue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Orders: " + orders.size();
     }
 }

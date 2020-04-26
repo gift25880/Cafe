@@ -1,6 +1,5 @@
 package cashier;
 
-
 import item.MenuItem;
 import service.ColorCoder;
 import service.Cafe;
@@ -103,7 +102,7 @@ public class StaffServiceManager {
         System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Queue List:");
         Customer[] queueList = cafe.listQueues();
         for (int i = 0; i < queueList.length; i++) {
-            System.out.println(queueList[i]);
+            System.out.println((i + 1) + ". " + queueList[i]);
         }
     }
 

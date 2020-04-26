@@ -1,10 +1,8 @@
 package service;
 
-
 import item.MenuItem;
 import account.MemberAccount;
 import item.Type;
-import customer.Status;
 import customer.Customer;
 import cashier.Cashier;
 import item.Item;
@@ -32,9 +30,9 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     private Customer tables[];
     private Item menu[][];
     private int count = 0;
-    private int lastQueueNumber = 0;
-    private LinkedList<Customer> queue;
-    private LinkedList<Customer> checkOutQueue;
+    private int lastQueueNumber = 1;
+    private LinkedList<Customer> preparingQueue;
+    private LinkedList<Customer> servedQueue;
 
     public Cafe(String cafeName, int maxTables) {
         Objects.requireNonNull(cafeName, "The cafe name cannot be blank.");
@@ -90,18 +88,18 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         return this.count >= this.tables.length;
     }
 
-    private int findQueue(int queueNumber) {
-        for (int i = 0; i < queue.size(); i++) {
-            if (queue.get(i).getQueueNumber() == queueNumber) {
+    private int findPreperingQueue(int queueNumber) {
+        for (int i = 0; i < preparingQueue.size(); i++) {
+            if (preparingQueue.get(i).getQueueNumber() == queueNumber) {
                 return i;
             }
         }
         return -1;
     }
 
-    public int findCheckOutQueue(int queueNumber) {
-        for (int i = 0; i < checkOutQueue.size(); i++) {
-            if (checkOutQueue.get(i).getQueueNumber() == queueNumber) {
+    public int findServedQueue(int queueNumber) {
+        for (int i = 0; i < servedQueue.size(); i++) {
+            if (servedQueue.get(i).getQueueNumber() == queueNumber) {
                 return i;
             }
         }
@@ -131,15 +129,14 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public boolean addItem(String id, int queueNumber, int amount) {
-        int i = findQueue(queueNumber);
+        int i = findPreperingQueue(queueNumber);
         if (i >= 0) {
-            return queue.get(i).add(findMenu(id), amount);
+            return preparingQueue.get(i).add(findMenu(id), amount);
         } else {
-            i = findCheckOutQueue(queueNumber);
+            i = findServedQueue(queueNumber);
             if (i >= 0) {
-                queue.add(checkOutQueue.remove(i));
-                queue.peekLast().setStatus(Status.PREPARING);
-                return queue.peekLast().add(findMenu(id), amount);
+                preparingQueue.add(servedQueue.remove(i));
+                return preparingQueue.peekLast().add(findMenu(id), amount);
             } else {
                 return false;
             }
@@ -148,15 +145,15 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public boolean removeItem(String id, int queueNumber, int amount) {
-        int i = findQueue(queueNumber);
+        int i = findPreperingQueue(queueNumber);
         if (i >= 0) {
-            return queue.get(i).remove(findMenu(id), amount);
+            return preparingQueue.get(i).remove(findMenu(id), amount);
         }
         return false;
     }
 
     public double getTotalPrice(int queueOrder) {
-        Customer c = checkOutQueue.get(queueOrder);
+        Customer c = servedQueue.get(queueOrder);
         MenuItem[] mi = c.getOrders();
         double totalprice = 0;
         for (int j = 0; j <= mi.length; j++) {
@@ -167,9 +164,9 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public double checkOut(double total, int discount, double amount, MemberAccount member, int queueNumber, boolean redeem, int setPoints) throws IOException {
-        int i = findCheckOutQueue(queueNumber);
+        int i = findServedQueue(queueNumber);
         if (i >= 0) {
-            if (!checkOutQueue.get(i).isTakeHome()) {
+            if (!servedQueue.get(i).isTakeHome()) {
                 for (int j = 0; j < tables.length; j++) {
                     if (tables[j].getQueueNumber() == queueNumber) {
                         tables[j] = null;
@@ -188,7 +185,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                 }
                 member.setPoint(member.getPoint() + points);
             }
-            printReceipt(checkOutQueue.remove(i), total, discount, member.getUser());
+            printReceipt(servedQueue.remove(i), total, discount, member.getUser());
             return (total - discount) - amount;
         } else {
             return i;
@@ -234,8 +231,8 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public int addCustomer(boolean takeHome) {
-        Customer c = new Customer(Status.PREPARING, ++lastQueueNumber);
-        queue.add(c);
+        Customer c = new Customer(lastQueueNumber++);
+        preparingQueue.add(c);
         if (!takeHome) {
             if (!isFull()) {
                 for (int i = 0; i < tables.length; i++) {
@@ -248,7 +245,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                 return -1;
             }
         }
-        return lastQueueNumber;
+        return preparingQueue.peekLast().getQueueNumber();
     }
 
     @Override
@@ -286,25 +283,24 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public boolean serve() {
-        Customer add = queue.poll();
+        Customer add = preparingQueue.poll();
         if (add == null) {
             return false;
         } else {
-            checkOutQueue.add(add);
-            add.setStatus(Status.SERVED);
+            servedQueue.add(add);
             return true;
         }
     }
 
     @Override
     public MenuItem[] listOrders(int queueNumber) {
-        int i = findQueue(queueNumber);
+        int i = findPreperingQueue(queueNumber);
         if (i >= 0) {
-            return queue.get(i).getOrders();
+            return preparingQueue.get(i).getOrders();
         } else {
-            i = findCheckOutQueue(queueNumber);
+            i = findServedQueue(queueNumber);
             if (i >= 0) {
-                return checkOutQueue.get(i).getOrders();
+                return servedQueue.get(i).getOrders();
             } else {
                 return null;
             }
@@ -313,7 +309,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public Customer[] listQueues() {
-        return queue.toArray(new Customer[queue.size()]);
+        return preparingQueue.toArray(new Customer[preparingQueue.size()]);
     }
 
     @Override

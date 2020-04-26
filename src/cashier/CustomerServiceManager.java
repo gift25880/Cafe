@@ -102,7 +102,7 @@ public class CustomerServiceManager {
         do {
             System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter queue number: ");
             queueNumber = sc.nextInt();
-            queueOrder = cafe.findCheckOutQueue(queueNumber);
+            queueOrder = cafe.findServedQueue(queueNumber);
             if (queueOrder < 0) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid queue number, please try again.");
             } else {
