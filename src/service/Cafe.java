@@ -132,24 +132,28 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         fetchMenu();
         int i = findPreperingQueue(queueNumber);
         Item item = findMenu(id);
-        if (i >= 0) {
-            if (item.getStock() >= amount) {
-                return preparingQueue.get(i).add(item, amount);
-            } else {
-                return false;
-            }
-        } else {
-            i = findServedQueue(queueNumber);
+        if (item != null) {
             if (i >= 0) {
                 if (item.getStock() >= amount) {
-                    preparingQueue.add(servedQueue.remove(i));
-                    return preparingQueue.peekLast().add(item, amount);
+                    return preparingQueue.get(i).add(item, amount);
                 } else {
                     return false;
                 }
             } else {
-                return false;
+                i = findServedQueue(queueNumber);
+                if (i >= 0) {
+                    if (item.getStock() >= amount) {
+                        preparingQueue.add(servedQueue.remove(i));
+                        return preparingQueue.peekLast().add(item, amount);
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
             }
+        } else {
+            return false;
         }
     }
 
@@ -177,39 +181,38 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     @Override
     public double checkOut(double total, int discount, double amount, MemberAccount member, int queueNumber, boolean redeem, int setPoints) throws IOException, SQLException {
         int i = findServedQueue(queueNumber);
+        if (!servedQueue.get(i).isTakeHome()) {
+            for (int j = 0; j < tables.length; j++) {
+                if (tables[j].getQueueNumber() == queueNumber) {
+                    tables[j] = null;
+                    break;
+                }
+            }
+        }
         if (i >= 0) {
-            if (!servedQueue.get(i).isTakeHome()) {
-                for (int j = 0; j < tables.length; j++) {
-                    if (tables[j].getQueueNumber() == queueNumber) {
-                        tables[j] = null;
-                        break;
-                    }
-                }
-                return -1;
-            }
-            if (redeem) {
-                member.setPoint(setPoints);
-            } else {
-                int points = 0;
-                double tmp = total;
-                while (tmp >= PointPolicy.BATH_TO_ONE_POINT) {
-                    points++;
-                    tmp -= PointPolicy.BATH_TO_ONE_POINT;
-                }
-                member.setPoint(member.getPoint() + points);
-            }
             if (member != null) {
+                if (redeem) {
+                    member.setPoint(setPoints);
+                } else {
+                    int points = 0;
+                    double tmp = total;
+                    while (tmp >= PointPolicy.BATH_TO_ONE_POINT) {
+                        points++;
+                        tmp -= PointPolicy.BATH_TO_ONE_POINT;
+                    }
+                    member.setPoint(member.getPoint() + points);
+                }
                 try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM member WHERE username ='" + member.getUser() + "';");
                     if (rs.next()) {
-                        rs.updateInt("username", member.getPoint());
+                        stmt.execute("UPDATE member SET point = " + member.getPoint() + " WHERE username = '" + member.getUser() + "';");
                     } else {
                         return -1;
                     }
                 }
             }
-            printReceipt(servedQueue.remove(i), total, discount, member.getUser());
-            return (total - discount) - amount;
+            printReceipt(servedQueue.remove(i), total, discount, amount, member == null ? "-" : member.getUser());
+            return amount - (total - discount);
         } else {
             return i;
         }
@@ -226,7 +229,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         return new int[]{points, discount};
     }
 
-    public void printReceipt(Customer c, double total, double discount, String user) throws IOException {
+    public void printReceipt(Customer c, double total, double discount, double amount, String user) throws IOException {
         File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt");
         file.getParentFile().mkdirs();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -248,6 +251,8 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
             bw.write(String.format("%26s%8.2f", "Total Price: ", total) + "\n");
             bw.write(String.format("%26s%8.2f", "Discount: ", discount) + "\n");
             bw.write(String.format("%26s%8.2f", "Net Price: ", (total - discount)) + "\n");
+            bw.write(String.format("%26s%8.2f", "Cash: ", amount) + "\n");
+            bw.write(String.format("%26s%8.2f", "Change: ", amount - (total - discount)) + "\n");
             bw.write("----------------------------------------\n");
         }
     }
@@ -287,7 +292,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
-                rs.deleteRow();
+                stmt.execute("DELETE FROM menu WHERE id = '" + id + "';");
                 return true;
             } else {
                 return false;

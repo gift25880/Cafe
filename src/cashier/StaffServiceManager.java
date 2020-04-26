@@ -387,7 +387,9 @@ public class StaffServiceManager {
         } while (true);
         try {
             if (cafe.restock(menuCode.toUpperCase(), amount)) {
-                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu " + menuCode + " has been added by " + amount + ".");
+                System.out.println("\n" + ColorCoder.getAnsiEscapeCode("green") + "The menu " + menuCode.toUpperCase() + " has been added by " + amount + ".");
+            } else {
+                System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Menu not found.");
             }
         } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());

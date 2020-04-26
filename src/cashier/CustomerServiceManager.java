@@ -1,6 +1,5 @@
 package cashier;
 
-
 import service.ColorCoder;
 import service.Cafe;
 import account.MemberAccount;
@@ -11,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import policy.PointPolicy;
 
 public class CustomerServiceManager {
 
@@ -120,19 +120,23 @@ public class CustomerServiceManager {
             switch (choice) {
                 case 1:
                     do {
+                        sc.nextLine();
                         System.out.print(ColorCoder.getAnsiEscapeCode("cyan") + "Enter your username: ");
                         String username = sc.nextLine();
                         if (username == null || username.equals("")) {
                             System.out.println(ColorCoder.getAnsiEscapeCode("red") + "This field can't be blank.");
                             continue;
                         }
-                        if (searchingForMember(username) == null) {
+                        member = searchingForMember(username);
+                        if (member == null) {
                             System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Member not found, please try again.");
                             continue;
                         }
                         break;
                     } while (true);
                     do {
+                        System.out.println(ColorCoder.getAnsiEscapeCode("reset") + "You currrently have " + ColorCoder.getAnsiEscapeCode("green") + member.getPoint() + ColorCoder.getAnsiEscapeCode("reset") + " points.");
+                        System.out.println("This is worth " + (int) (member.getPoint() / PointPolicy.POINT_TO_ONE_BATH) + " baht.");
                         System.out.println(ColorCoder.getAnsiEscapeCode("yellow") + "Do you want to redeem your point?");
                         System.out.println("1. Yes");
                         System.out.println("2. No");
@@ -159,7 +163,7 @@ public class CustomerServiceManager {
         } while (true);
         double total = cafe.getTotalPrice(queueOrder);
         double net = total;
-        int[] redeemValue = {member.getPoint(), 0};
+        int[] redeemValue = {member == null ? 0 : member.getPoint(), 0};
         if (redeem) {
             redeemValue = cafe.redeem(total, member);
             net = total - redeemValue[1];
@@ -170,19 +174,21 @@ public class CustomerServiceManager {
             intake = sc.nextDouble();
             if (intake < net) {
                 System.out.println(ColorCoder.getAnsiEscapeCode("red") + "Invalid amount, please try again.");
+                continue;
             }
             break;
         } while (true);
         try {
             double change = cafe.checkOut(total, redeemValue[1], intake, member, queueNumber, redeem, redeemValue[0]);
-            if(change<0){
-                System.out.println("");
+            if (change < 0) {
+                System.out.println("An error has occured while checking out");
+            } else {
+                System.out.println("Your change is " + ColorCoder.getAnsiEscapeCode("magenta") + change + ColorCoder.getAnsiEscapeCode("reset") + " baht");
+                System.out.println("Thank you for dining at " + ColorCoder.getAnsiEscapeCode("green") + cafe.getCafeName() + ColorCoder.getAnsiEscapeCode("reset") + ".");
             }
-            System.out.println("Your change is " + ColorCoder.getAnsiEscapeCode("magenta") + change + ColorCoder.getAnsiEscapeCode("reset") + " baht");
-            System.out.println("Thank you for dining at " + ColorCoder.getAnsiEscapeCode("green") + cafe.getCafeName() + ColorCoder.getAnsiEscapeCode("reset") + ".");
         } catch (IOException ex) {
             System.out.println("An IO Exception has occured: " + ex.getMessage());
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println("An SQL Exception has occured: " + ex.getMessage());
         }
     }
