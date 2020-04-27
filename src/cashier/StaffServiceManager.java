@@ -149,6 +149,7 @@ public class StaffServiceManager {
         if (queueList != null && queueList.length > 0) {
             for (int i = 0; i < queueList.length; i++) {
                 System.out.println((i + 1) + ". " + queueList[i]);
+                System.out.println("Order Status: " + (queueList[i].getOrders()[0].length == 0 ? (queueList[i].getOrders()[1].length == 0 ? TextFormatter.getCode("red") + "No Orders Yet" : TextFormatter.getCode("green") + "Served") : TextFormatter.getCode("cyan") + "Preparing"));
             }
         } else{
             System.out.println(TextFormatter.getCode("red") + "The queue is empty.");
@@ -165,7 +166,8 @@ public class StaffServiceManager {
             if (tableList[i] == null) {
                 System.out.println(TextFormatter.getCode("green") + "Table " + (i + 1) + ": Available" + TextFormatter.getCode("reset"));
             } else {
-                System.out.println("Table " + (i + 1) + ": " + tableList[i]);
+                System.out.println(TextFormatter.getCode("reset") + "Table " + (i + 1) + ": " + tableList[i]);
+                System.out.println("Order Status: " + (tableList[i].getOrders()[0].length == 0 ? (tableList[i].getOrders()[1].length == 0 ? TextFormatter.getCode("red") + "No Orders Yet" : TextFormatter.getCode("green") + "Served") : TextFormatter.getCode("cyan") + "Preparing"));
             }
         }
         System.out.println("\n----------------------------");

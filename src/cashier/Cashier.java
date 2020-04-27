@@ -186,7 +186,7 @@ public class Cashier {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             if (rs.next()) {
                 Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
-                System.out.println(TextFormatter.getCode("green") + "Login Success!");
+                System.out.println("\n" + TextFormatter.getCode("green") + "Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
                 System.out.println("\n" + TextFormatter.getCode("reset") + ">> Welcome, " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + rs.getString("name") + TextFormatter.getCode("reset") + "! <<");
                 this.cafe.setManager(this);

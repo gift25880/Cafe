@@ -73,7 +73,7 @@ public class Customer {
         return serve;
     }
 
-    public MenuItem[][] getOrders() {
+        public MenuItem[][] getOrders() {
         MenuItem[][] allOrders = new MenuItem[2][];
         allOrders[0] = orders.toArray(new MenuItem[orders.size()]);
         allOrders[1] = servedOrders.toArray(new MenuItem[servedOrders.size()]);
