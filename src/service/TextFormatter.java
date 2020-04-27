@@ -8,12 +8,6 @@ public class TextFormatter {
             case "bold":
                 escapeCode = "\u001b[1m";
                 break;
-            case "underline":
-                escapeCode = "\u001b[4m";
-                break;
-            case "reversed":
-                escapeCode = "\u001b[7m";
-                break;
             case "red":
                 escapeCode = "\u001b[31m";
                 break;

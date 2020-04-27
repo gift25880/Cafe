@@ -115,6 +115,7 @@ public class CustomerServiceManager {
             queueOrder = cafe.findServedQueue(queueNumber);
             if (queueOrder < 0) {
                 System.out.println("\n" + TextFormatter.getCode("red") + "Invalid queue number, please try again.\n");
+                return;
             } else {
                 break;
             }
