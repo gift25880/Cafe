@@ -93,6 +93,6 @@ public class Customer {
     }
 
     public String toString() {
-        return TextFormatter.getAnsiEscapeCode("cyan") + "Queue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Preparing Orders: " + orders.size() + "\nNumber of Served Orders: " + servedOrders.size();
+        return TextFormatter.getCode("cyan") + "Queue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Preparing Orders: " + orders.size() + "\nNumber of Served Orders: " + servedOrders.size();
     }
 }

@@ -20,26 +20,26 @@ public class StaffServiceManager {
         int choice = 0;
         int queue;
         do {
-            System.out.println(TextFormatter.getAnsiEscapeCode("yellow") + "Do you want to eat here or take home?");
+            System.out.println(TextFormatter.getCode("yellow") + "Do you want to eat here or take home?");
             System.out.println("1. Eat Here");
             System.out.println("2. Take Home");
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter the choice number: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter the choice number: ");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
                     queue = cafe.addCustomer(false);
                     if (queue == -1) {
-                        System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Sorry, there is no table available at the moment.");
+                        System.out.println("\n" + TextFormatter.getCode("red") + "Sorry, there is no table available at the moment.");
                     } else {
-                        System.out.println("\n" + TextFormatter.getAnsiEscapeCode("reset") + "Your queue number is " + TextFormatter.getAnsiEscapeCode("green") + queue + TextFormatter.getAnsiEscapeCode("reset") + ".");
+                        System.out.println("\n" + TextFormatter.getCode("reset") + "Your queue number is " + TextFormatter.getCode("green") + queue + TextFormatter.getCode("reset") + ".");
                     }
                     break;
                 case 2:
                     queue = cafe.addCustomer(true);
-                    System.out.println("\n" + TextFormatter.getAnsiEscapeCode("reset") + "Your queue number is " + TextFormatter.getAnsiEscapeCode("green") + queue + TextFormatter.getAnsiEscapeCode("reset") + ".");
+                    System.out.println("\n" + TextFormatter.getCode("reset") + "Your queue number is " + TextFormatter.getCode("green") + queue + TextFormatter.getCode("reset") + ".");
                     break;
                 default:
-                    System.out.println(TextFormatter.getAnsiEscapeCode("red") + "\nInvalid choice, please enter 1 or 2 only.\n");
+                    System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please enter 1 or 2 only.\n");
             }
         } while (choice != 1 && choice != 2);
         sc.nextLine();
@@ -51,26 +51,26 @@ public class StaffServiceManager {
     static void subscribe(Cafe cafe) {
         String memberName, phone, username;
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your name: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter your name: ");
             memberName = sc.nextLine();
             if (memberName.equals("") || memberName == null) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Your name can't be blank.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Your name can't be blank.");
                 continue;
             }
             break;
         } while (true);
 
-        System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your phone number (optional): ");
+        System.out.print(TextFormatter.getCode("cyan") + "Enter your phone number (optional): ");
         phone = sc.nextLine();
         if (phone.equals("")) {
             phone = null;
         }
 
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your username: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter your username: ");
             username = sc.nextLine();
             if (username.equals("") || username == null) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Your username can't be blank.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Your username can't be blank.");
                 continue;
             }
             break;
@@ -79,10 +79,10 @@ public class StaffServiceManager {
         try {
             Account newAcc = new Account(username, new Person(memberName, phone));
             if (cafe.addMember(newAcc)) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("reset") + "Welcome " + TextFormatter.getAnsiEscapeCode("green") + memberName + TextFormatter.getAnsiEscapeCode("reset") + "! You are now a member of this cafe!");
+                System.out.println("\n" + TextFormatter.getCode("reset") + "Welcome " + TextFormatter.getCode("green") + memberName + TextFormatter.getCode("reset") + "! You are now a member of this cafe!");
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
-            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Username is already taken.");
+            System.out.println("\n" + TextFormatter.getCode("red") + "Username is already taken.");
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
         } finally {
@@ -93,20 +93,20 @@ public class StaffServiceManager {
     }
 
     static void listOrders(Cafe cafe) {
-        System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your queue number: ");
+        System.out.print(TextFormatter.getCode("cyan") + "Enter your queue number: ");
         int queueNo = sc.nextInt();
         MenuItem[][] orderInQueue = cafe.listOrders(queueNo);
         if (orderInQueue == null) {
-            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "You didn't order anything yet.");
+            System.out.println("\n" + TextFormatter.getCode("red") + "You didn't order anything yet.");
         } else {
-            System.out.println(TextFormatter.getAnsiEscapeCode("yellow") + "Your Order:");
+            System.out.println(TextFormatter.getCode("yellow") + "Your Order:");
             for (int i = 0; i < 2; i++) {
                 switch (i) {
                     case 0:
-                        System.out.println("Preparing Orders:");
+                        System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "Preparing Orders:");
                         break;
                     case 1:
-                        System.out.println("Served Orders: ");
+                        System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "Served Orders: ");
                         break;
                 }
                 for (MenuItem order : orderInQueue[i]) {
@@ -120,7 +120,7 @@ public class StaffServiceManager {
     }
 
     static void listQueues(Cafe cafe) {
-        System.out.println(TextFormatter.getAnsiEscapeCode("yellow") + "Queue List:");
+        System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "Queue List:");
         Customer[] queueList = cafe.listQueues();
         if (queueList != null && queueList.length > 0) {
             for (int i = 0; i < queueList.length; i++) {
@@ -133,11 +133,11 @@ public class StaffServiceManager {
     }
 
     static void listTables(Cafe cafe) {
-        System.out.println(TextFormatter.getAnsiEscapeCode("yellow") + "Table List: ");
+        System.out.println(TextFormatter.getCode("yellow") + "Table List: " + TextFormatter.getCode("reset"));
         Customer[] tableList = cafe.listTables();
         for (int i = 0; i < tableList.length; i++) {
             if (tableList[i] == null) {
-                System.out.println(TextFormatter.getAnsiEscapeCode("green") + "Table " + (i + 1) + ": Available");
+                System.out.println(TextFormatter.getCode("green") + "Table " + (i + 1) + ": Available" + TextFormatter.getCode("reset"));
             } else {
                 System.out.println("Table " + (i + 1) + ": " + tableList[i]);
             }
@@ -150,22 +150,22 @@ public class StaffServiceManager {
     static void listMenu(Cafe cafe) {
         Item[][] menuList = cafe.getMenu();
         do {
-            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("cyan") + "What is the type of the menu you want to look at?");
+            System.out.println("\n" + TextFormatter.getCode("cyan") + "What is the type of the menu you want to look at?");
             System.out.println("1. Bakery");
             System.out.println("2. Dessert");
             System.out.println("3. Beverage");
             System.out.println("0. Exit");
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter choice number: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter choice number: ");
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "Bakery :");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Bakery :");
                     break;
                 case 2:
-                    System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "Dessert :");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Dessert :");
                     break;
                 case 3:
-                    System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "Beverage :");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Beverage :");
                     break;
                 case 0:
                     return;
@@ -176,7 +176,7 @@ public class StaffServiceManager {
             sc.nextLine();
             int index = choice - 1;
             int page = 1;
-            System.out.println(TextFormatter.getAnsiEscapeCode("cyan") + "Page #" + page);
+            System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
             System.out.println("-------------------------------------------------------------");
             for (int i = 0; i < menuList[index].length; i++) {
                 if (menuList[index][i] != null) {
@@ -192,7 +192,7 @@ public class StaffServiceManager {
                     }
                     if (menuList[index].length - (i + 1) >= 10) {
                         System.out.println("\n");
-                        System.out.println(TextFormatter.getAnsiEscapeCode("cyan") + "Page #" + page);
+                        System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
                         System.out.println("-------------------------------------------------------------");
                     } else {
                         System.out.println("\n");
@@ -207,22 +207,22 @@ public class StaffServiceManager {
         Item[][] menuList = cafe.getMenu();
         for (int i = 0; i < 3; i++) {
             int page = 1;
-            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("cyan") + "Page #" + page);
+            System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
             System.out.println("-------------------------------------------------------------");
             switch (i) {
                 case 0:
-                    System.out.println(TextFormatter.getAnsiEscapeCode("yellow") + "Bakery: ");
+                    System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Bakery: ");
                     break;
                 case 1:
-                    System.out.println(TextFormatter.getAnsiEscapeCode("yellow") + "Dessert: ");
+                    System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Dessert: ");
                     break;
                 case 2:
-                    System.out.println(TextFormatter.getAnsiEscapeCode("yellow") + "Beverage: ");
+                    System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Beverage: ");
                     break;
             }
             for (int j = 0; j < menuList[i].length; j++) {
                 if (menuList[i][j] != null) {
-                    System.out.println((menuList[i][j].getStock() == 0 ? TextFormatter.getAnsiEscapeCode("red") : "") + menuList[i][j]);
+                    System.out.println((menuList[i][j].getStock() == 0 ? TextFormatter.getCode("red") : "") + menuList[i][j]);
                 }
                 if ((j + 1) % 10 == 0 || j == menuList[i].length - 1) {
                     page++;
@@ -234,7 +234,7 @@ public class StaffServiceManager {
                     }
                     if (menuList[i].length - (j + 1) >= 10) {
                         System.out.println("\n");
-                        System.out.println(TextFormatter.getAnsiEscapeCode("cyan") + "Page #" + page);
+                        System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
                         System.out.println("-------------------------------------------------------------");
                     } else {
                         System.out.println("\n");
@@ -246,9 +246,9 @@ public class StaffServiceManager {
 
     static void serve(Cafe cafe) {
         if (cafe.serve()) {
-            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("green") + "The order is successfully served.");
+            System.out.println("\n" + TextFormatter.getCode("green") + "The order is successfully served.");
         } else {
-            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Their is currently no queue at the moment.");
+            System.out.println("\n" + TextFormatter.getCode("red") + "Their is currently no queue at the moment.");
         }
         System.out.println("\n-------------------------------------------------------------");
         System.out.print("Press enter to proceed... ");
@@ -266,12 +266,12 @@ public class StaffServiceManager {
         int choice;
 
         do {
-            System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "What is the menu type?");
+            System.out.println("\n" + TextFormatter.getCode("yellow") + "What is the menu type?");
             System.out.println("1. Bakery");
             System.out.println("2. Dessert");
             System.out.println("3. Beverage");
             System.out.println("0. Exit");
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter choice number: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter choice number: ");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -301,35 +301,35 @@ public class StaffServiceManager {
                 case 0:
                     return;
                 default:
-                    System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Invalid choice, please enter 0-3 only");
+                    System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please enter 0-3 only.\n");
             }
         } while (choice != 1 && choice != 2 && choice != 3 && choice != 0);
         sc.nextLine();
         do {
-            System.out.print("\n" + TextFormatter.getAnsiEscapeCode("cyan") + "Enter menu's name: ");
+            System.out.print("\n" + TextFormatter.getCode("cyan") + "Enter menu's name: ");
             menuName = sc.nextLine();
             if (menuName == null || menuName.equals("")) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Menu's name can't be blank.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Menu's name can't be blank.\n");
                 continue;
             }
             break;
         } while (true);
 
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter menu's price: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter menu's price: ");
             menuPrice = sc.nextDouble();
             if (menuPrice <= 0) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "The price must be not less than or equal to 0.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "The price must be not less than or equal to 0.\n");
                 continue;
             }
             break;
         } while (true);
 
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter amount in stock: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter amount in stock: ");
             amountInStock = sc.nextInt();
             if (amountInStock <= 0) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Amount of the menu can't be less than or equal to 0.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Amount of the menu can't be less than or equal to 0.\n");
                 continue;
             }
             break;
@@ -353,7 +353,7 @@ public class StaffServiceManager {
 
         try {
             if (cafe.addMenu(new Item(menuCode, menuName, menuPrice, amountInStock), menuType)) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("green") + "The menu [" + menuCode + ": " + menuName + "] has been added successfully.");
+                System.out.println("\n" + TextFormatter.getCode("green") + "[" + menuCode + ": " + menuName + "] has been added successfully.");
             }
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
@@ -367,23 +367,23 @@ public class StaffServiceManager {
     static void removeMenu(Cafe cafe) {
         String menuCode;
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter the menu code (or type 'quit' to exit): ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter the menu code (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "This field can't be blank.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.\n");
             } else if (menuCode.equals("quit")) {
                 break;
             } else {
                 try {
                     if (cafe.removeMenu(menuCode.toUpperCase())) {
-                        System.out.println("\n" + TextFormatter.getAnsiEscapeCode("green") + "The menu " + menuCode + " has been removed successfully!");
+                        System.out.println("\n" + TextFormatter.getCode("green") + "The menu [" + menuCode + "] has been removed successfully!");
                         break;
                     } else {
-                        System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Menu not found.");
+                        System.out.println("\n" + TextFormatter.getCode("red") + "Menu not found.");
                     }
                 } catch (SQLException ex) {
                     System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
-                    System.out.println("-------------------------------------------------------------");
+                    System.out.println("\n-------------------------------------------------------------");
                     System.out.print("Press enter proceed... ");
                     String pressKey = sc.nextLine();
                 }
@@ -398,10 +398,10 @@ public class StaffServiceManager {
         String menuCode = null;
         int amount;
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter the menuCode you want to restock (or type 'quit' to exit): ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter the menuCode you want to restock (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "This field can't be blank.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.\n");
                 continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
@@ -409,19 +409,19 @@ public class StaffServiceManager {
             break;
         } while (true);
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter the amount you want to restock: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter the amount you want to restock: ");
             amount = sc.nextInt();
             if (amount < 0) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Amount can't be less than 0");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Amount can't be less than 0\n");
                 continue;
             }
             break;
         } while (true);
         try {
             if (cafe.restock(menuCode.toUpperCase(), amount)) {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("green") + "The menu " + menuCode.toUpperCase() + " has been added by " + amount + ".");
+                System.out.println("\n" + TextFormatter.getCode("green") + "The menu " + menuCode.toUpperCase() + " has been added by " + amount + ".");
             } else {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("red") + "Menu not found.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Menu not found.");
             }
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());

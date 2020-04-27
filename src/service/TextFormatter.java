@@ -2,16 +2,16 @@ package service;
 
 public class TextFormatter {
 
-    public static String getAnsiEscapeCode(String code) {
+    public static String getCode(String code) {
         String escapeCode = "\u001b[0m";
         switch (code.toLowerCase()) {
             case "bold":
                 escapeCode = "\u001b[1m";
                 break;
-            case "italic":
+            case "underline":
                 escapeCode = "\u001b[4m";
                 break;
-            case "underline":
+            case "reversed":
                 escapeCode = "\u001b[7m";
                 break;
             case "red":

@@ -1,6 +1,5 @@
 package cashier;
 
-
 import account.Position;
 import service.TextFormatter;
 import service.Cafe;
@@ -21,7 +20,7 @@ public class Cashier {
     private Scanner sc = new Scanner(System.in);
 
     public Cashier(Cafe cafe) {
-        Objects.requireNonNull(cafe, "Cafe can't be blank.");
+        Objects.requireNonNull(cafe, "\n" + TextFormatter.getCode("red") + "Cafe can't be blank.\n");
         this.cafe = cafe;
     }
 
@@ -33,7 +32,7 @@ public class Cashier {
         int choice;
         if (login()) {
             do {
-                System.out.println("\n" + TextFormatter.getAnsiEscapeCode("yellow") + "Menu: ");
+                System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "<<--MENU-->>");
                 System.out.println("----------------------------");
                 System.out.println("1. Show Menu");
                 System.out.println("2. Add Item");
@@ -54,7 +53,7 @@ public class Cashier {
                 System.out.println(i++ + ". Restock");
                 System.out.println(i++ + ". Reset Password");
                 System.out.println(i + ". Logout");
-                System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your choice: ");
+                System.out.print(TextFormatter.getCode("cyan") + "Enter your choice: ");
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -124,7 +123,7 @@ public class Cashier {
                             resetPass();
                             break;
                         } else {
-                            System.out.println("Invalid choice, please try again.");
+                            System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
                             break;
                         }
                     case 16:
@@ -132,36 +131,36 @@ public class Cashier {
                             logout();
                             break;
                         } else {
-                            System.out.println("Invalid choice, please try again.");
+                            System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
                             break;
                         }
                     default:
-                        System.out.println("Invalid choice, please try again.");
+                        System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
                 }
             } while (choice != 0);
         } else {
-            System.out.println("Cannot login, please try again.");
+            System.out.println(TextFormatter.getCode("red") + "Cannot login, please try again.\n");
         }
     }
 
     public boolean login() {
         String inputUser = null, inputPass = null;
-        System.out.println(TextFormatter.getAnsiEscapeCode("cyan") + "<<--LOG IN-->>");
+        System.out.println(TextFormatter.getCode("cyan") + TextFormatter.getCode("bold") + "    <<--LOG IN-->>\n");
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter Username: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter Username: ");
             inputUser = sc.nextLine();
             if (inputUser.equals("") || inputUser == null) {
-                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Username must be filled.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Username must be filled.\n");
                 continue;
             }
             break;
         } while (true);
 
         do {
-            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter Password: ");
+            System.out.print(TextFormatter.getCode("cyan") + "Enter Password: ");
             inputPass = sc.nextLine();
             if (inputPass.equals("") || inputPass == null) {
-                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Password must be filled.");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Password must be filled.\n");
                 continue;
             }
             break;
@@ -171,18 +170,18 @@ public class Cashier {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             if (rs.next()) {
                 Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
-                System.out.println(TextFormatter.getAnsiEscapeCode("green") + "Login Success!");
+                System.out.println(TextFormatter.getCode("green") + "Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
-                System.out.println(TextFormatter.getAnsiEscapeCode("reset") + "Welcome, " + TextFormatter.getAnsiEscapeCode("green") +rs.getString("name") + TextFormatter.getAnsiEscapeCode("reset") + "!");
+                System.out.println("\n" + TextFormatter.getCode("reset") + "Welcome, " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + rs.getString("name") + TextFormatter.getCode("reset") + "!");
                 this.cafe.setManager(this);
                 return true;
             } else {
-                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Id or password is not matched");
+                System.out.println("\n" + TextFormatter.getCode("red") + "Id or password is not matched.\n");
                 return false;
             }
 
         } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            System.out.println("\nAn SQL Exception has occured: " + ex.getMessage() + "\n");
         }
         return false;
     }
@@ -193,32 +192,32 @@ public class Cashier {
     }
 
     public void resetPass() {
+        sc.nextLine();
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + staff.getUser() + "' AND password='" + staff.getPassword() + "';");
-
             if (rs.next()) {
                 String newPass, pw;
                 do {
-                    System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your new password: ");
+                    System.out.print(TextFormatter.getCode("cyan") + "Enter your new password: ");
                     newPass = sc.nextLine();
-                    if (newPass.equals("") && newPass == null) {
-                        System.out.println(TextFormatter.getAnsiEscapeCode("red") + "New password must be filled.");
+                    if (newPass.equals("") || newPass == null) {
+                        System.out.println("\n" + TextFormatter.getCode("red") + "New password must be filled.\n");
                     } else if (newPass.equals(rs.getString("password"))) {
-                        System.out.println(TextFormatter.getAnsiEscapeCode("red") + "New password must not be the same as current password.");
+                        System.out.println("\n" + TextFormatter.getCode("red") + "New password must not be the same as current password.\n");
                     } else {
                         do {
-                            System.out.print(TextFormatter.getAnsiEscapeCode("cyan") + "Enter your previous password to confirm (or 'quit' to exit): ");
+                            System.out.print(TextFormatter.getCode("cyan") + "Enter your previous password to confirm (or 'quit' to exit): ");
                             pw = sc.nextLine();
-                            if (!(pw.equals(rs.getString("password")))) {
-                                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "Your password is incorrect");
+                            if (pw.equalsIgnoreCase("quit")) {
+                                return;
                             } else if (pw == null || pw.equals("")) {
-                                System.out.println(TextFormatter.getAnsiEscapeCode("red") + "This field must be filled.");
-                            } else if (pw.equalsIgnoreCase("quit")) {
-                                break;
+                                System.out.println("\n" + TextFormatter.getCode("red") + "This field must be filled.\n");
+                            } else if (!(pw.equals(rs.getString("password")))) {
+                                System.out.println("\n" + TextFormatter.getCode("red") + "Your password is incorrect.\n");
                             } else {
-                                rs.updateString("password", newPass);
-                                System.out.println(TextFormatter.getAnsiEscapeCode("green") + "Your password has been successfully changed!");
-                                break;
+                                stmt.execute("UPDATE staff SET password = '" + newPass + "' WHERE username = '" + staff.getUser() + "';");
+                                System.out.println("\n" + TextFormatter.getCode("green") + "Your password has been successfully changed!\n");
+                                return;
                             }
                         } while (true);
                     }
@@ -226,7 +225,7 @@ public class Cashier {
             }
 
         } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
+            System.out.println("\nAn SQL Exception has occured: " + ex.getMessage() + "\n");
         }
     }
 }
