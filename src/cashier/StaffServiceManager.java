@@ -10,6 +10,7 @@ import account.Account;
 import item.Type;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class StaffServiceManager {
@@ -20,11 +21,17 @@ public class StaffServiceManager {
         int choice = 0;
         int queue;
         do {
-            System.out.println(TextFormatter.getCode("yellow") + "Do you want to eat here or take home?");
-            System.out.println("1. Eat Here");
-            System.out.println("2. Take Home");
-            System.out.print(TextFormatter.getCode("cyan") + "Enter the choice number: ");
-            choice = sc.nextInt();
+            try {
+                System.out.println(TextFormatter.getCode("yellow") + "Do you want to eat here or take home?");
+                System.out.println("1. Eat Here");
+                System.out.println("2. Take Home");
+                System.out.print(TextFormatter.getCode("cyan") + "Enter the choice number: ");
+                choice = sc.nextInt();
+            } catch (InputMismatchException ex) {
+                sc.nextLine();
+                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                continue;
+            }
             switch (choice) {
                 case 1:
                     queue = cafe.addCustomer(false);
@@ -93,10 +100,26 @@ public class StaffServiceManager {
     }
 
     static void listOrders(Cafe cafe) {
-        System.out.print(TextFormatter.getCode("cyan") + "Enter your queue number: ");
-        int queueNo = sc.nextInt();
+        int queueNo;
+        do {
+            try {
+                System.out.print(TextFormatter.getCode("cyan") + "Enter your queue number: ");
+                queueNo = sc.nextInt();
+            } catch (InputMismatchException ex) {
+                sc.nextLine();
+                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                continue;
+            }
+            if (queueNo <= 0) {
+                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid number, please try again.\n");
+                continue;
+            }
+            break;
+        } while (true);
         MenuItem[][] orderInQueue = cafe.listOrders(queueNo);
         if (orderInQueue == null) {
+            System.out.println("\n" + TextFormatter.getCode("red") + "This queue number does not exist.");
+        } else if (orderInQueue[0].length == 0 && orderInQueue[1].length == 0) {
             System.out.println("\n" + TextFormatter.getCode("red") + "You didn't order anything yet.");
         } else {
             System.out.println(TextFormatter.getCode("yellow") + "Your Order:");
@@ -114,6 +137,7 @@ public class StaffServiceManager {
                 }
             }
         }
+        sc.nextLine();
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
@@ -126,6 +150,8 @@ public class StaffServiceManager {
             for (int i = 0; i < queueList.length; i++) {
                 System.out.println((i + 1) + ". " + queueList[i]);
             }
+        } else{
+            System.out.println(TextFormatter.getCode("red") + "The queue is empty.");
         }
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
@@ -150,13 +176,20 @@ public class StaffServiceManager {
     static void listMenu(Cafe cafe) {
         Item[][] menuList = cafe.getMenu();
         do {
-            System.out.println("\n" + TextFormatter.getCode("cyan") + "What is the type of the menu you want to look at?");
-            System.out.println("1. Bakery");
-            System.out.println("2. Dessert");
-            System.out.println("3. Beverage");
-            System.out.println("0. Exit");
-            System.out.print(TextFormatter.getCode("cyan") + "Enter choice number: ");
-            int choice = sc.nextInt();
+            int choice;
+            try {
+                System.out.println("\n" + TextFormatter.getCode("cyan") + "What is the type of the menu you want to look at?");
+                System.out.println("1. Bakery");
+                System.out.println("2. Dessert");
+                System.out.println("3. Beverage");
+                System.out.println("0. Exit");
+                System.out.print(TextFormatter.getCode("cyan") + "Enter choice number: ");
+                choice = sc.nextInt();
+            } catch (InputMismatchException ex) {
+                sc.nextLine();
+                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.");
+                continue;
+            }
             switch (choice) {
                 case 1:
                     System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Bakery :");
@@ -263,16 +296,22 @@ public class StaffServiceManager {
         String menuName;
         double menuPrice;
         int amountInStock;
-        int choice;
+        int choice = 0;
 
         do {
-            System.out.println("\n" + TextFormatter.getCode("yellow") + "What is the menu type?");
-            System.out.println("1. Bakery");
-            System.out.println("2. Dessert");
-            System.out.println("3. Beverage");
-            System.out.println("0. Exit");
-            System.out.print(TextFormatter.getCode("cyan") + "Enter choice number: ");
-            choice = sc.nextInt();
+            try {
+                System.out.println("\n" + TextFormatter.getCode("yellow") + "What is the menu type?");
+                System.out.println("1. Bakery");
+                System.out.println("2. Dessert");
+                System.out.println("3. Beverage");
+                System.out.println("0. Exit");
+                System.out.print(TextFormatter.getCode("cyan") + "Enter choice number: ");
+                choice = sc.nextInt();
+            } catch (InputMismatchException ex) {
+                sc.nextLine();
+                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                continue;
+            }
             switch (choice) {
                 case 1:
                     menuType = Type.BAKERY;
@@ -316,8 +355,14 @@ public class StaffServiceManager {
         } while (true);
 
         do {
-            System.out.print(TextFormatter.getCode("cyan") + "Enter menu's price: ");
-            menuPrice = sc.nextDouble();
+            try {
+                System.out.print(TextFormatter.getCode("cyan") + "Enter menu's price: ");
+                menuPrice = sc.nextDouble();
+            } catch (InputMismatchException ex) {
+                sc.nextLine();
+                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                continue;
+            }
             if (menuPrice <= 0) {
                 System.out.println("\n" + TextFormatter.getCode("red") + "The price must be not less than or equal to 0.\n");
                 continue;
@@ -326,8 +371,14 @@ public class StaffServiceManager {
         } while (true);
 
         do {
-            System.out.print(TextFormatter.getCode("cyan") + "Enter amount in stock: ");
-            amountInStock = sc.nextInt();
+            try {
+                System.out.print(TextFormatter.getCode("cyan") + "Enter amount in stock: ");
+                amountInStock = sc.nextInt();
+            } catch (InputMismatchException ex) {
+                sc.nextLine();
+                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                continue;
+            }
             if (amountInStock <= 0) {
                 System.out.println("\n" + TextFormatter.getCode("red") + "Amount of the menu can't be less than or equal to 0.\n");
                 continue;
@@ -409,8 +460,14 @@ public class StaffServiceManager {
             break;
         } while (true);
         do {
-            System.out.print(TextFormatter.getCode("cyan") + "Enter the amount you want to restock: ");
-            amount = sc.nextInt();
+            try {
+                System.out.print(TextFormatter.getCode("cyan") + "Enter the amount you want to restock: ");
+                amount = sc.nextInt();
+            } catch (InputMismatchException ex) {
+                sc.nextLine();
+                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                continue;
+            }
             if (amount < 0) {
                 System.out.println("\n" + TextFormatter.getCode("red") + "Amount can't be less than 0\n");
                 continue;
@@ -426,6 +483,7 @@ public class StaffServiceManager {
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
         } finally {
+            sc.nextLine();
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
