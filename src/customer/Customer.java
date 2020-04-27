@@ -53,8 +53,7 @@ public class Customer {
         }
     }
 
-    public LinkedList<MenuItem> serve() {
-        LinkedList<MenuItem> serve = new LinkedList();
+    public void serve() {
         while (orders.size() > 0) {
             MenuItem tmp = orders.poll();
             int j;
@@ -68,9 +67,7 @@ public class Customer {
             } else {
                 servedOrders.get(j).addAmount(tmp.getAmount());
             }
-            serve.add(tmp);
         }
-        return serve;
     }
 
         public MenuItem[][] getOrders() {

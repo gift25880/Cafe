@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -207,7 +208,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                     }
                 }
             }
-            printReceipt(servedQueue.remove(i), total, discount, amount, member == null ? "-" : member.getUser());
+            printReceipt(servedQueue.remove(i), total, discount, amount, member);
             return amount - (total - discount);
         } else {
             return i;
@@ -218,38 +219,38 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     public int[] redeem(double total, MemberAccount member) {
         int points = member.getPoint();
         int discount = (int) (points / PointPolicy.POINT_TO_ONE_BATH);
-        if(discount > total){
+        if (discount > total) {
             discount = (int) total;
         }
         points -= discount * PointPolicy.POINT_TO_ONE_BATH;
         return new int[]{points, discount};
     }
 
-    public void printReceipt(Customer c, double total, double discount, double amount, String user) throws IOException {
+    public void printReceipt(Customer c, double total, double discount, double amount, MemberAccount member) throws IOException {
         File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt");
         file.getParentFile().mkdirs();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        try ( BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-            bw.write("**THANK YOU FOR DINING AT " + this.cafeName.toUpperCase() + "**\n");
-            bw.write("Check Out Time: " + LocalDateTime.now().format(format) + "\n");
-            bw.write("Cashier: " + cashier.getStaff().getName() + "\n");
-            bw.write("----------------------------------------\n");
-            bw.write("Queue Number: " + c.getQueueNumber() + "\n");
-            bw.write("Member: " + (user == null ? "-" : user) + "\n");
-            bw.write("Dining Status: " + (c.isTakeHome() ? "Takehome" : "Eat In") + "\n");
-            bw.write("----------------------------------------\n");
+        try ( PrintWriter pw = new PrintWriter(file)) {
+            pw.println("**THANK YOU FOR DINING AT " + this.cafeName.toUpperCase() + "**");
+            pw.println("Check Out Time: " + LocalDateTime.now().format(format));
+            pw.println("Cashier: " + cashier.getStaff().getName());
+            pw.println("----------------------------------------");
+            pw.println("Queue Number: " + c.getQueueNumber());
+            pw.println("Member: " + (member == null ? "-" : member.getName() + " [" + member.getUser() + "]"));
+            pw.println("Dining Status: " + (c.isTakeHome() ? "Takehome" : "Eat In"));
+            pw.println("----------------------------------------");
             MenuItem[][] mi = c.getOrders();
             int i = 1;
             for (MenuItem menuOrder : mi[1]) {
-                bw.write(String.format("%2d", i++) + ". " + menuOrder.getItem().getName() + " [x" + menuOrder.getAmount() + "] Price: " + (menuOrder.getAmount() * menuOrder.getItem().getPrice()) + "\n");
+                pw.println(String.format("%2d", i++) + ". " + menuOrder.getItem().getName() + " [x" + menuOrder.getAmount() + "] Price: " + (menuOrder.getAmount() * menuOrder.getItem().getPrice()));
             }
-            bw.write("\n----------------------------------------\n");
-            bw.write(String.format("%26s%8.2f", "Total Price: ", total) + "\n");
-            bw.write(String.format("%26s%8.2f", "Discount: ", discount) + "\n");
-            bw.write(String.format("%26s%8.2f", "Net Price: ", (total - discount)) + "\n");
-            bw.write(String.format("%26s%8.2f", "Cash: ", amount) + "\n");
-            bw.write(String.format("%26s%8.2f", "Change: ", amount - (total - discount)) + "\n");
-            bw.write("----------------------------------------\n");
+            pw.println("\n----------------------------------------");
+            pw.println(String.format("%26s%8.2f", "Total Price: ", total));
+            pw.println(String.format("%26s%8.2f", "Discount: ", discount));
+            pw.println(String.format("%26s%8.2f", "Net Price: ", (total - discount)));
+            pw.println(String.format("%26s%8.2f", "Cash: ", amount));
+            pw.println(String.format("%26s%8.2f", "Change: ", amount - (total - discount)));
+            pw.println("----------------------------------------");
         }
     }
 
@@ -307,12 +308,12 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     }
 
     @Override
-    public boolean serve() {
-        Customer add = preparingQueue.poll();
+    public int serve() {
+        Customer add = preparingQueue.peek();
         if (add == null) {
-            return false;
+            return -1;
         } else {
-            LinkedList<MenuItem> serve = add.serve();
+            MenuItem[] serve = add.getOrders()[0];
             try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
                 for (MenuItem item : serve) {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id ='" + item.getItem().getId() + "';");
@@ -321,7 +322,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                         if (stock >= item.getAmount()) {
                             stmt.execute("UPDATE menu SET stock = " + (stock - item.getAmount()) + " WHERE id = '" + item.getItem().getId() + "';");
                         } else {
-                            return false;
+                            return -2;
                         }
                     }
                 }
@@ -329,8 +330,9 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                 System.out.println("An SQL Exception has occured: " + ex.getMessage());
             }
             fetchMenu();
-            servedQueue.add(add);
-            return true;
+            add.serve();
+            servedQueue.add(preparingQueue.poll());
+            return 1;
         }
     }
 

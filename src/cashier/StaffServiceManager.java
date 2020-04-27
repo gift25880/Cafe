@@ -122,7 +122,7 @@ public class StaffServiceManager {
         } else if (orderInQueue[0].length == 0 && orderInQueue[1].length == 0) {
             System.out.println("\n" + TextFormatter.getCode("red") + "You didn't order anything yet.");
         } else {
-            System.out.println(TextFormatter.getCode("yellow") + "Your Order:");
+            System.out.println("\n" + TextFormatter.getCode("yellow") + "Your Order:");
             for (int i = 0; i < 2; i++) {
                 switch (i) {
                     case 0:
@@ -132,8 +132,12 @@ public class StaffServiceManager {
                         System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "Served Orders: ");
                         break;
                 }
-                for (MenuItem order : orderInQueue[i]) {
-                    System.out.println(order);
+                if (orderInQueue[i].length == 0) {
+                    System.out.println(TextFormatter.getCode("red") + "No order here");
+                } else {
+                    for (MenuItem order : orderInQueue[i]) {
+                        System.out.println(order);
+                    }
                 }
             }
         }
@@ -151,7 +155,7 @@ public class StaffServiceManager {
                 System.out.println((i + 1) + ". " + queueList[i]);
                 System.out.println("Order Status: " + (queueList[i].getOrders()[0].length == 0 ? (queueList[i].getOrders()[1].length == 0 ? TextFormatter.getCode("red") + "No Orders Yet" : TextFormatter.getCode("green") + "Served") : TextFormatter.getCode("cyan") + "Preparing"));
             }
-        } else{
+        } else {
             System.out.println(TextFormatter.getCode("red") + "The queue is empty.");
         }
         System.out.println("\n----------------------------");
@@ -180,7 +184,7 @@ public class StaffServiceManager {
         do {
             int choice;
             try {
-                System.out.println("\n" + TextFormatter.getCode("cyan") + "What is the type of the menu you want to look at?");
+                System.out.println(TextFormatter.getCode("cyan") + "What is the type of the menu you want to look at?");
                 System.out.println("1. Bakery");
                 System.out.println("2. Dessert");
                 System.out.println("3. Beverage");
@@ -240,19 +244,20 @@ public class StaffServiceManager {
 
     static void checkStock(Cafe cafe) {
         Item[][] menuList = cafe.getMenu();
+        System.out.println(TextFormatter.getCode("yellow") + "Item Stock: " + TextFormatter.getCode("reset"));
         for (int i = 0; i < 3; i++) {
             int page = 1;
             System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
             System.out.println("-------------------------------------------------------------");
             switch (i) {
                 case 0:
-                    System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Bakery: ");
+                    System.out.println(TextFormatter.getCode("yellow") + "Bakery: ");
                     break;
                 case 1:
-                    System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Dessert: ");
+                    System.out.println(TextFormatter.getCode("yellow") +  "Dessert: ");
                     break;
                 case 2:
-                    System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Beverage: ");
+                    System.out.println(TextFormatter.getCode("yellow") + "Beverage: ");
                     break;
             }
             for (int j = 0; j < menuList[i].length; j++) {
@@ -280,10 +285,16 @@ public class StaffServiceManager {
     }
 
     static void serve(Cafe cafe) {
-        if (cafe.serve()) {
-            System.out.println("\n" + TextFormatter.getCode("green") + "The order is successfully served.");
-        } else {
-            System.out.println("\n" + TextFormatter.getCode("red") + "Their is currently no queue at the moment.");
+        switch (cafe.serve()) {
+            case 1:
+                System.out.println(TextFormatter.getCode("green") + "The order is successfully served.");
+                break;
+            case -1:
+                System.out.println(TextFormatter.getCode("red") + "Their is currently no queue at the moment.");
+                break;
+            case -2:
+                System.out.println(TextFormatter.getCode("red") + "Insufficient item in stock.");
+                break;
         }
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");

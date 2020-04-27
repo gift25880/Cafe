@@ -66,6 +66,7 @@ public class Cashier {
                 System.out.println("=======================");
                 System.out.print(TextFormatter.getCode("cyan") + "Enter your choice: ");
                 choice = sc.nextInt();
+                System.out.println("");
                 switch (choice) {
                     case 1:
                         StaffServiceManager.listMenu(cafe);
