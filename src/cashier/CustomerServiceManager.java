@@ -247,7 +247,7 @@ public class CustomerServiceManager {
             if (change < 0) {
                 System.out.println(TextFormatter.getCode("red") + "\nAn error has occured while checking out");
             } else {
-                System.out.println("\nYour change is " + TextFormatter.getCode("magenta") + change + TextFormatter.getCode("reset") + " baht");
+                System.out.println("\n" + TextFormatter.getCode("reset") + "Your change is " + TextFormatter.getCode("yellow") + change + TextFormatter.getCode("reset") + " baht");
                 System.out.println("\nThank you for dining at " + TextFormatter.getCode("green") + cafe.getCafeName().toUpperCase() + TextFormatter.getCode("reset") + ".");
             }
         } catch (IOException ex) {
