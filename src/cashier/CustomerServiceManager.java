@@ -173,7 +173,7 @@ public class CustomerServiceManager {
                 case 1:
                     do {
                         sc.nextLine();
-                        System.out.print(TextFormatter.getCode("cyan") + "Enter your username: ");
+                        System.out.print("\n" + TextFormatter.getCode("cyan") + "Enter your username: ");
                         String username = sc.nextLine();
                         if (username == null || username.equals("")) {
                             System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.");
@@ -227,7 +227,7 @@ public class CustomerServiceManager {
             redeemValue = cafe.redeem(total, member);
             net = total - redeemValue[1];
         }
-        if (member == null) {
+        if (member == null || !redeem) {
             System.out.println("\n" + TextFormatter.getCode("reset") + "The net price is " + TextFormatter.getCode("cyan") + net + TextFormatter.getCode("reset") + " baht.");
         } else {
             System.out.println("\nThe net price is " + TextFormatter.getCode("cyan") + net + TextFormatter.getCode("reset") + " baht from a total of " + TextFormatter.getCode("cyan") + total + TextFormatter.getCode("reset") + " baht.");
@@ -254,9 +254,7 @@ public class CustomerServiceManager {
             } else {
                 System.out.println("\n" + TextFormatter.getCode("reset") + "Your change is " + TextFormatter.getCode("yellow") + change + TextFormatter.getCode("reset") + " baht");
                 if (member != null) {
-                    if (redeem) {
-                        System.out.println("The remaining points for " + TextFormatter.getCode("yellow") + member.getName() + TextFormatter.getCode("reset") + " is " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + member.getPoint() + TextFormatter.getCode("reset") + " points.");
-                    }
+                        System.out.println("The current points for " + TextFormatter.getCode("yellow") + member.getName() + TextFormatter.getCode("reset") + " is " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + member.getPoint() + TextFormatter.getCode("reset") + " points.");
                 }
                 System.out.println("\nThank you for dining at " + TextFormatter.getCode("green") + cafe.getCafeName().toUpperCase() + TextFormatter.getCode("reset") + ".");
             }

@@ -147,6 +147,10 @@ public class Cashier {
                         }
                     default:
                         System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
+                        sc.nextLine();
+                        System.out.println("\n----------------------------");
+                        System.out.print("Press enter to proceed... ");
+                        String pressKey = sc.nextLine();
                 }
             } catch (InputMismatchException ex) {
                 sc.nextLine();
