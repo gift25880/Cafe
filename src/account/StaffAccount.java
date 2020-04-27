@@ -2,7 +2,6 @@ package account;
 
 
 import person.Person;
-import account.Account;
 
 
 public class StaffAccount extends Account{

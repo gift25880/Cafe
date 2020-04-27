@@ -86,7 +86,7 @@ public class StaffServiceManager {
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
         } finally {
-            System.out.println("\n-------------------------------------------------------------");
+            System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
         }
@@ -114,7 +114,7 @@ public class StaffServiceManager {
                 }
             }
         }
-        System.out.println("\n-------------------------------------------------------------");
+        System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
     }
@@ -127,7 +127,7 @@ public class StaffServiceManager {
                 System.out.println((i + 1) + ". " + queueList[i]);
             }
         }
-        System.out.println("\n-------------------------------------------------------------");
+        System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
     }
@@ -142,7 +142,7 @@ public class StaffServiceManager {
                 System.out.println("Table " + (i + 1) + ": " + tableList[i]);
             }
         }
-        System.out.println("\n-------------------------------------------------------------");
+        System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
     }
@@ -250,7 +250,7 @@ public class StaffServiceManager {
         } else {
             System.out.println("\n" + TextFormatter.getCode("red") + "Their is currently no queue at the moment.");
         }
-        System.out.println("\n-------------------------------------------------------------");
+        System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
     }
@@ -358,7 +358,7 @@ public class StaffServiceManager {
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
         } finally {
-            System.out.println("\n-------------------------------------------------------------");
+            System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
         }
@@ -383,13 +383,13 @@ public class StaffServiceManager {
                     }
                 } catch (SQLException ex) {
                     System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
-                    System.out.println("\n-------------------------------------------------------------");
+                    System.out.println("\n----------------------------");
                     System.out.print("Press enter proceed... ");
                     String pressKey = sc.nextLine();
                 }
             }
         } while (true);
-        System.out.println("\n-------------------------------------------------------------");
+        System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
     }
@@ -426,7 +426,7 @@ public class StaffServiceManager {
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
         } finally {
-            System.out.println("\n-------------------------------------------------------------");
+            System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
         }

@@ -31,7 +31,7 @@ public class Cashier {
     public void optionMenu() {
         int choice;
         while (!login()) {
-            System.out.println(TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "!!! CANNOT LOGIN !!!\n");
+            System.out.println(TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "              !!! CANNOT LOGIN !!!\n");
             System.out.println(TextFormatter.getCode("red") + TextFormatter.getCode("bold") + ">> If you wish to try again press y and then enter... <<");
             System.out.println(TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "     >> Press only enter to terminate the system <<");
             String pressKey = sc.nextLine();
@@ -146,12 +146,12 @@ public class Cashier {
                 default:
                     System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
             }
-        } while (choice != 0);
+        } while (true);
     }
 
     public boolean login() {
         String inputUser = null, inputPass = null;
-        System.out.println(TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "    <<--LOG IN-->>");
+        System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "    <<--LOG IN-->>");
         System.out.println(TextFormatter.getCode("reset") + "========================");
         do {
             System.out.print(TextFormatter.getCode("cyan") + "Enter Username: ");
@@ -223,8 +223,9 @@ public class Cashier {
                             } else if (!(pw.equals(rs.getString("password")))) {
                                 System.out.println("\n" + TextFormatter.getCode("red") + "Your password is incorrect.\n");
                             } else {
+                                staff.setPassword(newPass);
                                 stmt.execute("UPDATE staff SET password = '" + newPass + "' WHERE username = '" + staff.getUser() + "';");
-                                System.out.println("\n" + TextFormatter.getCode("green") + "Your password has been successfully changed!\n");
+                                System.out.println("\n" + TextFormatter.getCode("green") + "Your password has been successfully changed!");
                                 return;
                             }
                         } while (true);
@@ -235,7 +236,7 @@ public class Cashier {
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage() + "\n");
         } finally {
-            System.out.println("\n-------------------------------------------------------------");
+            System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
         }

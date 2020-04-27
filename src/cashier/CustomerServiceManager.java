@@ -55,7 +55,7 @@ public class CustomerServiceManager {
             System.out.println("\n" + TextFormatter.getCode("red") + "Something went wrong when adding item to your order list or the menu does not exist, please try again.");
         }
         sc.nextLine();
-        System.out.println("\n-------------------------------------------------------------");
+        System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
     }
@@ -99,7 +99,7 @@ public class CustomerServiceManager {
             System.out.println("\n" + TextFormatter.getCode("red") + "Something went wrong when removing the item from your order list or you didn't order this item, please try again.");
         }
         sc.nextLine();
-        System.out.println("\n-------------------------------------------------------------");
+        System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
         String pressKey = sc.nextLine();
     }
@@ -201,7 +201,7 @@ public class CustomerServiceManager {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
         } finally {
             sc.nextLine();
-            System.out.println("\n-------------------------------------------------------------");
+            System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
         }
