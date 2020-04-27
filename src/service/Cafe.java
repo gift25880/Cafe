@@ -88,7 +88,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         return this.count >= this.tables.length;
     }
 
-    private int findPreperingQueue(int queueNumber) {
+    private int findPreparingQueue(int queueNumber) {
         for (int i = 0; i < preparingQueue.size(); i++) {
             if (preparingQueue.get(i).getQueueNumber() == queueNumber) {
                 return i;
@@ -130,7 +130,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     @Override
     public boolean addItem(String id, int queueNumber, int amount) {
         fetchMenu();
-        int i = findPreperingQueue(queueNumber);
+        int i = findPreparingQueue(queueNumber);
         Item item = findMenu(id);
         if (item != null) {
             if (i >= 0) {
@@ -159,7 +159,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public boolean removeItem(String id, int queueNumber, int amount) {
-        int i = findPreperingQueue(queueNumber);
+        int i = findPreparingQueue(queueNumber);
         if (i >= 0) {
             return preparingQueue.get(i).remove(findMenu(id), amount);
         }
@@ -340,7 +340,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public MenuItem[][] listOrders(int queueNumber) {
-        int i = findPreperingQueue(queueNumber);
+        int i = findPreparingQueue(queueNumber);
         if (i >= 0) {
             return preparingQueue.get(i).getOrders();
         } else {
