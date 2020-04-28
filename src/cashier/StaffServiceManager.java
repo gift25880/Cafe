@@ -198,13 +198,13 @@ public class StaffServiceManager {
             }
             switch (choice) {
                 case 1:
-                    System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Bakery :");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + "Bakery :");
                     break;
                 case 2:
-                    System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Dessert :");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + "Dessert :");
                     break;
                 case 3:
-                    System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("underline") + "Beverage :");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + "Beverage :");
                     break;
                 case 0:
                     return;
@@ -214,29 +214,36 @@ public class StaffServiceManager {
             }
             sc.nextLine();
             int index = choice - 1;
-            int page = 1;
-            System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
-            System.out.println("-------------------------------------------------------------");
-            for (int i = 0; i < menuList[index].length; i++) {
-                if (menuList[index][i] != null) {
-                    System.out.printf("%4s: %-25s%10.2f Baht\n", menuList[index][i].getId(), menuList[index][i].getName(), menuList[index][i].getPrice());
-                }
-                if ((i + 1) % 10 == 0 || i == menuList[index].length - 1) {
-                    page++;
-                    System.out.println("-------------------------------------------------------------");
-                    System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
-                    String pressKey = sc.nextLine();
-                    if ("stop".equalsIgnoreCase(pressKey)) {
-                        return;
+            if (menuList[index].length > 0) {
+                int page = 1;
+                System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
+                System.out.println("-------------------------------------------------------------");
+                for (int i = 0; i < menuList[index].length; i++) {
+                    if (menuList[index][i] != null) {
+                        System.out.printf("%4s: %-25s%10.2f Baht\n", menuList[index][i].getId(), menuList[index][i].getName(), menuList[index][i].getPrice());
                     }
-                    if (menuList[index].length - (i + 1) >= 10) {
-                        System.out.println("\n");
-                        System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
+                    if ((i + 1) % 10 == 0 || i == menuList[index].length - 1) {
+                        page++;
                         System.out.println("-------------------------------------------------------------");
-                    } else {
-                        System.out.println("\n");
+                        System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
+                        String pressKey = sc.nextLine();
+                        if ("stop".equalsIgnoreCase(pressKey)) {
+                            return;
+                        }
+                        if (menuList[index].length - (i + 1) >= 10) {
+                            System.out.println("\n");
+                            System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
+                            System.out.println("-------------------------------------------------------------");
+                        } else {
+                            System.out.println("\n");
+                        }
                     }
                 }
+            } else {
+                System.out.println("\n" + TextFormatter.getCode("red") + "No Menu Available");
+                System.out.println("\n----------------------------");
+                System.out.print("Press enter to proceed... ");
+                String pressKey = sc.nextLine();
             }
             break;
         } while (true);
@@ -254,31 +261,41 @@ public class StaffServiceManager {
                     System.out.println(TextFormatter.getCode("yellow") + "Bakery: ");
                     break;
                 case 1:
-                    System.out.println(TextFormatter.getCode("yellow") +  "Dessert: ");
+                    System.out.println(TextFormatter.getCode("yellow") + "Dessert: ");
                     break;
                 case 2:
                     System.out.println(TextFormatter.getCode("yellow") + "Beverage: ");
                     break;
             }
-            for (int j = 0; j < menuList[i].length; j++) {
-                if (menuList[i][j] != null) {
-                    System.out.println((menuList[i][j].getStock() == 0 ? TextFormatter.getCode("red") : "") + menuList[i][j]);
-                }
-                if ((j + 1) % 10 == 0 || j == menuList[i].length - 1) {
-                    page++;
-                    System.out.println("-------------------------------------------------------------");
-                    System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
-                    String pressKey = sc.nextLine();
-                    if ("stop".equalsIgnoreCase(pressKey)) {
-                        return;
+            if (menuList[i].length > 0) {
+                for (int j = 0; j < menuList[i].length; j++) {
+                    if (menuList[i][j] != null) {
+                        System.out.println((menuList[i][j].getStock() == 0 ? TextFormatter.getCode("red") : "") + menuList[i][j]);
                     }
-                    if (menuList[i].length - (j + 1) >= 10) {
-                        System.out.println("\n");
-                        System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
+                    if ((j + 1) % 10 == 0 || j == menuList[i].length - 1) {
+                        page++;
                         System.out.println("-------------------------------------------------------------");
-                    } else {
-                        System.out.println("\n");
+                        System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
+                        String pressKey = sc.nextLine();
+                        if ("stop".equalsIgnoreCase(pressKey)) {
+                            return;
+                        }
+                        if (menuList[i].length - (j + 1) >= 10) {
+                            System.out.println("\n");
+                            System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
+                            System.out.println("-------------------------------------------------------------");
+                        } else {
+                            System.out.println("\n");
+                        }
                     }
+                }
+            } else {
+                System.out.println(TextFormatter.getCode("red") + "No Menu Available");
+                System.out.println("-------------------------------------------------------------");
+                System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
+                String pressKey = sc.nextLine();
+                if ("stop".equalsIgnoreCase(pressKey)) {
+                    return;
                 }
             }
         }
