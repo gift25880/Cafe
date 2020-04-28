@@ -219,9 +219,7 @@ public class StaffServiceManager {
                 System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
                 System.out.println("-------------------------------------------------------------");
                 for (int i = 0; i < menuList[index].length; i++) {
-                    if (menuList[index][i] != null) {
                         System.out.printf("%4s: %-25s%10.2f Baht\n", menuList[index][i].getId(), menuList[index][i].getName(), menuList[index][i].getPrice());
-                    }
                     if ((i + 1) % 10 == 0 || i == menuList[index].length - 1) {
                         page++;
                         System.out.println("-------------------------------------------------------------");
@@ -230,7 +228,7 @@ public class StaffServiceManager {
                         if ("stop".equalsIgnoreCase(pressKey)) {
                             return;
                         }
-                        if (menuList[index].length - (i + 1) >= 10) {
+                        if (menuList[index].length - (i + 1) > 0) {
                             System.out.println("\n");
                             System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
                             System.out.println("-------------------------------------------------------------");
@@ -254,19 +252,19 @@ public class StaffServiceManager {
         System.out.println(TextFormatter.getCode("yellow") + "Item Stock: " + TextFormatter.getCode("reset"));
         for (int i = 0; i < 3; i++) {
             int page = 1;
-            System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
-            System.out.println("-------------------------------------------------------------");
             switch (i) {
                 case 0:
-                    System.out.println(TextFormatter.getCode("yellow") + "Bakery: ");
+                    System.out.println("\n" +TextFormatter.getCode("yellow") + "Bakery: ");
                     break;
                 case 1:
-                    System.out.println(TextFormatter.getCode("yellow") + "Dessert: ");
+                    System.out.println("\n" +TextFormatter.getCode("yellow") + "Dessert: ");
                     break;
                 case 2:
-                    System.out.println(TextFormatter.getCode("yellow") + "Beverage: ");
+                    System.out.println("\n" +TextFormatter.getCode("yellow") + "Beverage: ");
                     break;
             }
+            System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
+            System.out.println("-------------------------------------------------------------");
             if (menuList[i].length > 0) {
                 for (int j = 0; j < menuList[i].length; j++) {
                     if (menuList[i][j] != null) {
@@ -280,7 +278,7 @@ public class StaffServiceManager {
                         if ("stop".equalsIgnoreCase(pressKey)) {
                             return;
                         }
-                        if (menuList[i].length - (j + 1) >= 10) {
+                        if (menuList[i].length - (j + 1) > 0) {
                             System.out.println("\n");
                             System.out.println(TextFormatter.getCode("cyan") + "Page #" + page);
                             System.out.println("-------------------------------------------------------------");
@@ -439,6 +437,7 @@ public class StaffServiceManager {
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
         } finally {
+            sc.nextLine();
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
