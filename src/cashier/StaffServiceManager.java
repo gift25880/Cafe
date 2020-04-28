@@ -223,7 +223,7 @@ public class StaffServiceManager {
                     if ((i + 1) % 10 == 0 || i == menuList[index].length - 1) {
                         page++;
                         System.out.println("-------------------------------------------------------------");
-                        System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
+                        System.out.print("Press enter to see next page, type 'stop' and press enter to cancel... ");
                         String pressKey = sc.nextLine();
                         if ("stop".equalsIgnoreCase(pressKey)) {
                             return;
@@ -273,7 +273,7 @@ public class StaffServiceManager {
                     if ((j + 1) % 10 == 0 || j == menuList[i].length - 1) {
                         page++;
                         System.out.println("-------------------------------------------------------------");
-                        System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
+                        System.out.print("Press enter to see next page, type 'stop' and press enter to cancel... ");
                         String pressKey = sc.nextLine();
                         if ("stop".equalsIgnoreCase(pressKey)) {
                             return;
@@ -290,7 +290,7 @@ public class StaffServiceManager {
             } else {
                 System.out.println(TextFormatter.getCode("red") + "No Menu Available");
                 System.out.println("-------------------------------------------------------------");
-                System.out.print("Press enter see next page, type 'stop' and press enter to cancel... ");
+                System.out.print("Press enter to see next page, type 'stop' and press enter to cancel... ");
                 String pressKey = sc.nextLine();
                 if ("stop".equalsIgnoreCase(pressKey)) {
                     return;
