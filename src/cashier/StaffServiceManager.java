@@ -1,3 +1,6 @@
+
+//62130500048 ปฏิญญา ทองอ่วม Pathinya Thonguam
+
 package cashier;
 
 import item.MenuItem;
@@ -419,8 +422,8 @@ public class StaffServiceManager {
         String[] numberListInString = new String[code.length + 1];
         int[] numberListInInt = new int[numberListInString.length];
         for (int i = 0; i < code.length; i++) {
-            numberListInString[i] = code[i].replace(codeHead, "").trim();
-            numberListInInt[i] = Integer.parseInt(numberListInString[i]);
+            numberListInString[i] = code[i].replace(codeHead, "").trim(); //https://stackoverflow.com/questions/8694984/remove-part-of-string-in-java >>> Remove part of a String
+            numberListInInt[i] = Integer.parseInt(numberListInString[i]); //https://alvinalexander.com/java/edu/qanda/pjqa00010.shtml >>> Converting String to Integer
         }
         for (int i = 1; i <= 100; i++) {
             if (i != numberListInInt[i - 1]) {
@@ -429,7 +432,8 @@ public class StaffServiceManager {
             }
         }
         String menuCode = (numberFound < 10) ? codeHead + "0" + Integer.toString(numberFound) : codeHead + Integer.toString(numberFound);
-
+        //https://www.geeksforgeeks.org/different-ways-for-integer-to-string-conversions-in-java/ >>> Converting Integer to String
+        
         try {
             if (cafe.addMenu(new Item(menuCode, menuName, menuPrice, amountInStock), menuType)) {
                 System.out.println("\n" + TextFormatter.getCode("green") + "[" + menuCode + ": " + menuName + "] has been added successfully.");

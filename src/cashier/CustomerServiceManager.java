@@ -1,3 +1,6 @@
+
+//62130500048 ปฏิญญา ทองอ่วม Pathinya Thonguam
+
 package cashier;
 
 import service.TextFormatter;

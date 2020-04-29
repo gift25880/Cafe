@@ -1,3 +1,6 @@
+
+//62130500023 ณภัทร วัฒนาสุทธิวงศ์ Napat Wattanasuttiwong
+
 package service;
 
 import item.MenuItem;
@@ -225,7 +228,8 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     }
 
     public void printReceipt(Customer c, double total, double discount, double amount, MemberAccount member) throws IOException {
-        File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt");
+        //https://stackoverflow.com/questions/2833853/create-whole-path-automatically-when-writing-to-a-new-file >>> Creating New File
+        File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt"); 
         file.getParentFile().mkdirs();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         try ( PrintWriter pw = new PrintWriter(file)) {

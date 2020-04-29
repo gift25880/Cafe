@@ -1,3 +1,6 @@
+
+//62130500048 ปฏิญญา ทองอ่วม Pathinya Thonguam
+
 package cashier;
 
 import account.Position;
@@ -190,7 +193,7 @@ public class Cashier {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             if (rs.next()) {
-                Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase());
+                Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase()); //https://www.baeldung.com/java-string-to-enum >>> Converting String to Enum
                 System.out.println("\n" + TextFormatter.getCode("green") + "Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
                 System.out.println("\n" + TextFormatter.getCode("reset") + ">> Welcome, " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + rs.getString("name") + TextFormatter.getCode("reset") + "! <<");

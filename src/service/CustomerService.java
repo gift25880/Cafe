@@ -1,10 +1,11 @@
-package service;
 
+//62130500048 ปฏิญญา ทองอ่วม Pathinya Thonguam
+
+package service;
 
 import account.MemberAccount;
 import java.io.IOException;
 import java.sql.SQLException;
-
 
 public interface CustomerService {
     public boolean addItem(String id, int queueNumber, int amount);
