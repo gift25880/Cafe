@@ -1,6 +1,4 @@
-
 //62130500048 ปฏิญญา ทองอ่วม Pathinya Thonguam
-
 package cashier;
 
 import item.MenuItem;
@@ -222,7 +220,7 @@ public class StaffServiceManager {
                 System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
                 System.out.println("-------------------------------------------------------------");
                 for (int i = 0; i < menuList[index].length; i++) {
-                        System.out.printf("%4s: %-25s%10.2f Baht\n", menuList[index][i].getId(), menuList[index][i].getName(), menuList[index][i].getPrice());
+                    System.out.printf("%4s: %-25s%10.2f Baht\n", menuList[index][i].getId(), menuList[index][i].getName(), menuList[index][i].getPrice());
                     if ((i + 1) % 10 == 0 || i == menuList[index].length - 1) {
                         page++;
                         System.out.println("-------------------------------------------------------------");
@@ -257,13 +255,13 @@ public class StaffServiceManager {
             int page = 1;
             switch (i) {
                 case 0:
-                    System.out.println("\n" +TextFormatter.getCode("yellow") + "Bakery: ");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + "Bakery: ");
                     break;
                 case 1:
-                    System.out.println("\n" +TextFormatter.getCode("yellow") + "Dessert: ");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + "Dessert: ");
                     break;
                 case 2:
-                    System.out.println("\n" +TextFormatter.getCode("yellow") + "Beverage: ");
+                    System.out.println("\n" + TextFormatter.getCode("yellow") + "Beverage: ");
                     break;
             }
             System.out.println("\n" + TextFormatter.getCode("cyan") + "Page #" + page);
@@ -303,20 +301,27 @@ public class StaffServiceManager {
     }
 
     static void serve(Cafe cafe) {
-        switch (cafe.serve()) {
-            case 1:
-                System.out.println(TextFormatter.getCode("green") + "The order is successfully served.");
-                break;
-            case -1:
-                System.out.println(TextFormatter.getCode("red") + "Their is currently no queue at the moment.");
-                break;
-            case -2:
-                System.out.println(TextFormatter.getCode("red") + "Insufficient item in stock.");
-                break;
+        try {
+            switch (cafe.serve()) {
+                case 1:
+                    System.out.println(TextFormatter.getCode("green") + "The order is successfully served.");
+                    break;
+                case -1:
+                    System.out.println(TextFormatter.getCode("red") + "Their is currently no queue at the moment.");
+                    break;
+                case -2:
+                    System.out.println(TextFormatter.getCode("red") + "Insufficient item in stock.");
+                    break;
+            }
+            System.out.println("\n----------------------------");
+            System.out.print("Press enter to proceed... ");
+            String pressKey = sc.nextLine();
+        } catch (SQLException ex) {
+            System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
+            System.out.println("\n----------------------------");
+            System.out.print("Press enter proceed... ");
+            String pressKey = sc.nextLine();
         }
-        System.out.println("\n----------------------------");
-        System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
     }
 
     static void addMenu(Cafe cafe) {
@@ -433,7 +438,7 @@ public class StaffServiceManager {
         }
         String menuCode = (numberFound < 10) ? codeHead + "0" + Integer.toString(numberFound) : codeHead + Integer.toString(numberFound);
         //https://www.geeksforgeeks.org/different-ways-for-integer-to-string-conversions-in-java/ >>> Converting Integer to String
-        
+
         try {
             if (cafe.addMenu(new Item(menuCode, menuName, menuPrice, amountInStock), menuType)) {
                 System.out.println("\n" + TextFormatter.getCode("green") + "[" + menuCode + ": " + menuName + "] has been added successfully.");

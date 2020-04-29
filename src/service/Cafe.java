@@ -200,10 +200,11 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                     int points = (int) (tmp / PointPolicy.BATH_TO_ONE_POINT);
                     member.setPoint(member.getPoint() + points);
                 }
-                try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+                try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM member WHERE username ='" + member.getUser() + "';");
                     if (rs.next()) {
-                        stmt.execute("UPDATE member SET point = " + member.getPoint() + " WHERE username = '" + member.getUser() + "';");
+                        rs.updateInt("point", member.getPoint());
+                        rs.updateRow();
                     } else {
                         return -1;
                     }
@@ -288,10 +289,10 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public boolean removeMenu(String id) throws SQLException {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
-                stmt.execute("DELETE FROM menu WHERE id = '" + id + "';");
+                rs.deleteRow();
                 return true;
             } else {
                 return false;
@@ -310,26 +311,25 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     }
 
     @Override
-    public int serve() {
+    public int serve() throws SQLException {
         Customer add = preparingQueue.peek();
         if (add == null) {
             return -1;
         } else {
             MenuItem[] serve = add.getOrders()[0];
-            try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+            try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
                 for (MenuItem item : serve) {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id ='" + item.getItem().getId() + "';");
                     if (rs.next()) {
                         int stock = rs.getInt("stock");
                         if (stock >= item.getAmount()) {
-                            stmt.execute("UPDATE menu SET stock = " + (stock - item.getAmount()) + " WHERE id = '" + item.getItem().getId() + "';");
+                            rs.updateInt("stock", stock - item.getAmount());
+                            rs.updateRow();
                         } else {
                             return -2;
                         }
                     }
                 }
-            } catch (SQLException ex) {
-                System.out.println("An SQL Exception has occured: " + ex.getMessage());
             }
             fetchMenu();
             add.serve();
@@ -371,11 +371,12 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     @Override
     public boolean restock(String id, int amount) throws SQLException {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
+        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id = '" + id + "';");
             if (rs.next()) {
                 int sum = rs.getInt("stock") + amount;
-                stmt.execute("UPDATE menu SET stock = " + sum + " WHERE id = '" + id + "';");
+                rs.updateInt("stock", sum);
+                rs.updateRow();
                 return true;
             } else {
                 return false;
@@ -385,7 +386,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         }
     }
     
-    public MemberAccount searchingForMember(String username) {
+    public MemberAccount searchForMember(String username) {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM member WHERE username='" + username + "';");
             if (rs.next()) {

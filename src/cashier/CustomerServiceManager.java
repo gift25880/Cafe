@@ -182,7 +182,7 @@ public class CustomerServiceManager {
                             System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.");
                             continue;
                         }
-                        member = cafe.searchingForMember(username);
+                        member = cafe.searchForMember(username);
                         if (member == null) {
                             System.out.println("\n" + TextFormatter.getCode("red") + "Member not found, please try again.");
                             continue;
