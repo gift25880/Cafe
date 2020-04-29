@@ -182,7 +182,7 @@ public class CustomerServiceManager {
                             System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.");
                             continue;
                         }
-                        member = searchingForMember(username);
+                        member = cafe.searchingForMember(username);
                         if (member == null) {
                             System.out.println("\n" + TextFormatter.getCode("red") + "Member not found, please try again.");
                             continue;
@@ -271,17 +271,5 @@ public class CustomerServiceManager {
             System.out.print("Press enter to proceed... ");
             String pressKey = sc.nextLine();
         }
-    }
-
-    private static MemberAccount searchingForMember(String username) {
-        try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM member WHERE username='" + username + "';");
-            if (rs.next()) {
-                return new MemberAccount(rs.getString("username"), rs.getString("name"), rs.getString("phone"), rs.getInt("point"));
-            }
-        } catch (SQLException ex) {
-            System.out.println("An SQL Exception has occured: " + ex.getMessage());
-        }
-        return null;
     }
 }
