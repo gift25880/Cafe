@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -317,19 +318,24 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
             return -1;
         } else {
             MenuItem[] serve = add.getOrders()[0];
-            try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+            try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  PreparedStatement getStock = conn.prepareStatement("SELECT * FROM menu WHERE id =?;");  PreparedStatement setStock = conn.prepareStatement("UPDATE menu SET stock = ? WHERE id = ?;")) {
+                conn.setAutoCommit(false);
                 for (MenuItem item : serve) {
-                    ResultSet rs = stmt.executeQuery("SELECT * FROM menu WHERE id ='" + item.getItem().getId() + "';");
+                    getStock.setString(1, item.getItem().getId());
+                    ResultSet rs = getStock.executeQuery();
                     if (rs.next()) {
                         int stock = rs.getInt("stock");
                         if (stock >= item.getAmount()) {
-                            rs.updateInt("stock", stock - item.getAmount());
-                            rs.updateRow();
+                            setStock.setInt(1, (stock - item.getAmount()) );
+                            setStock.setString(2, item.getItem().getId());
+                            setStock.addBatch();
                         } else {
                             return -2;
                         }
                     }
                 }
+                setStock.executeBatch();
+                conn.commit();
             }
             fetchMenu();
             add.serve();
