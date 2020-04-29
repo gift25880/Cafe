@@ -18,11 +18,7 @@ public class StaffAccount extends Account{
     public Position getPosition() {
         return this.position;
     }
-    
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-    
+
     public String getPassword() {
         return this.password;
     }

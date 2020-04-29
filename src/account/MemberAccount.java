@@ -4,13 +4,12 @@
 package account;
 
 import person.Person;
-import account.Account;
 
 public class MemberAccount extends Account{
     private int point;
 
-    public MemberAccount(String id, Person person, int point) {
-        super(id, person);
+    public MemberAccount(String user, Person person, int point) {
+        super(user, person);
         this.point = point;
     }
     
@@ -19,8 +18,8 @@ public class MemberAccount extends Account{
         this.point = point;
     }
     
-    public MemberAccount(String id, String name, String phone, int point) {
-        super(id, name, phone);
+    public MemberAccount(String user, String name, String phone, int point) {
+        super(user, name, phone);
         this.point = point;
     }
     
@@ -30,9 +29,5 @@ public class MemberAccount extends Account{
     
     public void setPoint(int point) {
         this.point = point;
-    }
-    
-    public void setId(String id) {
-        super.setUser(id);
     }
 }
