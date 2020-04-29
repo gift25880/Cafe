@@ -1,6 +1,4 @@
-
 //62130500048 ปฏิญญา ทองอ่วม Pathinya Thonguam
-
 package cashier;
 
 import account.Position;
@@ -24,7 +22,7 @@ public class Cashier {
     private Scanner sc = new Scanner(System.in);
 
     public Cashier(Cafe cafe) {
-        Objects.requireNonNull(cafe, "\n" + TextFormatter.getCode("red") + "Cafe can't be blank.\n");
+        Objects.requireNonNull(cafe, "\n" + TextFormatter.RED + "Cafe can't be blank.\n");
         this.cafe = cafe;
     }
 
@@ -35,9 +33,9 @@ public class Cashier {
     public void optionMenu() {
         int choice;
         while (!login()) {
-            System.out.println(TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "              !!! CANNOT LOGIN !!!\n");
-            System.out.println(TextFormatter.getCode("red") + TextFormatter.getCode("bold") + ">> If you wish to try again press y and then enter... <<");
-            System.out.println(TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "     >> Press only enter to terminate the system <<");
+            System.out.println(TextFormatter.RED + TextFormatter.BOLD + "              !!! CANNOT LOGIN !!!\n");
+            System.out.println(TextFormatter.RED + TextFormatter.BOLD + ">> If you wish to try again press y and then enter... <<");
+            System.out.println(TextFormatter.RED + TextFormatter.BOLD + "     >> Press only enter to terminate the system <<");
             String pressKey = sc.nextLine();
             if (!pressKey.equalsIgnoreCase("y")) {
                 return;
@@ -45,7 +43,7 @@ public class Cashier {
         }
         do {
             try {
-                System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "    <<--MENU-->>");
+                System.out.println("\n" + TextFormatter.YELLOW + TextFormatter.BOLD + "    <<--MENU-->>");
                 System.out.println("=======================");
                 System.out.println("1. Show Menu");
                 System.out.println("2. Add Item");
@@ -67,7 +65,7 @@ public class Cashier {
                 System.out.println(i++ + ". Reset Password");
                 System.out.println(i + ". Logout");
                 System.out.println("=======================");
-                System.out.print(TextFormatter.getCode("cyan") + "Enter your choice: ");
+                System.out.print(TextFormatter.CYAN + "Enter your choice: ");
                 choice = sc.nextInt();
                 System.out.println("");
                 switch (choice) {
@@ -138,7 +136,7 @@ public class Cashier {
                             resetPass();
                             break;
                         } else {
-                            System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
+                            System.out.println("\n" + TextFormatter.RED + "Invalid choice, please try again.\n");
                             break;
                         }
                     case 16:
@@ -146,11 +144,11 @@ public class Cashier {
                             logout();
                             break;
                         } else {
-                            System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
+                            System.out.println("\n" + TextFormatter.RED + "Invalid choice, please try again.\n");
                             break;
                         }
                     default:
-                        System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice, please try again.\n");
+                        System.out.println("\n" + TextFormatter.RED + "Invalid choice, please try again.\n");
                         sc.nextLine();
                         System.out.println("\n----------------------------");
                         System.out.print("Press enter to proceed... ");
@@ -158,7 +156,7 @@ public class Cashier {
                 }
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.");
                 System.out.println("\n----------------------------");
                 System.out.print("Press enter to proceed... ");
                 String pressKey = sc.nextLine();
@@ -168,23 +166,23 @@ public class Cashier {
 
     public boolean login() throws InputMismatchException {
         String inputUser = null, inputPass = null;
-        System.out.println("\n" + TextFormatter.getCode("yellow") + TextFormatter.getCode("bold") + "    <<--LOG IN-->>");
-        System.out.println(TextFormatter.getCode("reset") + "========================");
+        System.out.println("\n" + TextFormatter.YELLOW + TextFormatter.BOLD + "    <<--LOG IN-->>");
+        System.out.println(TextFormatter.RESET + "========================");
         do {
-            System.out.print(TextFormatter.getCode("cyan") + "Enter Username: ");
+            System.out.print(TextFormatter.CYAN + "Enter Username: ");
             inputUser = sc.nextLine();
             if (inputUser.equals("") || inputUser == null) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Username must be filled.\n");
+                System.out.println("\n" + TextFormatter.RED + "Username must be filled.\n");
                 continue;
             }
             break;
         } while (true);
 
         do {
-            System.out.print(TextFormatter.getCode("cyan") + "Enter Password: ");
+            System.out.print(TextFormatter.CYAN + "Enter Password: ");
             inputPass = sc.nextLine();
             if (inputPass.equals("") || inputPass == null) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Password must be filled.\n");
+                System.out.println("\n" + TextFormatter.RED + "Password must be filled.\n");
                 continue;
             }
             break;
@@ -194,13 +192,13 @@ public class Cashier {
             ResultSet rs = stmt.executeQuery("SELECT * FROM staff WHERE username='" + inputUser + "' AND password='" + inputPass + "';");
             if (rs.next()) {
                 Position staffPosition = Position.valueOf(rs.getString("position").toUpperCase()); //https://www.baeldung.com/java-string-to-enum >>> Converting String to Enum
-                System.out.println("\n" + TextFormatter.getCode("green") + "Login Success!");
+                System.out.println("\n" + TextFormatter.GREEN + "Login Success!");
                 staff = new StaffAccount(rs.getString("username"), new Person(rs.getString("name"), rs.getString("phone")), staffPosition, rs.getString("password"));
-                System.out.println("\n" + TextFormatter.getCode("reset") + ">> Welcome, " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + rs.getString("name") + TextFormatter.getCode("reset") + "! <<");
+                System.out.println("\n" + TextFormatter.RESET + ">> Welcome, " + TextFormatter.GREEN + TextFormatter.BOLD + rs.getString("name") + TextFormatter.RESET + "! <<");
                 this.cafe.setManager(this);
                 return true;
             } else {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Id or password is not matched.\n");
+                System.out.println("\n" + TextFormatter.RED + "Id or password is not matched.\n");
                 return false;
             }
 
@@ -211,7 +209,7 @@ public class Cashier {
     }
 
     public void logout() {
-        System.out.println("\n" + TextFormatter.getCode("red") + "===SUCCESSFULLY LOGGED OUT===\n");
+        System.out.println("\n" + TextFormatter.RED + "===SUCCESSFULLY LOGGED OUT===\n");
         this.staff = null;
         System.exit(0);
     }
@@ -223,26 +221,26 @@ public class Cashier {
             if (rs.next()) {
                 String newPass, pw;
                 do {
-                    System.out.print(TextFormatter.getCode("cyan") + "Enter your new password: ");
+                    System.out.print(TextFormatter.CYAN + "Enter your new password: ");
                     newPass = sc.nextLine();
                     if (newPass.equals("") || newPass == null) {
-                        System.out.println("\n" + TextFormatter.getCode("red") + "New password must be filled.\n");
+                        System.out.println("\n" + TextFormatter.RED + "New password must be filled.\n");
                     } else if (newPass.equals(rs.getString("password"))) {
-                        System.out.println("\n" + TextFormatter.getCode("red") + "New password must not be the same as current password.\n");
+                        System.out.println("\n" + TextFormatter.RED + "New password must not be the same as current password.\n");
                     } else {
                         do {
-                            System.out.print(TextFormatter.getCode("cyan") + "Enter your previous password to confirm (or 'quit' to exit): ");
+                            System.out.print(TextFormatter.CYAN + "Enter your previous password to confirm (or 'quit' to exit): ");
                             pw = sc.nextLine();
                             if (pw.equalsIgnoreCase("quit")) {
                                 return;
                             } else if (pw == null || pw.equals("")) {
-                                System.out.println("\n" + TextFormatter.getCode("red") + "This field must be filled.\n");
+                                System.out.println("\n" + TextFormatter.RED + "This field must be filled.\n");
                             } else if (!(pw.equals(rs.getString("password")))) {
-                                System.out.println("\n" + TextFormatter.getCode("red") + "Your password is incorrect.\n");
+                                System.out.println("\n" + TextFormatter.RED + "Your password is incorrect.\n");
                             } else {
                                 staff.setPassword(newPass);
                                 stmt.execute("UPDATE staff SET password = '" + newPass + "' WHERE username = '" + staff.getUser() + "';");
-                                System.out.println("\n" + TextFormatter.getCode("green") + "Your password has been successfully changed!");
+                                System.out.println("\n" + TextFormatter.GREEN + "Your password has been successfully changed!");
                                 return;
                             }
                         } while (true);

@@ -1,40 +1,15 @@
-
 //62130500023 ณภัทร วัฒนาสุทธิวงศ์ Napat Wattanasuttiwong
-
 //https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html >>> Change charactor's color in console
-
 package service;
 
 public class TextFormatter {
 
-    public static String getCode(String code) {
-        String escapeCode = "\u001b[0m";
-        switch (code.toLowerCase()) {
-            case "bold":
-                escapeCode = "\u001b[1m";
-                break;
-            case "red":
-                escapeCode = "\u001b[31m";
-                break;
-            case "blue":
-                escapeCode = "\u001b[34m";
-                break;
-            case "magenta":
-                escapeCode = "\u001b[35m";
-                break;
-            case "cyan":
-                escapeCode = "\u001b[36m";
-                break;
-            case "yellow":
-                escapeCode = "\u001b[33m";
-                break;
-            case "green":
-                escapeCode = "\u001b[32m";
-                break;
-            case "reset":
-                escapeCode = "\u001b[0m";
-                break;
-        }
-        return escapeCode;
-    }
+    public static final String RESET = "\u001b[0m";
+    public static final String BOLD = "\u001b[1m";
+    public static final String RED = "\u001b[31m";
+    public static final String BLUE = "\u001b[34m";
+    public static final String MAGENTA = "\u001b[35m";
+    public static final String CYAN = "\u001b[36m";
+    public static final String YELLOW = "\u001b[33m";
+    public static final String GREEN = "\u001b[32m";
 }

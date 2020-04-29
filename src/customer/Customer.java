@@ -1,6 +1,4 @@
-
 //62130500003 กมลวิช วรเมธาเลิศ Kamolwish Woramethaleot
-
 package customer;
 
 import item.MenuItem;
@@ -73,7 +71,7 @@ public class Customer {
         }
     }
 
-        public MenuItem[][] getOrders() {
+    public MenuItem[][] getOrders() {
         MenuItem[][] allOrders = new MenuItem[2][];
         allOrders[0] = orders.toArray(new MenuItem[orders.size()]);
         allOrders[1] = servedOrders.toArray(new MenuItem[servedOrders.size()]);
@@ -93,6 +91,6 @@ public class Customer {
     }
 
     public String toString() {
-        return TextFormatter.getCode("cyan") + "Queue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Preparing Orders: " + orders.size() + "\nNumber of Served Orders: " + servedOrders.size();
+        return TextFormatter.CYAN + "Queue Number: " + queueNumber + "\nDining Status: " + (takeHome ? "Takehome" : "Eat In") + "\nNumber of Preparing Orders: " + orders.size() + "\nNumber of Served Orders: " + servedOrders.size();
     }
 }

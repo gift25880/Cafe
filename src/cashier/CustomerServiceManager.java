@@ -1,6 +1,4 @@
-
 //62130500048 ปฏิญญา ทองอ่วม Pathinya Thonguam
-
 package cashier;
 
 import service.TextFormatter;
@@ -21,25 +19,25 @@ public class CustomerServiceManager {
         int queueNumber, amount;
         do {
             try {
-                System.out.print(TextFormatter.getCode("cyan") + "Enter your queue number: ");
+                System.out.print(TextFormatter.CYAN + "Enter your queue number: ");
                 queueNumber = sc.nextInt();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.\n");
                 continue;
             }
             if (queueNumber <= 0) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid number, please try again.\n");
+                System.out.println("\n" + TextFormatter.RED + "Invalid number, please try again.\n");
                 continue;
             }
             break;
         } while (true);
         sc.nextLine();
         do {
-            System.out.print(TextFormatter.getCode("cyan") + "Enter code of the menu you want to add (or type 'quit' to exit): ");
+            System.out.print(TextFormatter.CYAN + "Enter code of the menu you want to add (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.\n");
+                System.out.println("\n" + TextFormatter.RED + "This field can't be blank.\n");
                 continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
@@ -48,23 +46,23 @@ public class CustomerServiceManager {
         } while (true);
         do {
             try {
-                System.out.print(TextFormatter.getCode("cyan") + "How much do you want to add: ");
+                System.out.print(TextFormatter.CYAN + "How much do you want to add: ");
                 amount = sc.nextInt();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.\n");
                 continue;
             }
             if (amount <= 0) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid amount, please try again.\n");
+                System.out.println("\n" + TextFormatter.RED + "Invalid amount, please try again.\n");
                 continue;
             }
             break;
         } while (true);
         if (cafe.addItem(menuCode.toUpperCase(), queueNumber, amount)) {
-            System.out.println("\n" + TextFormatter.getCode("green") + "The menu item has been added to your order list successfully!");
+            System.out.println("\n" + TextFormatter.GREEN + "The menu item has been added to your order list successfully!");
         } else {
-            System.out.println("\n" + TextFormatter.getCode("red") + "Something went wrong when adding item to your order list or the menu does not exist, please try again.");
+            System.out.println("\n" + TextFormatter.RED + "Something went wrong when adding item to your order list or the menu does not exist, please try again.");
         }
         sc.nextLine();
         System.out.println("\n----------------------------");
@@ -77,25 +75,25 @@ public class CustomerServiceManager {
         int queueNumber, amount;
         do {
             try {
-                System.out.print(TextFormatter.getCode("cyan") + "Enter your queue number: ");
+                System.out.print(TextFormatter.CYAN + "Enter your queue number: ");
                 queueNumber = sc.nextInt();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.\n");
                 continue;
             }
             if (queueNumber <= 0) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid number, please try again.\n");
+                System.out.println("\n" + TextFormatter.RED + "Invalid number, please try again.\n");
                 continue;
             }
             break;
         } while (true);
         sc.nextLine();
         do {
-            System.out.print(TextFormatter.getCode("cyan") + "Enter code if the menu you want to remove (or type 'quit' to exit): ");
+            System.out.print(TextFormatter.CYAN + "Enter code if the menu you want to remove (or type 'quit' to exit): ");
             menuCode = sc.nextLine();
             if (menuCode == null || menuCode.equals("")) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.\n");
+                System.out.println("\n" + TextFormatter.RED + "This field can't be blank.\n");
                 continue;
             } else if (menuCode.equalsIgnoreCase("quit")) {
                 return;
@@ -104,23 +102,23 @@ public class CustomerServiceManager {
         } while (true);
         do {
             try {
-                System.out.print(TextFormatter.getCode("cyan") + "How much do you want to remove: ");
+                System.out.print(TextFormatter.CYAN + "How much do you want to remove: ");
                 amount = sc.nextInt();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.\n");
                 continue;
             }
             if (amount <= 0) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid amount, please try again.\n");
+                System.out.println("\n" + TextFormatter.RED + "Invalid amount, please try again.\n");
                 continue;
             }
             break;
         } while (true);
         if (cafe.removeItem(menuCode.toUpperCase(), queueNumber, amount)) {
-            System.out.println("\n" + TextFormatter.getCode("green") + "The menu item has been removed from your order list successfully!");
+            System.out.println("\n" + TextFormatter.GREEN + "The menu item has been removed from your order list successfully!");
         } else {
-            System.out.println("\n" + TextFormatter.getCode("red") + "Something went wrong when removing the item from your order list or you didn't order this item, please try again.");
+            System.out.println("\n" + TextFormatter.RED + "Something went wrong when removing the item from your order list or you didn't order this item, please try again.");
         }
         sc.nextLine();
         System.out.println("\n----------------------------");
@@ -135,16 +133,16 @@ public class CustomerServiceManager {
         MemberAccount member = null;
         do {
             try {
-                System.out.print(TextFormatter.getCode("cyan") + "Enter queue number: ");
+                System.out.print(TextFormatter.CYAN + "Enter queue number: ");
                 queueNumber = sc.nextInt();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.\n");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.\n");
                 continue;
             }
             queueOrder = cafe.findServedQueue(queueNumber);
             if (queueOrder < 0) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid queue number, please try again." + TextFormatter.getCode("reset"));
+                System.out.println("\n" + TextFormatter.RED + "Invalid queue number, please try again." + TextFormatter.RESET);
                 sc.nextLine();
                 System.out.println("\n----------------------------");
                 System.out.print("Press enter to proceed... ");
@@ -158,46 +156,46 @@ public class CustomerServiceManager {
         do {
             int choice;
             try {
-                System.out.println("\n" + TextFormatter.getCode("yellow") + "Are you a member of this cafe?");
+                System.out.println("\n" + TextFormatter.YELLOW + "Are you a member of this cafe?");
                 System.out.println("1. Yes");
                 System.out.println("2. No");
-                System.out.print(TextFormatter.getCode("cyan") + "Enter the choice number: ");
+                System.out.print(TextFormatter.CYAN + "Enter the choice number: ");
                 choice = sc.nextInt();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.");
                 continue;
             }
             switch (choice) {
                 case 1:
                     do {
                         sc.nextLine();
-                        System.out.print("\n" + TextFormatter.getCode("cyan") + "Enter your username: ");
+                        System.out.print("\n" + TextFormatter.CYAN + "Enter your username: ");
                         String username = sc.nextLine();
                         if (username == null || username.equals("")) {
-                            System.out.println("\n" + TextFormatter.getCode("red") + "This field can't be blank.");
+                            System.out.println("\n" + TextFormatter.RED + "This field can't be blank.");
                             continue;
                         }
                         member = cafe.searchForMember(username);
                         if (member == null) {
-                            System.out.println("\n" + TextFormatter.getCode("red") + "Member not found, please try again.");
+                            System.out.println("\n" + TextFormatter.RED + "Member not found, please try again.");
                             continue;
                         }
                         break;
                     } while (true);
-                    System.out.println("\n" + TextFormatter.getCode("reset") + "Account " + TextFormatter.getCode("yellow") + member.getUser() + TextFormatter.getCode("reset") + " currrently have " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + member.getPoint() + TextFormatter.getCode("reset") + " points.");
-                    System.out.println("This is worth " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + (int) (member.getPoint() / PointPolicy.POINT_TO_ONE_BATH) + TextFormatter.getCode("reset") + " baht.");
-                    System.out.println("The total price is " + TextFormatter.getCode("cyan") + total + TextFormatter.getCode("reset") + " baht.");
+                    System.out.println("\n" + TextFormatter.RESET + "Account " + TextFormatter.YELLOW + member.getUser() + TextFormatter.RESET + " currrently have " + TextFormatter.GREEN + TextFormatter.BOLD + member.getPoint() + TextFormatter.RESET + " points.");
+                    System.out.println("This is worth " + TextFormatter.GREEN + TextFormatter.BOLD + (int) (member.getPoint() / PointPolicy.POINT_TO_ONE_BATH) + TextFormatter.RESET + " baht.");
+                    System.out.println("The total price is " + TextFormatter.CYAN + total + TextFormatter.RESET + " baht.");
                     do {
                         try {
-                            System.out.println("\n" + TextFormatter.getCode("yellow") + "Do you want to redeem your point?");
+                            System.out.println("\n" + TextFormatter.YELLOW + "Do you want to redeem your point?");
                             System.out.println("1. Yes");
                             System.out.println("2. No");
-                            System.out.print(TextFormatter.getCode("cyan") + "Enter the choice number: ");
+                            System.out.print(TextFormatter.CYAN + "Enter the choice number: ");
                             choice = sc.nextInt();
                         } catch (InputMismatchException ex) {
                             sc.nextLine();
-                            System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.");
+                            System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.");
                             continue;
                         }
                         switch (choice) {
@@ -207,7 +205,7 @@ public class CustomerServiceManager {
                             case 2:
                                 break;
                             default:
-                                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice number, please enter 1 or 2 only.");
+                                System.out.println("\n" + TextFormatter.RED + "Invalid choice number, please enter 1 or 2 only.");
                                 continue;
                         }
                         break;
@@ -216,7 +214,7 @@ public class CustomerServiceManager {
                 case 2:
                     break;
                 default:
-                    System.out.println("\n" + TextFormatter.getCode("red") + "Invalid choice number, please try again.");
+                    System.out.println("\n" + TextFormatter.RED + "Invalid choice number, please try again.");
             }
             break;
         } while (true);
@@ -227,21 +225,21 @@ public class CustomerServiceManager {
             net = total - redeemValue[1];
         }
         if (member == null || !redeem) {
-            System.out.println("\n" + TextFormatter.getCode("reset") + "The net price is " + TextFormatter.getCode("cyan") + net + TextFormatter.getCode("reset") + " baht.");
+            System.out.println("\n" + TextFormatter.RESET + "The net price is " + TextFormatter.CYAN + net + TextFormatter.RESET + " baht.");
         } else {
-            System.out.println("\nThe net price is " + TextFormatter.getCode("cyan") + net + TextFormatter.getCode("reset") + " baht from a total of " + TextFormatter.getCode("cyan") + total + TextFormatter.getCode("reset") + " baht.");
+            System.out.println("\nThe net price is " + TextFormatter.CYAN + net + TextFormatter.RESET + " baht from a total of " + TextFormatter.CYAN + total + TextFormatter.RESET + " baht.");
         }
         do {
             try {
-                System.out.print("\n" + TextFormatter.getCode("cyan") + "Enter amount of money: ");
+                System.out.print("\n" + TextFormatter.CYAN + "Enter amount of money: ");
                 intake = sc.nextDouble();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.getCode("red") + TextFormatter.getCode("bold") + "The entered data type is incompatible.");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.");
                 continue;
             }
             if (intake < net) {
-                System.out.println("\n" + TextFormatter.getCode("red") + "Invalid amount, please try again.");
+                System.out.println("\n" + TextFormatter.RED + "Invalid amount, please try again.");
                 continue;
             }
             break;
@@ -249,13 +247,13 @@ public class CustomerServiceManager {
         try {
             double change = cafe.checkOut(total, redeemValue[1], intake, member, queueNumber, redeem, redeemValue[0]);
             if (change < 0) {
-                System.out.println(TextFormatter.getCode("red") + "\nAn error has occured while checking out");
+                System.out.println(TextFormatter.RED + "\nAn error has occured while checking out");
             } else {
-                System.out.println("\n" + TextFormatter.getCode("reset") + "Your change is " + TextFormatter.getCode("yellow") + change + TextFormatter.getCode("reset") + " baht");
+                System.out.println("\n" + TextFormatter.RESET + "Your change is " + TextFormatter.YELLOW + change + TextFormatter.RESET + " baht");
                 if (member != null) {
-                        System.out.println("The current points for " + TextFormatter.getCode("yellow") + member.getName() + TextFormatter.getCode("reset") + " is " + TextFormatter.getCode("green") + TextFormatter.getCode("bold") + member.getPoint() + TextFormatter.getCode("reset") + " points.");
+                    System.out.println("The current points for " + TextFormatter.YELLOW + member.getName() + TextFormatter.RESET + " is " + TextFormatter.GREEN + TextFormatter.BOLD + member.getPoint() + TextFormatter.RESET + " points.");
                 }
-                System.out.println("\nThank you for dining at " + TextFormatter.getCode("green") + cafe.getCafeName().toUpperCase() + TextFormatter.getCode("reset") + ".");
+                System.out.println("\nThank you for dining at " + TextFormatter.GREEN + cafe.getCafeName().toUpperCase() + TextFormatter.RESET + ".");
             }
         } catch (IOException ex) {
             System.out.println("\nAn IO Exception has occured: " + ex.getMessage());
