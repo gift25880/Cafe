@@ -21,7 +21,7 @@ public class Customer {
     public boolean add(Item item, int amount) {
         int i;
         for (i = 0; i < orders.size(); i++) {
-            if (orders.get(i).getItem().getId().equalsIgnoreCase(item.getId())) {
+            if (orders.get(i).equals(item)) {
                 break;
             }
         }
@@ -36,7 +36,7 @@ public class Customer {
     public boolean remove(Item item, int amount) {
         int i;
         for (i = 0; i < orders.size(); i++) {
-            if (orders.get(i).getItem().getId().equalsIgnoreCase(item.getId())) {
+            if (orders.get(i).equals(item)) {
                 break;
             }
         }
@@ -59,7 +59,7 @@ public class Customer {
             MenuItem tmp = orders.poll();
             int j;
             for (j = 0; j < servedOrders.size(); j++) {
-                if (servedOrders.get(j).getItem().getId().equalsIgnoreCase(tmp.getItem().getId())) {
+                if (servedOrders.get(j).equals(tmp.getItem())) {
                     break;
                 }
             }

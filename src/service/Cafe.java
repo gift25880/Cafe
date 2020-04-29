@@ -1,6 +1,4 @@
-
 //62130500023 ณภัทร วัฒนาสุทธิวงศ์ Napat Wattanasuttiwong
-
 package service;
 
 import item.MenuItem;
@@ -122,7 +120,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         }
         for (Item item : menu[i]) {
             if (item != null) {
-                if (item.getId().equals(id)) {
+                if (item.getId().equalsIgnoreCase(id)) {
                     return item;
                 }
             }
@@ -231,7 +229,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
 
     private void printReceipt(Customer c, double total, double discount, double amount, MemberAccount member) throws IOException {
         //https://stackoverflow.com/questions/2833853/create-whole-path-automatically-when-writing-to-a-new-file >>> Creating New File
-        File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt"); 
+        File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt");
         file.getParentFile().mkdirs();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         try ( PrintWriter pw = new PrintWriter(file)) {
@@ -326,7 +324,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                     if (rs.next()) {
                         int stock = rs.getInt("stock");
                         if (stock >= item.getAmount()) {
-                            setStock.setInt(1, (stock - item.getAmount()) );
+                            setStock.setInt(1, (stock - item.getAmount()));
                             setStock.setString(2, item.getItem().getId());
                             setStock.addBatch();
                         } else {
@@ -391,7 +389,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
             fetchMenu();
         }
     }
-    
+
     public MemberAccount searchForMember(String username) {
         try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM member WHERE username='" + username + "';");

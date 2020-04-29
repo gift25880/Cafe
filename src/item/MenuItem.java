@@ -1,7 +1,7 @@
-
 //62130500003 กมลวิช วรเมธาเลิศ Kamolwish Woramethaleot
-
 package item;
+
+import java.util.Objects;
 
 public class MenuItem {
 
@@ -24,7 +24,7 @@ public class MenuItem {
     }
 
     public int removeAmount(int amount) {
-        if(this.amount < amount){
+        if (this.amount < amount) {
             return -1;
         }
         this.amount -= amount;
@@ -41,11 +41,22 @@ public class MenuItem {
 
     }
 
-    public boolean equals(MenuItem item) {
-        return this.item.getId().equals(item.item.getId());
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MenuItem other = (MenuItem) obj;
+        return Objects.equals(this.item, other.item);
     }
-    
-    public String toString(){
+
+    public String toString() {
         return String.format("%4s: %-25s%10.2f Baht %4s", item.getId(), item.getName(), item.getPrice(), "[x" + amount + "]");
     }
 }

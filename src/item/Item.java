@@ -1,7 +1,7 @@
-
 //62130500003 กมลวิช วรเมธาเลิศ Kamolwish Woramethaleot
-
 package item;
+
+import java.util.Objects;
 
 public class Item {
 
@@ -29,10 +29,6 @@ public class Item {
         return this.id;
     }
 
-    public boolean equals(Item item) {
-        return this.id.equals(item.id);
-    }
-
     public int getStock() {
         return this.stock;
     }
@@ -40,8 +36,24 @@ public class Item {
     public void setStock(int amount) {
         this.stock = amount;
     }
-    
-    public String toString(){
+
+    public String toString() {
         return String.format("%4s: %-25s%10.2f Baht %4s", id, name, price, "[x" + stock + "]");
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        return this.id.equalsIgnoreCase(other.id);
+    }
+
 }
