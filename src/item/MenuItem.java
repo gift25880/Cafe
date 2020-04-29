@@ -3,8 +3,6 @@
 
 package item;
 
-import item.Item;
-
 public class MenuItem {
 
     private Item item;

@@ -229,7 +229,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
         return new int[]{points, discount};
     }
 
-    public void printReceipt(Customer c, double total, double discount, double amount, MemberAccount member) throws IOException {
+    private void printReceipt(Customer c, double total, double discount, double amount, MemberAccount member) throws IOException {
         //https://stackoverflow.com/questions/2833853/create-whole-path-automatically-when-writing-to-a-new-file >>> Creating New File
         File file = new File("receipt/" + LocalDate.now() + "/receipt_queue_" + c.getQueueNumber() + ".txt"); 
         file.getParentFile().mkdirs();
