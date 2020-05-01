@@ -53,7 +53,7 @@ public class StaffServiceManager {
         sc.nextLine();
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
+        sc.nextLine();
     }
 
     static void subscribe(Cafe cafe) {
@@ -96,7 +96,7 @@ public class StaffServiceManager {
         } finally {
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
-            String pressKey = sc.nextLine();
+            sc.nextLine();
         }
     }
 
@@ -145,7 +145,7 @@ public class StaffServiceManager {
         sc.nextLine();
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
+        sc.nextLine();
     }
 
     static void listQueues(Cafe cafe) {
@@ -161,7 +161,7 @@ public class StaffServiceManager {
         }
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
+        sc.nextLine();
     }
 
     static void listTables(Cafe cafe) {
@@ -177,7 +177,7 @@ public class StaffServiceManager {
         }
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
+        sc.nextLine();
     }
 
     static void listMenu(Cafe cafe) {
@@ -194,7 +194,7 @@ public class StaffServiceManager {
                 choice = sc.nextInt();
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.CYAN + TextFormatter.BOLD + "The entered data type is incompatible.");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.\n");
                 continue;
             }
             switch (choice) {
@@ -242,7 +242,7 @@ public class StaffServiceManager {
                 System.out.println("\n" + TextFormatter.RED + "No Menu Available");
                 System.out.println("\n----------------------------");
                 System.out.print("Press enter to proceed... ");
-                String pressKey = sc.nextLine();
+                sc.nextLine();
             }
             break;
         } while (true);
@@ -315,12 +315,12 @@ public class StaffServiceManager {
             }
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
-            String pressKey = sc.nextLine();
+            sc.nextLine();
         } catch (SQLException ex) {
             System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
             System.out.println("\n----------------------------");
             System.out.print("Press enter proceed... ");
-            String pressKey = sc.nextLine();
+            sc.nextLine();
         }
     }
 
@@ -449,7 +449,7 @@ public class StaffServiceManager {
             sc.nextLine();
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
-            String pressKey = sc.nextLine();
+            sc.nextLine();
         }
     }
 
@@ -474,13 +474,13 @@ public class StaffServiceManager {
                     System.out.println("\nAn SQL Exception has occured: " + ex.getMessage());
                     System.out.println("\n----------------------------");
                     System.out.print("Press enter proceed... ");
-                    String pressKey = sc.nextLine();
+                    sc.nextLine();
                 }
             }
         } while (true);
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
+        sc.nextLine();
     }
 
     static void restock(Cafe cafe) {
@@ -524,7 +524,7 @@ public class StaffServiceManager {
             sc.nextLine();
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
-            String pressKey = sc.nextLine();
+            sc.nextLine();
         }
     }
 

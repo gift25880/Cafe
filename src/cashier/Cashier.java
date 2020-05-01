@@ -34,7 +34,7 @@ public class Cashier {
         int choice;
         while (!login()) {
             System.out.println(TextFormatter.RED + TextFormatter.BOLD + "              !!! CANNOT LOGIN !!!\n");
-            System.out.println(TextFormatter.RED + TextFormatter.BOLD + ">> If you wish to try again press y and then enter... <<");
+            System.out.println(TextFormatter.RED + TextFormatter.BOLD + ">> If you wish to try again press 'y' and then enter... <<");
             System.out.println(TextFormatter.RED + TextFormatter.BOLD + "     >> Press only enter to terminate the system <<");
             String pressKey = sc.nextLine();
             if (!pressKey.equalsIgnoreCase("y")) {
@@ -136,7 +136,11 @@ public class Cashier {
                             resetPass();
                             break;
                         } else {
-                            System.out.println("\n" + TextFormatter.RED + "Invalid choice, please try again.\n");
+                            System.out.println(TextFormatter.RED + "Invalid choice, please try again.\n");
+                            sc.nextLine();
+                            System.out.println("----------------------------");
+                            System.out.print("Press enter to proceed... ");
+                            sc.nextLine();
                             break;
                         }
                     case 16:
@@ -144,22 +148,26 @@ public class Cashier {
                             logout();
                             break;
                         } else {
-                            System.out.println("\n" + TextFormatter.RED + "Invalid choice, please try again.\n");
+                            System.out.println(TextFormatter.RED + "Invalid choice, please try again.\n");
+                            sc.nextLine();
+                            System.out.println("----------------------------");
+                            System.out.print("Press enter to proceed... ");
+                            sc.nextLine();
                             break;
                         }
                     default:
-                        System.out.println("\n" + TextFormatter.RED + "Invalid choice, please try again.\n");
+                        System.out.println(TextFormatter.RED + "Invalid choice, please try again.\n");
                         sc.nextLine();
-                        System.out.println("\n----------------------------");
+                        System.out.println("----------------------------");
                         System.out.print("Press enter to proceed... ");
-                        String pressKey = sc.nextLine();
+                        sc.nextLine();
                 }
             } catch (InputMismatchException ex) {
                 sc.nextLine();
-                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.");
-                System.out.println("\n----------------------------");
+                System.out.println("\n" + TextFormatter.RED + TextFormatter.BOLD + "The entered data type is incompatible.\n");
+                System.out.println("----------------------------");
                 System.out.print("Press enter to proceed... ");
-                String pressKey = sc.nextLine();
+                sc.nextLine();
             }
         } while (true);
     }
@@ -253,7 +261,7 @@ public class Cashier {
         } finally {
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
-            String pressKey = sc.nextLine();
+            sc.nextLine();
         }
     }
 }

@@ -67,7 +67,7 @@ public class CustomerServiceManager {
         sc.nextLine();
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
+        sc.nextLine();
     }
 
     static void removeItem(Cafe cafe) {
@@ -123,7 +123,7 @@ public class CustomerServiceManager {
         sc.nextLine();
         System.out.println("\n----------------------------");
         System.out.print("Press enter to proceed... ");
-        String pressKey = sc.nextLine();
+        sc.nextLine();
     }
 
     static void checkOutCafe(Cafe cafe) {
@@ -146,7 +146,7 @@ public class CustomerServiceManager {
                 sc.nextLine();
                 System.out.println("\n----------------------------");
                 System.out.print("Press enter to proceed... ");
-                String pressKey = sc.nextLine();
+                sc.nextLine();
                 return;
             } else {
                 break;
@@ -263,7 +263,7 @@ public class CustomerServiceManager {
             sc.nextLine();
             System.out.println("\n----------------------------");
             System.out.print("Press enter to proceed... ");
-            String pressKey = sc.nextLine();
+            sc.nextLine();
         }
     }
 }
