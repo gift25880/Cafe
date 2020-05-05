@@ -307,7 +307,7 @@ public class StaffServiceManager {
                     System.out.println(TextFormatter.GREEN + "The order is successfully served.");
                     break;
                 case -1:
-                    System.out.println(TextFormatter.RED + "Their is currently no queue at the moment.");
+                    System.out.println(TextFormatter.RED + "There is currently no queue at the moment.");
                     break;
                 case -2:
                     System.out.println(TextFormatter.RED + "Insufficient item in stock.");

@@ -196,7 +196,7 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
                     member.setPoint(setPoints);
                 } else {
                     double tmp = total;
-                    int points = (int) (tmp / PointPolicy.BATH_TO_ONE_POINT);
+                    int points = (int) (tmp / BATH_TO_ONE_POINT);
                     member.setPoint(member.getPoint() + points);
                 }
                 try ( Connection conn = DriverManager.getConnection("jdbc:mysql://35.247.136.57:3306/Cafe?zeroDateTimeBehavior=convertToNull", "int103", "int103");  Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
@@ -219,11 +219,11 @@ public class Cafe implements CustomerService, StaffService, PointPolicy {
     @Override
     public int[] redeem(double total, MemberAccount member) {
         int points = member.getPoint();
-        int discount = (int) (points / PointPolicy.POINT_TO_ONE_BATH);
+        int discount = (int) (points / POINT_TO_ONE_BATH);
         if (discount > total) {
             discount = (int) total;
         }
-        points -= discount * PointPolicy.POINT_TO_ONE_BATH;
+        points -= discount * POINT_TO_ONE_BATH;
         return new int[]{points, discount};
     }
 

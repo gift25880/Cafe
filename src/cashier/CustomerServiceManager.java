@@ -227,7 +227,7 @@ public class CustomerServiceManager {
         if (member == null || !redeem) {
             System.out.println("\n" + TextFormatter.RESET + "The net price is " + TextFormatter.CYAN + net + TextFormatter.RESET + " baht.");
         } else {
-            System.out.println("\nThe net price is " + TextFormatter.CYAN + net + TextFormatter.RESET + " baht from a total of " + TextFormatter.CYAN + total + TextFormatter.RESET + " baht.");
+            System.out.println("\n" + TextFormatter.RESET + "The net price is " + TextFormatter.CYAN + net + TextFormatter.RESET + " baht from a total of " + TextFormatter.CYAN + total + TextFormatter.RESET + " baht.");
         }
         do {
             try {
